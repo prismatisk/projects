@@ -1,0 +1,6 @@
+node_modules/
+maxpilot/node_modules/
+maxpilot/dist/
+deploy/
+.netlify/
+*.log

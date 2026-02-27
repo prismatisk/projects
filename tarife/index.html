@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Günstige Ökostrom-Tarife in Österreich</title>
+  <style>
+    :root {
+      --gruen: #2e7d32;
+      --gruen-hell: #e8f5e9;
+      --gruen-mittel: #a5d6a7;
+      --text: #1a1a1a;
+      --grau: #f5f5f5;
+      --grau-dunkel: #757575;
+      --rand: #e0e0e0;
+      --weiss: #ffffff;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--grau);
+      color: var(--text);
+      min-height: 100vh;
+    }
+
+    header {
+      background: var(--gruen);
+      color: var(--weiss);
+      padding: 1.5rem 1rem;
+      text-align: center;
+    }
+
+    header h1 {
+      font-size: 1.6rem;
+      font-weight: 700;
+      letter-spacing: -0.3px;
+    }
+
+    header p {
+      margin-top: 0.4rem;
+      font-size: 0.95rem;
+      opacity: 0.88;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 1.5rem 1rem 3rem;
+    }
+
+    /* Suchformular */
+    .suchbox {
+      background: var(--weiss);
+      border-radius: 12px;
+      padding: 1.5rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      align-items: flex-end;
+    }
+
+    .feld {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+      flex: 1;
+      min-width: 160px;
+    }
+
+    label {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--grau-dunkel);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    input {
+      border: 2px solid var(--rand);
+      border-radius: 8px;
+      padding: 0.65rem 0.9rem;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.2s;
+      width: 100%;
+    }
+
+    input:focus { border-color: var(--gruen); }
+
+    .hinweis {
+      font-size: 0.78rem;
+      color: var(--grau-dunkel);
+      margin-top: 0.2rem;
+    }
+
+    button.suchen {
+      background: var(--gruen);
+      color: var(--weiss);
+      border: none;
+      border-radius: 8px;
+      padding: 0.65rem 1.8rem;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s;
+      white-space: nowrap;
+      align-self: flex-start;
+      margin-top: 1.55rem;
+    }
+
+    button.suchen:hover { background: #1b5e20; }
+    button.suchen:active { transform: scale(0.98); }
+    button.suchen:disabled { background: var(--grau-dunkel); cursor: not-allowed; }
+
+    /* Filter-Info */
+    .filter-info {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .badge {
+      background: var(--gruen-hell);
+      color: var(--gruen);
+      border-radius: 20px;
+      padding: 0.3rem 0.8rem;
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    /* Status-Meldungen */
+    .meldung {
+      text-align: center;
+      padding: 2rem;
+      color: var(--grau-dunkel);
+      font-size: 0.95rem;
+    }
+
+    .fehler {
+      background: #fff3f3;
+      border: 1px solid #f8a0a0;
+      border-radius: 10px;
+      padding: 1rem 1.2rem;
+      color: #c62828;
+      margin-top: 1.5rem;
+    }
+
+    /* Ergebnisse */
+    #ergebnisse { margin-top: 1.5rem; }
+
+    .meta {
+      font-size: 0.88rem;
+      color: var(--grau-dunkel);
+      margin-bottom: 1rem;
+      padding: 0 0.2rem;
+    }
+
+    .meta strong { color: var(--text); }
+
+    /* Karten-Layout */
+    .tarif-liste {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .tarif-karte {
+      background: var(--weiss);
+      border-radius: 12px;
+      padding: 1rem 1.2rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+      display: grid;
+      grid-template-columns: 2.5rem 1fr auto;
+      gap: 0.5rem 1rem;
+      align-items: center;
+      transition: box-shadow 0.2s;
+    }
+
+    .tarif-karte:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.12); }
+
+    .tarif-karte.guenstig { background-color: orange; }
+
+    .tarif-karte.platz-1 { border-left: 4px solid #f9a825; }
+    .tarif-karte.platz-2 { border-left: 4px solid #9e9e9e; }
+    .tarif-karte.platz-3 { border-left: 4px solid #8d6e63; }
+
+    .rang {
+      font-size: 1.3rem;
+      font-weight: 800;
+      color: var(--grau-dunkel);
+      text-align: center;
+    }
+
+    .platz-1 .rang { color: #f9a825; }
+    .platz-2 .rang { color: #9e9e9e; }
+    .platz-3 .rang { color: #8d6e63; }
+
+    .tarif-info { min-width: 0; }
+
+    .anbieter {
+      font-size: 0.8rem;
+      color: var(--grau-dunkel);
+      text-transform: uppercase;
+      letter-spacing: 0.4px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .produkt {
+      font-size: 1rem;
+      font-weight: 700;
+      margin: 0.1rem 0 0.35rem;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .tarif-details {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem 1rem;
+      font-size: 0.83rem;
+      color: var(--grau-dunkel);
+    }
+
+    .tarif-details span { white-space: nowrap; }
+    .tarif-details .oeko { color: var(--gruen); font-weight: 600; }
+
+    .preis-block {
+      text-align: right;
+      white-space: nowrap;
+    }
+
+    .arbeitspreis-wert {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--gruen);
+      line-height: 1;
+    }
+
+    .arbeitspreis-einheit {
+      font-size: 0.75rem;
+      color: var(--grau-dunkel);
+      margin-top: 0.1rem;
+    }
+
+    .anbieter-link {
+      display: inline-block;
+      margin-top: 0.5rem;
+      font-size: 0.8rem;
+      color: var(--gruen);
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .anbieter-link:hover { text-decoration: underline; }
+
+    /* Fußzeile */
+    footer {
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 0.8rem;
+      color: var(--grau-dunkel);
+    }
+    footer a { color: var(--gruen); }
+
+    /* Spinner */
+    .spinner {
+      display: inline-block;
+      width: 1.2rem;
+      height: 1.2rem;
+      border: 3px solid rgba(255,255,255,0.4);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+      vertical-align: middle;
+      margin-right: 0.5rem;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    @media (max-width: 540px) {
+      .tarif-karte {
+        grid-template-columns: 2rem 1fr;
+        grid-template-rows: auto auto;
+      }
+      .preis-block {
+        grid-column: 2;
+        text-align: left;
+      }
+      .arbeitspreis-wert { font-size: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <h1>Günstige Ökostrom-Tarife</h1>
+  <p>Die 10 preiswertesten 100%-Ökostrom-Angebote in Österreich – ohne Wechselrabatte</p>
+</header>
+
+<main>
+  <div class="suchbox">
+    <div class="feld">
+      <label for="plz">Postleitzahl</label>
+      <input id="plz" type="text" inputmode="numeric" maxlength="4" placeholder="z.B. 1010" />
+      <span class="hinweis">Bestimmt den Netzbetreiber</span>
+    </div>
+    <div class="feld">
+      <label for="verbrauch">Jahresverbrauch (kWh)</label>
+      <input id="verbrauch" type="number" min="100" max="100000" value="3500" />
+      <span class="hinweis">Typischer Haushalt: 3.000–4.000 kWh</span>
+    </div>
+    <button class="suchen" id="btn" onclick="suchen()">Tarife suchen</button>
+  </div>
+
+  <div class="filter-info">
+    <span class="badge">🌿 100% Ökostrom</span>
+    <span class="badge">🚫 Ohne Wechselrabatte</span>
+    <span class="badge">📊 Sortiert nach Arbeitspreis</span>
+    <span class="badge">Quelle: E-Control Tarifkalkulator</span>
+  </div>
+
+  <div id="ergebnisse"></div>
+</main>
+
+<footer>
+  Daten vom <a href="https://www.e-control.at/tarifkalkulator" target="_blank">E-Control Tarifkalkulator</a> –
+  Alle Preise brutto inkl. 20% USt. –
+  Kein Anspruch auf Vollständigkeit oder Richtigkeit.
+</footer>
+
+<script>
+  function renderErgebnisse(data, ortsLabel, verbrauch) {
+    const bereich = document.getElementById("ergebnisse");
+
+    if (!data.products.length) {
+      bereich.innerHTML = '<div class="meldung">Keine Ökostrom-Tarife mit fixem Arbeitspreis gefunden.</div>';
+      return;
+    }
+
+    const platzKlassen = ["platz-1", "platz-2", "platz-3"];
+
+    const karten = data.products.map((t, i) => {
+      const rang = i + 1;
+      const klasse = platzKlassen[i] || "";
+      const guenstigKlasse = t.arbeitspreisCtKwh < 12 ? "guenstig" : "";
+      const rangSymbol = rang === 1 ? "🥇" : rang === 2 ? "🥈" : rang === 3 ? "🥉" : `#${rang}`;
+
+      const grundpreisText = t.grundpreisMonat > 0
+        ? `Grundpreis ${t.grundpreisMonat.toFixed(2).replace(".", ",")} €/Monat`
+        : "Kein Grundpreis";
+
+      const gesamtText = t.gesamtJahr > 0
+        ? `Gesamt ca. ${t.gesamtJahr.toFixed(0)} €/Jahr`
+        : "";
+
+      const garantieText = t.garantie ? `⏱ ${t.garantie}` : "";
+
+      const linkHTML = t.link
+        ? `<a class="anbieter-link" href="${t.link}" target="_blank" rel="noopener">Zum Anbieter →</a>`
+        : "";
+
+      return `
+        <div class="tarif-karte ${klasse} ${guenstigKlasse}">
+          <div class="rang">${rangSymbol}</div>
+          <div class="tarif-info">
+            <div class="anbieter">${escHTML(t.anbieter)}</div>
+            <div class="produkt">${escHTML(t.produkt)}</div>
+            <div class="tarif-details">
+              <span>${grundpreisText}</span>
+              ${gesamtText ? `<span>${gesamtText}</span>` : ""}
+              ${garantieText ? `<span>${garantieText}</span>` : ""}
+              <span class="oeko">🌿 100% Ökostrom</span>
+            </div>
+            ${linkHTML}
+          </div>
+          <div class="preis-block">
+            <div class="arbeitspreis-wert">${t.arbeitspreisCtKwh.toFixed(2).replace(".", ",")} ct</div>
+            <div class="arbeitspreis-einheit">pro kWh (brutto)</div>
+          </div>
+        </div>`;
+    }).join("");
+
+    bereich.innerHTML = `
+      <div class="meta">
+        <strong>${data.netzbetreiber}</strong> · ${ortsLabel} · ${verbrauch.toLocaleString("de-AT")} kWh/Jahr ·
+        ${data.anzahlGesamt} Ökostrom-Tarife gefunden, Top 10 nach Arbeitspreis
+      </div>
+      <div class="tarif-liste">${karten}</div>`;
+  }
+
+  async function suchen() {
+    const plz = document.getElementById("plz").value.trim();
+    const verbrauch = parseInt(document.getElementById("verbrauch").value) || 3500;
+    const btn = document.getElementById("btn");
+    const bereich = document.getElementById("ergebnisse");
+
+    if (!/^\d{4}$/.test(plz)) {
+      bereich.innerHTML = '<div class="fehler">Bitte eine gültige 4-stellige Postleitzahl eingeben.</div>';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Wird geladen…';
+    bereich.innerHTML = '<div class="meldung">Tarife werden abgerufen…</div>';
+
+    try {
+      const res = await fetch("/api/tarife", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ zipCode: plz, consumption: verbrauch }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        bereich.innerHTML = `<div class="fehler">${data.error || "Unbekannter Fehler."}</div>`;
+        return;
+      }
+
+      renderErgebnisse(data, `PLZ ${plz}`, verbrauch);
+
+    } catch (e) {
+      bereich.innerHTML = '<div class="fehler">Verbindungsfehler. Bitte versuche es später nochmal.</div>';
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = "Tarife suchen";
+    }
+  }
+
+  function escHTML(str) {
+    return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
+  }
+
+  // Beim Laden: ganz Österreich anzeigen
+  async function startabfrage() {
+    const verbrauch = parseInt(document.getElementById("verbrauch").value) || 3500;
+    const btn = document.getElementById("btn");
+    const bereich = document.getElementById("ergebnisse");
+
+    btn.disabled = true;
+    btn.innerHTML = '<span class="spinner"></span>Wird geladen…';
+    bereich.innerHTML = '<div class="meldung">Tarife für ganz Österreich werden abgerufen (9 Netzgebiete)…</div>';
+
+    try {
+      const res = await fetch("/api/tarife", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ consumption: verbrauch, gesamt: true }),
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        bereich.innerHTML = `<div class="fehler">${data.error || "Unbekannter Fehler."}</div>`;
+        return;
+      }
+      renderErgebnisse(data, "Österreich", verbrauch);
+    } catch (e) {
+      bereich.innerHTML = '<div class="fehler">Verbindungsfehler. Bitte versuche es später nochmal.</div>';
+    } finally {
+      btn.disabled = false;
+      btn.innerHTML = "Tarife suchen";
+    }
+  }
+
+  startabfrage();
+
+  // Enter-Taste im PLZ-Feld
+  document.getElementById("plz").addEventListener("keydown", e => {
+    if (e.key === "Enter") suchen();
+  });
+</script>
+
+<script>
+  // Hot Reload
+  const es = new EventSource("/__reload");
+  es.onmessage = () => location.reload();
+</script>
+</body>
+</html>

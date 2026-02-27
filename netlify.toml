@@ -1,0 +1,25 @@
+[build]
+  command = "bash build.sh"
+  publish = "deploy"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+
+# /tarife trailing slash
+[[redirects]]
+  from = "/tarife"
+  to = "/tarife/"
+  status = 301
+
+# /maxpilot trailing slash
+[[redirects]]
+  from = "/maxpilot"
+  to = "/maxpilot/"
+  status = 301
+
+# maxpilot SPA: alle Subrouten → index.html
+[[redirects]]
+  from = "/maxpilot/*"
+  to = "/maxpilot/index.html"
+  status = 200
