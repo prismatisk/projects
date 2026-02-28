@@ -18,6 +18,12 @@
   to = "/maxpilot/"
   status = 301
 
+# /maxpilot/pitch trailing slash
+[[redirects]]
+  from = "/maxpilot/pitch"
+  to = "/maxpilot/pitch/"
+  status = 301
+
 # maxpilot SPA: alle Subrouten → index.html
 [[redirects]]
   from = "/maxpilot/*"

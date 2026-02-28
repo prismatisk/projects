@@ -10,14 +10,19 @@ cd ..
 echo "📦 Assembling deploy directory..."
 rm -rf deploy
 mkdir -p deploy/maxpilot
+mkdir -p deploy/maxpilot/pitch
 mkdir -p deploy/tarife
 
 # MAX Pilot (Vite output mit base: '/maxpilot/')
 cp -r maxpilot/dist/. deploy/maxpilot/
 
+# MAX Pilot Pitch (statisches HTML)
+cp pitch/index.html deploy/maxpilot/pitch/
+
 # Ökostrom Tarife (statisches HTML)
 cp tarife/index.html deploy/tarife/
 
 echo "✅ Done."
-echo "  deploy/maxpilot/ → prismatisk.com/maxpilot/"
-echo "  deploy/tarife/   → prismatisk.com/tarife/"
+echo "  deploy/maxpilot/       → prismatisk.com/maxpilot/"
+echo "  deploy/maxpilot/pitch/ → prismatisk.com/maxpilot/pitch/"
+echo "  deploy/tarife/         → prismatisk.com/tarife/"

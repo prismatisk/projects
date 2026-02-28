@@ -1,0 +1,1948 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MAX Pilot — Prismatisk × MAXENERGY</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0c0c0e;
+      --surface: #16161a;
+      --surface-2: #1e1e24;
+      --border: #2a2a32;
+      --text: #e8e6e1;
+      --text-dim: #7a7872;
+      --text-muted: #4a4944;
+      --orange: #ec6726;
+      --orange-dim: rgba(236,103,38,0.12);
+      --red: #e84c3d;
+      --red-dim: rgba(232,76,61,0.1);
+      --green: #3dbd6f;
+      --green-dim: rgba(61,189,111,0.1);
+      --yellow: #f1ea75;
+      --blue: #5b9bd5;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* ─── NAVIGATION ─── */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 1000;
+      background: rgba(12,12,14,0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .nav-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 2.5rem;
+      display: flex;
+      align-items: center;
+      height: 56px;
+      gap: 2rem;
+    }
+
+    .nav-logo {
+      font-family: 'Instrument Sans', sans-serif;
+      font-size: 1.15rem;
+      font-weight: 700;
+      color: var(--text);
+      letter-spacing: 0.04em;
+      white-space: nowrap;
+      flex-shrink: 0;
+      text-transform: uppercase;
+    }
+
+    .nav-logo .max {
+      font-weight: 700;
+      letter-spacing: 0.06em;
+    }
+
+    .nav-logo .pilot {
+      color: var(--orange);
+      font-weight: 700;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 0;
+      margin-left: auto;
+    }
+
+    .nav-link {
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--text-dim);
+      text-decoration: none;
+      padding: 18px 14px;
+      letter-spacing: 0.02em;
+      transition: color 0.2s;
+      white-space: nowrap;
+      position: relative;
+    }
+
+    .nav-link:hover, .nav-link.active { color: var(--text); }
+
+    .nav-link.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 14px;
+      right: 14px;
+      height: 2px;
+      background: var(--orange);
+      border-radius: 1px;
+    }
+
+    /* ─── SECTIONS ─── */
+    section {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 2.5rem;
+    }
+
+    .section-spacer {
+      padding-top: 7rem;
+      padding-bottom: 4rem;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+
+    .hero-content {
+      flex: 1;
+      position: relative;
+      z-index: 2;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1.5rem;
+    }
+
+    .hero-tag .tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--orange);
+      background: var(--orange-dim);
+      padding: 5px 12px;
+      border-radius: 4px;
+    }
+
+    .hero-tag .label {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      font-weight: 500;
+    }
+
+    .hero h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.4rem, 5vw, 3.8rem);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin-bottom: 1.2rem;
+      max-width: 700px;
+    }
+
+    .hero h1 .accent { color: var(--orange); }
+
+    .hero-sub {
+      font-size: 1.05rem;
+      color: var(--text-dim);
+      line-height: 1.7;
+      max-width: 560px;
+      margin-bottom: 2.5rem;
+    }
+
+    .hero-kpis {
+      display: flex;
+      gap: 2.5rem;
+      flex-wrap: wrap;
+    }
+
+    .hero-kpi-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.8rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .hero-kpi-label {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      margin-top: 0.35rem;
+      font-weight: 500;
+    }
+
+    /* ─── PRISM VISUAL ─── */
+    /* ─── PRISM VISUAL ─── */
+    .prism-container {
+      position: absolute;
+      right: -120px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 750px;
+      height: 750px;
+      z-index: 1;
+      pointer-events: none;
+      opacity: 0.7;
+    }
+
+    .particles-fullscreen {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .nav { z-index: 1000; }
+
+    .content-layer {
+      position: relative;
+      z-index: 2;
+    }
+
+    .fp {
+      position: absolute;
+      border-radius: 50%;
+      animation: particleFloat 8s ease-in-out infinite;
+    }
+
+    .fp:nth-child(1)  { background: var(--orange); width: 3px; height: 3px; top: 12%; left: 8%; animation-delay: 0s; opacity: 0.5; }
+    .fp:nth-child(2)  { background: var(--green); width: 2px; height: 2px; top: 28%; left: 15%; animation-delay: 1.2s; opacity: 0.4; }
+    .fp:nth-child(3)  { background: var(--yellow); width: 4px; height: 4px; top: 45%; left: 5%; animation-delay: 3s; opacity: 0.35; }
+    .fp:nth-child(4)  { background: var(--orange); width: 2px; height: 2px; top: 65%; left: 12%; animation-delay: 5s; opacity: 0.45; }
+    .fp:nth-child(5)  { background: var(--blue); width: 3px; height: 3px; top: 80%; left: 8%; animation-delay: 7s; opacity: 0.3; }
+    .fp:nth-child(6)  { background: var(--orange); width: 3px; height: 3px; top: 8%; left: 25%; animation-delay: 0.5s; opacity: 0.4; }
+    .fp:nth-child(7)  { background: var(--green); width: 2px; height: 2px; top: 35%; left: 30%; animation-delay: 2s; opacity: 0.35; }
+    .fp:nth-child(8)  { background: var(--yellow); width: 3px; height: 3px; top: 55%; left: 22%; animation-delay: 4s; opacity: 0.4; }
+    .fp:nth-child(9)  { background: var(--blue); width: 2px; height: 2px; top: 72%; left: 28%; animation-delay: 6s; opacity: 0.3; }
+    .fp:nth-child(10) { background: var(--orange); width: 4px; height: 4px; top: 90%; left: 20%; animation-delay: 1s; opacity: 0.35; }
+    .fp:nth-child(11) { background: var(--green); width: 2px; height: 2px; top: 18%; left: 42%; animation-delay: 2.5s; opacity: 0.4; }
+    .fp:nth-child(12) { background: var(--orange); width: 3px; height: 3px; top: 50%; left: 38%; animation-delay: 4.5s; opacity: 0.45; }
+    .fp:nth-child(13) { background: var(--yellow); width: 2px; height: 2px; top: 75%; left: 45%; animation-delay: 6.5s; opacity: 0.3; }
+    .fp:nth-child(14) { background: var(--blue); width: 3px; height: 3px; top: 5%; left: 50%; animation-delay: 0.8s; opacity: 0.35; }
+    .fp:nth-child(15) { background: var(--orange); width: 2px; height: 2px; top: 40%; left: 52%; animation-delay: 3.5s; opacity: 0.4; }
+    .fp:nth-child(16) { background: var(--green); width: 3px; height: 3px; top: 88%; left: 48%; animation-delay: 5.5s; opacity: 0.35; }
+    .fp:nth-child(17) { background: var(--orange); width: 2px; height: 2px; top: 22%; left: 60%; animation-delay: 7.5s; opacity: 0.4; }
+    .fp:nth-child(18) { background: var(--yellow); width: 4px; height: 4px; top: 60%; left: 58%; animation-delay: 1.8s; opacity: 0.3; }
+    .fp:nth-child(19) { background: var(--blue); width: 2px; height: 2px; top: 82%; left: 65%; animation-delay: 3.8s; opacity: 0.35; }
+    .fp:nth-child(20) { background: var(--orange); width: 3px; height: 3px; top: 15%; left: 78%; animation-delay: 5.8s; opacity: 0.45; }
+    .fp:nth-child(21) { background: var(--green); width: 2px; height: 2px; top: 48%; left: 85%; animation-delay: 0.3s; opacity: 0.3; }
+    .fp:nth-child(22) { background: var(--orange); width: 3px; height: 3px; top: 70%; left: 90%; animation-delay: 2.3s; opacity: 0.4; }
+    .fp:nth-child(23) { background: var(--yellow); width: 2px; height: 2px; top: 32%; left: 92%; animation-delay: 4.3s; opacity: 0.35; }
+    .fp:nth-child(24) { background: var(--blue); width: 3px; height: 3px; top: 92%; left: 82%; animation-delay: 6.3s; opacity: 0.3; }
+
+    .prism-container::after {
+      content: '';
+      position: absolute;
+      inset: -60px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(236,103,38,0.06) 0%, transparent 70%);
+      pointer-events: none;
+      animation: glowPulse 6s ease-in-out infinite;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+
+    .prism-shape {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 360px;
+      height: 360px;
+      animation: prismRotate 60s linear infinite;
+    }
+
+    .prism-face { position: absolute; inset: 0; }
+    .prism-face polygon { fill: none; stroke-width: 1.2; }
+    .prism-face:nth-child(1) polygon { stroke: var(--orange); opacity: 0.7; }
+    .prism-face:nth-child(2) polygon { stroke: var(--green); opacity: 0.5; }
+    .prism-face:nth-child(3) polygon { stroke: var(--yellow); opacity: 0.4; }
+
+    .prism-inner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 160px;
+      height: 160px;
+      animation: prismRotate 45s linear infinite;
+    }
+
+    .prism-inner polygon {
+      fill: rgba(236,103,38,0.04);
+      stroke: var(--orange);
+      stroke-width: 0.8;
+      opacity: 0.6;
+    }
+
+    .prism-particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      animation: particleFloat 8s ease-in-out infinite;
+    }
+
+    .prism-particle:nth-child(1)  { background: var(--orange); top: 25%; left: 30%; animation-delay: 0s; opacity: 0.6; }
+    .prism-particle:nth-child(2)  { background: var(--green); top: 60%; left: 70%; animation-delay: 2s; opacity: 0.5; width: 2px; height: 2px; }
+    .prism-particle:nth-child(3)  { background: var(--yellow); top: 35%; left: 65%; animation-delay: 4s; opacity: 0.4; width: 4px; height: 4px; }
+    .prism-particle:nth-child(4)  { background: var(--blue); top: 70%; left: 35%; animation-delay: 6s; opacity: 0.3; }
+    .prism-particle:nth-child(5)  { background: var(--orange); top: 15%; left: 55%; animation-delay: 1s; opacity: 0.5; width: 2px; height: 2px; }
+    .prism-particle:nth-child(6)  { background: var(--green); top: 45%; left: 20%; animation-delay: 3s; opacity: 0.4; }
+    .prism-particle:nth-child(7)  { background: var(--yellow); top: 75%; left: 55%; animation-delay: 5s; opacity: 0.35; width: 2px; height: 2px; }
+    .prism-particle:nth-child(8)  { background: var(--orange); top: 50%; left: 80%; animation-delay: 7s; opacity: 0.5; width: 4px; height: 4px; }
+    .prism-particle:nth-child(9)  { background: var(--blue); top: 20%; left: 75%; animation-delay: 0.5s; opacity: 0.3; width: 2px; height: 2px; }
+    .prism-particle:nth-child(10) { background: var(--orange); top: 80%; left: 45%; animation-delay: 2.5s; opacity: 0.45; }
+    .prism-particle:nth-child(11) { background: var(--green); top: 40%; left: 40%; animation-delay: 4.5s; opacity: 0.3; width: 2px; height: 2px; }
+    .prism-particle:nth-child(12) { background: var(--yellow); top: 65%; left: 25%; animation-delay: 6.5s; opacity: 0.4; width: 3px; height: 3px; }
+    .prism-particle:nth-child(13) { background: var(--orange); top: 30%; left: 15%; animation-delay: 1.5s; opacity: 0.5; width: 2px; height: 2px; }
+    .prism-particle:nth-child(14) { background: var(--blue); top: 55%; left: 60%; animation-delay: 3.5s; opacity: 0.35; }
+    .prism-particle:nth-child(15) { background: var(--green); top: 18%; left: 45%; animation-delay: 5.5s; opacity: 0.4; width: 3px; height: 3px; }
+    .prism-particle:nth-child(16) { background: var(--orange); top: 85%; left: 70%; animation-delay: 7.5s; opacity: 0.3; width: 2px; height: 2px; }
+
+    @keyframes prismRotate {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    @keyframes particleFloat {
+      0%, 100% { transform: translate(0, 0); opacity: 0; }
+      20% { opacity: 1; }
+      50% { transform: translate(20px, -30px); opacity: 0.6; }
+      80% { opacity: 1; }
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 2.5rem;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-muted);
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.06em;
+      animation: bobble 2s ease-in-out infinite;
+    }
+
+    .hero-scroll .arrow {
+      width: 1px;
+      height: 32px;
+      background: linear-gradient(to bottom, var(--text-muted), transparent);
+    }
+
+    @keyframes bobble {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* ─── SHARED COMPONENTS ─── */
+    .section-title {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    .section-heading {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.6rem;
+    }
+
+    .section-heading .accent { color: var(--orange); }
+
+    .section-desc {
+      font-size: 0.92rem;
+      color: var(--text-dim);
+      line-height: 1.65;
+      max-width: 600px;
+      margin-bottom: 2.5rem;
+    }
+
+    /* ─── FLAT ICON ─── */
+    .icon-flat {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      flex-shrink: 0;
+    }
+
+    .icon-flat svg {
+      width: 20px;
+      height: 20px;
+    }
+
+    .icon-flat.orange { background: var(--orange-dim); color: var(--orange); }
+    .icon-flat.red { background: var(--red-dim); color: var(--red); }
+    .icon-flat.green { background: var(--green-dim); color: var(--green); }
+
+    /* ─── KPI ROW ─── */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 3rem;
+    }
+
+    .kpi {
+      background: var(--surface);
+      padding: 1.4rem 1.5rem;
+    }
+
+    .kpi-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.5rem;
+    }
+
+    .kpi-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .kpi-sub {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      margin-top: 0.4rem;
+      font-weight: 500;
+    }
+
+    .kpi-value.red { color: var(--red); }
+    .kpi-value.green { color: var(--green); }
+    .kpi-value.orange { color: var(--orange); }
+
+    /* ─── FUNNEL / JOURNEY ─── */
+    .funnel { margin-bottom: 3rem; }
+
+    .stage {
+      display: grid;
+      grid-template-columns: 48px 1fr 200px;
+      gap: 0 1.5rem;
+      align-items: start;
+      padding: 1.5rem 0;
+      position: relative;
+    }
+
+    .stage + .stage { border-top: 1px solid var(--border); }
+
+    .stage-num {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--text-dim);
+      position: relative;
+      z-index: 2;
+    }
+
+    .stage.leak .stage-num {
+      border-color: var(--red);
+      color: var(--red);
+      background: var(--red-dim);
+    }
+
+    .stage.critical .stage-num {
+      border-color: var(--red);
+      color: var(--bg);
+      background: var(--red);
+      box-shadow: 0 0 20px rgba(232,76,61,0.3);
+    }
+
+    .stage:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: 23px;
+      top: 72px;
+      bottom: -24px;
+      width: 2px;
+      background: var(--border);
+      z-index: 1;
+    }
+
+    .stage.leak:not(:last-child)::before,
+    .stage.critical:not(:last-child)::before {
+      background: linear-gradient(to bottom, var(--red) 0%, var(--border) 100%);
+    }
+
+    .stage-content { min-width: 0; }
+
+    .stage-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 0.4rem;
+    }
+
+    .stage-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .stage-time {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--surface-2);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .stage-desc {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+      margin-bottom: 0.6rem;
+    }
+
+    .stage-problem {
+      font-size: 0.78rem;
+      line-height: 1.5;
+      padding: 0.6rem 0.9rem;
+      border-radius: 8px;
+      margin-top: 0.5rem;
+    }
+
+    .stage-problem.bad {
+      background: var(--red-dim);
+      border-left: 3px solid var(--red);
+      color: #e8a09a;
+    }
+
+    .stage-problem.good {
+      background: var(--green-dim);
+      border-left: 3px solid var(--green);
+      color: #8edaaa;
+    }
+
+    .stage-problem .problem-label {
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.25rem;
+      display: block;
+    }
+
+    .stage-problem.bad .problem-label { color: var(--red); }
+    .stage-problem.good .problem-label { color: var(--green); }
+
+    .stage-leak { text-align: right; padding-top: 0.2rem; }
+
+    .leak-bar-container {
+      width: 100%;
+      height: 8px;
+      background: var(--surface);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+
+    .leak-bar { height: 100%; border-radius: 99px; }
+    .leak-bar.red { background: linear-gradient(90deg, var(--red), #f07060); }
+    .leak-bar.green { background: linear-gradient(90deg, var(--green), #5dd888); }
+    .leak-bar.grey { background: var(--border); }
+
+    .leak-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .leak-number.red { color: var(--red); }
+    .leak-number.green { color: var(--green); }
+    .leak-number.neutral { color: var(--text-dim); }
+
+    .leak-label {
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      margin-top: 0.2rem;
+      font-weight: 500;
+    }
+
+    /* ─── COMPARISON ─── */
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 3rem;
+    }
+
+    .comparison-col {
+      background: var(--surface);
+      padding: 2rem;
+    }
+
+    .comparison-col h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 900;
+      margin-bottom: 0.3rem;
+    }
+
+    .comparison-col .comp-sub {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+
+    .comparison-col.heute h3 { color: var(--red); }
+    .comparison-col.zukunft h3 { color: var(--green); }
+
+    .comp-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .comp-row:last-child { border-bottom: none; }
+
+    .comp-label {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      font-weight: 500;
+    }
+
+    .comp-value { font-size: 0.85rem; font-weight: 700; }
+    .comp-value.red { color: var(--red); }
+    .comp-value.green { color: var(--green); }
+
+    /* ─── BOTTOM LINE ─── */
+    .bottom-line {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      margin-bottom: 3rem;
+    }
+
+    .bottom-line .bl-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: var(--orange-dim);
+      border: 1px solid rgba(236,103,38,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+
+    .bottom-line .bl-icon svg {
+      width: 28px;
+      height: 28px;
+      stroke: var(--orange);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .bottom-line .bl-text { flex: 1; }
+
+    .bottom-line h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 900;
+      margin-bottom: 0.4rem;
+      color: var(--orange);
+    }
+
+    .bottom-line p {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    .bottom-line .bl-number {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .bottom-line .bl-number .big {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--green);
+      line-height: 1;
+    }
+
+    .bottom-line .bl-number .small {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      margin-top: 0.3rem;
+      font-weight: 500;
+    }
+
+    /* ─── BENCHMARK SECTION ─── */
+    .benchmark-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+    }
+
+    .bench-col {
+      background: var(--surface);
+      padding: 2rem;
+    }
+
+    .bench-col-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 0.2rem;
+    }
+
+    .bench-logo {
+      height: 28px;
+      width: auto;
+      flex-shrink: 0;
+    }
+
+    .bench-col h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 900;
+    }
+
+    .bench-col .bench-sub {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      margin-bottom: 1.2rem;
+      font-weight: 500;
+    }
+
+    .bench-feature {
+      padding: 0.65rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .bench-feature:last-child { border-bottom: none; }
+
+    .bench-feature-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.2rem;
+    }
+
+    .bench-feature-name {
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    /* Flat retention dots instead of emoji stars */
+    .retention-dots {
+      display: flex;
+      gap: 4px;
+      align-items: center;
+    }
+
+    .retention-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 2px;
+      background: var(--border);
+    }
+
+    .retention-dot.filled { background: var(--orange); }
+
+    .bench-feature-desc {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      line-height: 1.5;
+    }
+
+    /* ─── SIMPLIFIED MATRIX ─── */
+    .matrix-simple {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 0;
+      margin-bottom: 2.5rem;
+      border-radius: 12px;
+      overflow: hidden;
+      border: 1px solid var(--border);
+    }
+
+    .matrix-row {
+      display: grid;
+      grid-template-columns: 1.2fr repeat(4, 1fr);
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .matrix-row:last-child { border-bottom: none; }
+
+    .matrix-row.header {
+      background: var(--surface-2);
+    }
+
+    .matrix-cell {
+      padding: 1rem 1.2rem;
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text-dim);
+      display: flex;
+      align-items: center;
+    }
+
+    .matrix-row.header .matrix-cell {
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+
+    .matrix-cell:first-child {
+      font-weight: 700;
+      color: var(--text);
+      font-size: 0.88rem;
+    }
+
+    .matrix-cell .status-icon {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 8px;
+      flex-shrink: 0;
+    }
+
+    .matrix-cell .status-icon.yes {
+      background: var(--green-dim);
+    }
+
+    .matrix-cell .status-icon.yes svg { stroke: var(--green); }
+
+    .matrix-cell .status-icon.no {
+      background: var(--red-dim);
+    }
+
+    .matrix-cell .status-icon.no svg { stroke: var(--red); }
+
+    .matrix-cell .status-icon.highlight {
+      background: var(--orange-dim);
+    }
+
+    .matrix-cell .status-icon.highlight svg { stroke: var(--orange); }
+
+    .matrix-cell.col-highlight {
+      background: rgba(236,103,38,0.04);
+      color: var(--orange);
+      font-weight: 700;
+    }
+
+    .matrix-row.header .matrix-cell.col-highlight {
+      color: var(--orange);
+    }
+
+    /* ─── ElWG SECTION ─── */
+    .timeline-bar {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 2.5rem;
+    }
+
+    .timeline-item {
+      background: var(--surface);
+      padding: 1.2rem 1.3rem;
+      position: relative;
+    }
+
+    .timeline-item.active::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--orange);
+    }
+
+    .timeline-date {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--orange);
+      margin-bottom: 0.4rem;
+    }
+
+    .timeline-what {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    .pflicht-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 2.5rem;
+    }
+
+    .pflicht-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.3rem;
+      transition: border-color 0.2s;
+    }
+
+    .pflicht-card:hover { border-color: var(--orange); }
+
+    .pflicht-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--orange);
+      margin-bottom: 0.5rem;
+      line-height: 1;
+    }
+
+    .pflicht-name {
+      font-size: 0.88rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 0.3rem;
+      line-height: 1.3;
+    }
+
+    .pflicht-desc {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      line-height: 1.55;
+      margin-bottom: 0.6rem;
+    }
+
+    .pflicht-badge {
+      display: inline-block;
+      font-size: 0.6rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .pflicht-badge.pflicht { background: var(--red-dim); color: var(--red); }
+    .pflicht-badge.strategisch { background: var(--green-dim); color: var(--green); }
+
+    /* UX Mapping */
+    .ux-mapping {
+      display: grid;
+      grid-template-columns: 1fr auto 1fr;
+      gap: 0 1.5rem;
+      align-items: center;
+      margin-bottom: 2.5rem;
+    }
+
+    .ux-left, .ux-right {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.2rem 1.5rem;
+    }
+
+    .ux-arrow {
+      color: var(--orange);
+    }
+
+    .ux-arrow svg {
+      width: 24px;
+      height: 24px;
+      stroke: var(--orange);
+      fill: none;
+      stroke-width: 2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    .ux-label {
+      font-size: 0.62rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-bottom: 0.4rem;
+    }
+
+    .ux-left .ux-label { color: var(--red); }
+    .ux-right .ux-label { color: var(--green); }
+
+    .ux-text {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--text);
+      line-height: 1.4;
+    }
+
+    /* ─── QUOTE BLOCK ─── */
+    .quote-block {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-left: 4px solid var(--orange);
+      border-radius: 0 12px 12px 0;
+      padding: 2rem 2.5rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .quote-block p {
+      font-size: 1rem;
+      color: var(--text);
+      line-height: 1.7;
+      font-weight: 500;
+    }
+
+    .quote-block strong { color: var(--orange); font-weight: 700; }
+
+    .quote-block .quote-source {
+      margin-top: 1rem;
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    /* ─── PROTOTYPE SECTION ─── */
+    .proto-section {
+      background: var(--surface);
+      border-top: 1px solid var(--border);
+      padding: 5rem 0;
+    }
+
+    .proto-inner {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 2.5rem;
+      text-align: center;
+    }
+
+    .phone-mockup {
+      display: inline-block;
+      position: relative;
+      width: 390px;
+      height: 780px;
+      border-radius: 44px;
+      background: #000;
+      padding: 12px;
+      box-shadow:
+        0 0 0 1px rgba(255,255,255,0.08),
+        0 40px 80px rgba(0,0,0,0.5),
+        0 0 120px rgba(236,103,38,0.08);
+      margin: 2.5rem auto 0;
+    }
+
+    .phone-mockup .notch {
+      position: absolute;
+      top: 12px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 120px;
+      height: 28px;
+      background: #000;
+      border-radius: 0 0 18px 18px;
+      z-index: 10;
+    }
+
+    .phone-mockup iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      border-radius: 34px;
+      background: #f1efe8;
+    }
+
+    .proto-hint {
+      margin-top: 1.5rem;
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      font-weight: 500;
+    }
+
+    .proto-hint a {
+      color: var(--orange);
+      text-decoration: none;
+    }
+
+    .proto-hint a:hover { text-decoration: underline; }
+
+    /* ─── DIVIDER ─── */
+    .divider-line {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0;
+    }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 3rem 2.5rem;
+      text-align: center;
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* ─── SCROLL ANIMATIONS ─── */
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      section, .proto-inner, .footer, .nav-inner { padding-left: 1.2rem; padding-right: 1.2rem; }
+      .kpi-row { grid-template-columns: 1fr 1fr; }
+      .stage { grid-template-columns: 40px 1fr; gap: 0 1rem; }
+      .stage-leak { grid-column: 2; margin-top: 0.8rem; text-align: left; }
+      .comparison, .benchmark-grid { grid-template-columns: 1fr; }
+      .pflicht-grid { grid-template-columns: 1fr; }
+      .timeline-bar { grid-template-columns: 1fr 1fr; }
+      .ux-mapping { grid-template-columns: 1fr; gap: 0.8rem; }
+      .ux-arrow { transform: rotate(90deg); justify-self: center; }
+      .bottom-line { flex-direction: column; text-align: center; gap: 1.2rem; }
+      .phone-mockup { width: 320px; height: 640px; border-radius: 36px; padding: 10px; }
+      .phone-mockup iframe { border-radius: 28px; }
+      .phone-mockup .notch { width: 100px; height: 24px; }
+      .nav-link { padding: 18px 8px; font-size: 0.65rem; }
+      .hero-kpis { gap: 1.5rem; }
+      .prism-container { display: none; }
+      .matrix-row { grid-template-columns: 1.4fr repeat(4, 1fr); }
+      .matrix-cell { padding: 0.7rem 0.6rem; font-size: 0.7rem; }
+    }
+
+    @media (max-width: 500px) {
+      .nav-links { gap: 0; }
+      .nav-link { padding: 18px 5px; font-size: 0.6rem; }
+      .phone-mockup { width: 100%; max-width: 360px; height: 72vw; min-height: 580px; }
+      .matrix-cell:first-child { font-size: 0.72rem; }
+    }
+
+    @media print {
+      .nav { display: none; }
+      body { background: #fff; color: #111; }
+      .kpi, .comparison-col, .bottom-line, .bench-col, .pflicht-card { background: #f8f8f8; }
+      .reveal { opacity: 1; transform: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── FULLSCREEN PARTICLES ─── -->
+<div class="particles-fullscreen">
+  <div class="fp"></div><div class="fp"></div><div class="fp"></div><div class="fp"></div>
+  <div class="fp"></div><div class="fp"></div><div class="fp"></div><div class="fp"></div>
+  <div class="fp"></div><div class="fp"></div><div class="fp"></div><div class="fp"></div>
+  <div class="fp"></div><div class="fp"></div><div class="fp"></div><div class="fp"></div>
+  <div class="fp"></div><div class="fp"></div><div class="fp"></div><div class="fp"></div>
+  <div class="fp"></div><div class="fp"></div><div class="fp"></div><div class="fp"></div>
+</div>
+
+<div class="content-layer">
+
+<!-- ─── NAVIGATION ─── -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo"><span class="max">MAX</span> <span class="pilot">Pilot</span></div>
+    <div class="nav-links">
+      <a href="#journey" class="nav-link active" data-section="journey">Journey</a>
+      <a href="#benchmark" class="nav-link" data-section="benchmark">Benchmark</a>
+      <a href="#elwg" class="nav-link" data-section="elwg">ElWG</a>
+      <a href="#prototype" class="nav-link" data-section="prototype">Prototype</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- HERO                                        -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="hero" id="top">
+  <div class="hero-content">
+    <div class="hero-tag">
+      <span class="tag">Vertraulich</span>
+      <span class="label">Prismatisk x MAXENERGY · Februar 2026</span>
+    </div>
+    <h1>Wie MAXENERGY<br /><span class="accent">120.000 Kunden</span> hält</h1>
+    <p class="hero-sub">
+      Customer Journey Analyse, Benchmark gegen Octopus &amp; Tibber,
+      ElWG-Pflichtfeatures — und ein funktionierender Prototyp, der zeigt,
+      wie die Lösung aussieht.
+    </p>
+    <div class="hero-kpis">
+      <div>
+        <div class="hero-kpi-value" style="color:var(--red)">14,4 Mio EUR</div>
+        <div class="hero-kpi-label">verlorener Umsatz / Jahr</div>
+      </div>
+      <div>
+        <div class="hero-kpi-value" style="color:var(--orange)">8 Monate</div>
+        <div class="hero-kpi-label">bis ElWG Deadline</div>
+      </div>
+      <div>
+        <div class="hero-kpi-value" style="color:var(--green)">+4,8 Mio EUR</div>
+        <div class="hero-kpi-label">gesicherter Umsatz mit MAX Pilot</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Prism Visual -->
+  <div class="prism-container">
+    <div class="prism-shape">
+      <svg class="prism-face" viewBox="0 0 220 220"><polygon points="110,20 200,180 20,180" /></svg>
+      <svg class="prism-face" viewBox="0 0 220 220" style="transform: rotate(60deg);"><polygon points="110,20 200,180 20,180" /></svg>
+      <svg class="prism-face" viewBox="0 0 220 220" style="transform: rotate(120deg);"><polygon points="110,20 200,180 20,180" /></svg>
+    </div>
+    <svg class="prism-inner" viewBox="0 0 100 100"><polygon points="50,10 90,80 10,80" /></svg>
+    <div class="prism-particle"></div>
+    <div class="prism-particle"></div>
+    <div class="prism-particle"></div>
+    <div class="prism-particle"></div>
+    <div class="prism-particle"></div>
+    <div class="prism-particle"></div>
+    <div class="prism-particle"></div>
+    <div class="prism-particle"></div>
+    <div class="prism-particle"></div>
+    <div class="prism-particle"></div>
+    <div class="prism-particle"></div>
+    <div class="prism-particle"></div>
+    <div class="prism-particle"></div>
+    <div class="prism-particle"></div>
+    <div class="prism-particle"></div>
+    <div class="prism-particle"></div>
+  </div>
+
+  <div class="hero-scroll">
+    <span>Scroll</span>
+    <div class="arrow"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 1 · CUSTOMER JOURNEY MAP                    -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="section-spacer" id="journey">
+
+  <div class="reveal">
+    <div class="section-title">01 · Customer Journey</div>
+    <h2 class="section-heading">Der <span class="accent">Leaky Bucket</span> von MAXENERGY</h2>
+    <p class="section-desc">
+      Wo verliert MAXENERGY Kunden — und warum das ElWG ab Oktober 2026
+      das Problem verschärft, wenn man es nicht als Chance nutzt.
+    </p>
+  </div>
+
+  <div class="kpi-row reveal">
+    <div class="kpi">
+      <div class="kpi-label">Kunden Österreich</div>
+      <div class="kpi-value">120.000</div>
+      <div class="kpi-sub">Stärker als DE-Markt</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Geschätzter Churn</div>
+      <div class="kpi-value red">~15%</div>
+      <div class="kpi-sub">18.000 Kunden/Jahr verloren</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Verlorener Umsatz</div>
+      <div class="kpi-value red">14,4 Mio EUR</div>
+      <div class="kpi-sub">Bei ~800 EUR/Kunde/Jahr</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">ElWG Deadline</div>
+      <div class="kpi-value orange">Okt. 2026</div>
+      <div class="kpi-sub">Noch ~8 Monate</div>
+    </div>
+  </div>
+
+  <div class="section-title reveal">Customer Journey · 6 Phasen</div>
+
+  <div class="funnel reveal">
+    <div class="stage">
+      <div class="stage-num">1</div>
+      <div class="stage-content">
+        <div class="stage-header">
+          <span class="stage-name">Akquise</span>
+          <span class="stage-time">Woche 0</span>
+        </div>
+        <div class="stage-desc">Kunde sucht neuen Stromanbieter. Vergleichsportal, Google, Empfehlung. MAXENERGY positioniert sich über Preis + Ökostrom.</div>
+        <div class="stage-problem good">
+          <span class="problem-label">Funktioniert</span>
+          Gute Online-Buchungsplattform, kompetitiver Preis, 100% Ökostrom.
+        </div>
+      </div>
+      <div class="stage-leak">
+        <div class="leak-bar-container"><div class="leak-bar green" style="width:85%"></div></div>
+        <div class="leak-number green">85%</div>
+        <div class="leak-label">Conversion vom Visit</div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-num">2</div>
+      <div class="stage-content">
+        <div class="stage-header">
+          <span class="stage-name">Onboarding</span>
+          <span class="stage-time">Monat 1–3</span>
+        </div>
+        <div class="stage-desc">Vertrag aktiv, Wechsel abgeschlossen. Erste Abrechnung. Der Kunde hat noch das „Neukunden-Gefühl".</div>
+        <div class="stage-problem bad">
+          <span class="problem-label">Schwachstelle</span>
+          Kein Welcome-Flow, keine App, kein Touchpoint außer der ersten Rechnung. Der Kunde vergisst MAXENERGY.
+        </div>
+      </div>
+      <div class="stage-leak">
+        <div class="leak-bar-container"><div class="leak-bar red" style="width:15%"></div></div>
+        <div class="leak-number red">-3%</div>
+        <div class="leak-label">Frühabwanderer</div>
+      </div>
+    </div>
+
+    <div class="stage leak">
+      <div class="stage-num">3</div>
+      <div class="stage-content">
+        <div class="stage-header">
+          <span class="stage-name">Die stille Mitte</span>
+          <span class="stage-time">Monat 4–11</span>
+        </div>
+        <div class="stage-desc">8 Monate ohne Kontakt. Der Kunde zahlt, MAXENERGY liefert. Keine Interaktion, kein Mehrwert, keine Bindung.</div>
+        <div class="stage-problem bad">
+          <span class="problem-label">Kernproblem</span>
+          Nullkontakt. Keine Verbrauchsinfos, keine Tipps, kein Grund loyal zu sein. Strom = Commodity.
+        </div>
+      </div>
+      <div class="stage-leak">
+        <div class="leak-bar-container"><div class="leak-bar grey" style="width:5%"></div></div>
+        <div class="leak-number neutral">0%</div>
+        <div class="leak-label">Kein aktiver Churn — aber auch keine Bindung</div>
+      </div>
+    </div>
+
+    <div class="stage critical">
+      <div class="stage-num">4</div>
+      <div class="stage-content">
+        <div class="stage-header">
+          <span class="stage-name">Die Wechselbonus-Attacke</span>
+          <span class="stage-time">Monat 10–14</span>
+        </div>
+        <div class="stage-desc">Konkurrenz-Angebote: „Wechsle jetzt und spar 150 EUR!" Der Kunde hat keinen Grund zu bleiben.</div>
+        <div class="stage-problem bad">
+          <span class="problem-label">Größtes Leck</span>
+          MAXENERGY hat dem Wechselbonus nichts entgegenzusetzen. Kein Loyalty-Programm, kein aufgebauter Mehrwert, keine Wechselkosten.
+        </div>
+      </div>
+      <div class="stage-leak">
+        <div class="leak-bar-container"><div class="leak-bar red" style="width:80%"></div></div>
+        <div class="leak-number red">-10%</div>
+        <div class="leak-label">12.000 Kunden/Jahr</div>
+      </div>
+    </div>
+
+    <div class="stage critical">
+      <div class="stage-num">5</div>
+      <div class="stage-content">
+        <div class="stage-header">
+          <span class="stage-name">ElWG-Beschleuniger</span>
+          <span class="stage-time">Ab Oktober 2026</span>
+        </div>
+        <div class="stage-desc">Lieferantenwechsel in 24 Stunden statt 14 Tagen. Dynamische Tarife, Energiegemeinschaften — neue Optionen, neue Konkurrenz.</div>
+        <div class="stage-problem bad">
+          <span class="problem-label">Eskalation</span>
+          Wechselhürde sinkt drastisch. Tibber, Octopus und neue Anbieter drängen mit App-First-Ansatz. Churn droht auf <strong>20–25%</strong> zu steigen.
+        </div>
+      </div>
+      <div class="stage-leak">
+        <div class="leak-bar-container"><div class="leak-bar red" style="width:95%"></div></div>
+        <div class="leak-number red">+5–10%</div>
+        <div class="leak-label">Zusätzliches Churn-Risiko</div>
+      </div>
+    </div>
+
+    <div class="stage">
+      <div class="stage-num">6</div>
+      <div class="stage-content">
+        <div class="stage-header">
+          <span class="stage-name">Verloren</span>
+          <span class="stage-time">Monat 12+</span>
+        </div>
+        <div class="stage-desc">Der Kunde ist weg. Rückgewinnung kostet 5x mehr als Retention. Bei einem Commodity-Produkt wie Strom gibt es keinen Grund zurückzukommen.</div>
+      </div>
+      <div class="stage-leak">
+        <div class="leak-bar-container"><div class="leak-bar grey" style="width:100%"></div></div>
+        <div class="leak-number neutral">18.000</div>
+        <div class="leak-label">Verlorene Kunden/Jahr (heute)</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section-title reveal">Szenario-Vergleich · 12 Monate</div>
+
+  <div class="comparison reveal">
+    <div class="comparison-col heute">
+      <h3>Heute</h3>
+      <p class="comp-sub">Ohne Retention-Strategie, Compliance-only ElWG</p>
+      <div class="comp-row"><span class="comp-label">Touchpoints pro Jahr</span><span class="comp-value red">2 (Rechnung)</span></div>
+      <div class="comp-row"><span class="comp-label">Retention-Instrument</span><span class="comp-value red">Keines (nur Preis)</span></div>
+      <div class="comp-row"><span class="comp-label">Churn-Rate</span><span class="comp-value red">15% → 20–25%</span></div>
+      <div class="comp-row"><span class="comp-label">Verlorener Umsatz/Jahr</span><span class="comp-value red">14,4 → 19,2 Mio EUR</span></div>
+      <div class="comp-row"><span class="comp-label">ElWG-Readiness</span><span class="comp-value red">Compliance-Checkbox</span></div>
+      <div class="comp-row"><span class="comp-label">Wechselbonus-Abwehr</span><span class="comp-value red">Keine</span></div>
+    </div>
+    <div class="comparison-col zukunft">
+      <h3>Mit MAX Pilot</h3>
+      <p class="comp-sub">Loyalty + Smart Energy + ElWG als Retention-Hebel</p>
+      <div class="comp-row"><span class="comp-label">Touchpoints pro Jahr</span><span class="comp-value green">52+ (wöchentlich)</span></div>
+      <div class="comp-row"><span class="comp-label">Retention-Instrumente</span><span class="comp-value green">Loyalty, Tipps, Flextarif</span></div>
+      <div class="comp-row"><span class="comp-label">Churn-Rate (Ziel)</span><span class="comp-value green">10% (-5 Pkt.)</span></div>
+      <div class="comp-row"><span class="comp-label">Gesicherter Umsatz/Jahr</span><span class="comp-value green">+4,8 Mio EUR</span></div>
+      <div class="comp-row"><span class="comp-label">ElWG-Readiness</span><span class="comp-value green">Retention-Hebel</span></div>
+      <div class="comp-row"><span class="comp-label">Wechselbonus-Abwehr</span><span class="comp-value green">Loyalty > Einmalbonus</span></div>
+    </div>
+  </div>
+
+  <div class="bottom-line reveal">
+    <div class="bl-icon">
+      <svg viewBox="0 0 24 24"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z" /></svg>
+    </div>
+    <div class="bl-text">
+      <h3>Die Frage ist nicht ob, sondern wie</h3>
+      <p>MAXENERGY muss die ElWG-Features bis Oktober 2026 bauen — das steht fest. Die einzige Frage ist: Compliance-Checkbox oder Retention-Hebel? Der Unterschied ist <strong>4,8 Mio EUR Jahresumsatz</strong>.</p>
+    </div>
+    <div class="bl-number">
+      <div class="big">4,8M EUR</div>
+      <div class="small">gesicherter Umsatz/Jahr</div>
+    </div>
+  </div>
+
+</section>
+
+<hr class="divider-line" />
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 2 · BENCHMARK ANALYSE                       -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="section-spacer" id="benchmark">
+
+  <div class="reveal">
+    <div class="section-title">02 · Benchmark-Analyse</div>
+    <h2 class="section-heading">Was <span class="accent">Octopus &amp; Tibber</span> besser machen</h2>
+    <p class="section-desc">
+      Die besten Energie-Apps der Welt im Vergleich — und wo MAXENERGY sie mit dem richtigen Timing überholen kann.
+    </p>
+  </div>
+
+  <div class="benchmark-grid reveal">
+    <div class="bench-col">
+      <div class="bench-col-header">
+        <!-- Octopus Energy Logo -->
+        <svg class="bench-logo" viewBox="0 0 140 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M16 4C10.5 4 6 8.5 6 14c0 3.5 1.8 6.6 4.5 8.4-.3.8-.5 1.7-.5 2.6 0 1.7.6 3 1.5 3s1.5-1.3 1.5-3c0-.2 0-.4-.05-.6.9.3 2 .5 3.05.5s2.15-.2 3.05-.5c-.05.2-.05.4-.05.6 0 1.7.6 3 1.5 3s1.5-1.3 1.5-3c0-.9-.2-1.8-.5-2.6C24.2 20.6 26 17.5 26 14c0-5.5-4.5-10-10-10z" fill="#E84C8A"/>
+          <circle cx="13" cy="12.5" r="1.8" fill="white"/>
+          <circle cx="19" cy="12.5" r="1.8" fill="white"/>
+          <circle cx="13" cy="12.5" r="0.9" fill="#1a1a2e"/>
+          <circle cx="19" cy="12.5" r="0.9" fill="#1a1a2e"/>
+          <text x="34" y="22" font-family="Instrument Sans, sans-serif" font-weight="700" font-size="15" fill="#e8e6e1">Octopus Energy</text>
+        </svg>
+      </div>
+      <p class="bench-sub">UK · 10+ Mio. Kunden · Plattform: Kraken</p>
+
+      <div class="bench-feature">
+        <div class="bench-feature-header">
+          <span class="bench-feature-name">Agile Octopus</span>
+          <div class="retention-dots"><div class="retention-dot filled"></div><div class="retention-dot filled"></div><div class="retention-dot filled"></div></div>
+        </div>
+        <div class="bench-feature-desc">Halbstündliche dynamische Preise, Kunden sehen Preise für nächsten Tag ab 16 Uhr — täglicher Touchpoint</div>
+      </div>
+      <div class="bench-feature">
+        <div class="bench-feature-header">
+          <span class="bench-feature-name">Octoplus (Loyalty)</span>
+          <div class="retention-dots"><div class="retention-dot filled"></div><div class="retention-dot filled"></div><div class="retention-dot filled"></div></div>
+        </div>
+        <div class="bench-feature-desc">800 Octopoints = £1. Punkte durch Saving Sessions, Wheel of Fortune, Freunde werben. Direkter Retention-Anker.</div>
+      </div>
+      <div class="bench-feature">
+        <div class="bench-feature-header">
+          <span class="bench-feature-name">Wheel of Fortune</span>
+          <div class="retention-dots"><div class="retention-dot filled"></div><div class="retention-dot filled"></div><div class="retention-dot filled"></div></div>
+        </div>
+        <div class="bench-feature-desc">Gamification bei Zählerablesung. 100.000+ Gewinner/Monat, £1–£512 Gutschrift.</div>
+      </div>
+      <div class="bench-feature">
+        <div class="bench-feature-header">
+          <span class="bench-feature-name">Partner-Rewards</span>
+          <div class="retention-dots"><div class="retention-dot filled"></div><div class="retention-dot filled"></div><div class="retention-dot filled"></div></div>
+        </div>
+        <div class="bench-feature-desc">Caffe Nero (gratis Kaffee/Woche), Vue Kino, Rakuten TV. Wöchentliche Touchpoints außerhalb Energie.</div>
+      </div>
+      <div class="bench-feature">
+        <div class="bench-feature-header">
+          <span class="bench-feature-name">Free Electricity Sessions</span>
+          <div class="retention-dots"><div class="retention-dot filled"></div><div class="retention-dot filled"></div><div class="retention-dot filled"></div></div>
+        </div>
+        <div class="bench-feature-desc">2025: 15 Sessions, 19h kostenloser Strom. Viraler Wow-Effekt, massive Presse-Aufmerksamkeit.</div>
+      </div>
+    </div>
+
+    <div class="bench-col">
+      <div class="bench-col-header">
+        <!-- Tibber Logo -->
+        <svg class="bench-logo" viewBox="0 0 100 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path d="M8 6h10v4H13v16H8V6z" fill="#23C0E9"/>
+          <path d="M18 10l6-4v20l-6-4V10z" fill="#23C0E9" opacity="0.7"/>
+          <text x="30" y="22" font-family="Instrument Sans, sans-serif" font-weight="700" font-size="15" fill="#e8e6e1">Tibber</text>
+        </svg>
+      </div>
+      <p class="bench-sub">NO/SE/DE/NL/AT · App-First · Dynamischer Tarif</p>
+
+      <div class="bench-feature">
+        <div class="bench-feature-header">
+          <span class="bench-feature-name">Dynamischer Tarif</span>
+          <div class="retention-dots"><div class="retention-dot filled"></div><div class="retention-dot filled"></div><div class="retention-dot filled"></div></div>
+        </div>
+        <div class="bench-feature-desc">Stündliche Preise vom Spotmarkt. Kein Grundpreis, nur ~3,99 EUR/Monat. Radikale Transparenz als Trust-Builder.</div>
+      </div>
+      <div class="bench-feature">
+        <div class="bench-feature-header">
+          <span class="bench-feature-name">Live-Verbrauch (Pulse)</span>
+          <div class="retention-dots"><div class="retention-dot filled"></div><div class="retention-dot filled"></div><div class="retention-dot filled"></div></div>
+        </div>
+        <div class="bench-feature-desc">Echtzeit-Verbrauch in Watt mit Hardware-Dongle. Ohne Pulse: 15-Min Smart-Meter-Daten — täglicher Touchpoint.</div>
+      </div>
+      <div class="bench-feature">
+        <div class="bench-feature-header">
+          <span class="bench-feature-name">Smart Charging</span>
+          <div class="retention-dots"><div class="retention-dot filled"></div><div class="retention-dot filled"></div><div class="retention-dot filled"></div></div>
+        </div>
+        <div class="bench-feature-desc">EV-Laden zu günstigsten Stunden. go-e Integration. Abfahrtszeit setzen — Hardware-Lock-in.</div>
+      </div>
+      <div class="bench-feature">
+        <div class="bench-feature-header">
+          <span class="bench-feature-name">Tibber Store</span>
+          <div class="retention-dots"><div class="retention-dot filled"></div><div class="retention-dot filled"></div><div class="retention-dot"></div></div>
+        </div>
+        <div class="bench-feature-desc">Curated Hardware: Pulse, go-e Charger, Smart Plugs. Umsatz + Ökosystem-Bindung.</div>
+      </div>
+      <div class="bench-feature">
+        <div class="bench-feature-header">
+          <span class="bench-feature-name">Developer API</span>
+          <div class="retention-dots"><div class="retention-dot filled"></div><div class="retention-dot"></div><div class="retention-dot"></div></div>
+        </div>
+        <div class="bench-feature-desc">Offene API, Prometheus-Exporter, Grafana-Dashboards. Tech-Community als Evangelisten.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Simplified Matrix -->
+  <div class="section-title reveal">Auf einen Blick</div>
+
+  <div class="matrix-simple reveal">
+    <div class="matrix-row header">
+      <div class="matrix-cell"></div>
+      <div class="matrix-cell">Octopus</div>
+      <div class="matrix-cell">Tibber</div>
+      <div class="matrix-cell">MAXENERGY heute</div>
+      <div class="matrix-cell col-highlight">MAX Pilot</div>
+    </div>
+    <div class="matrix-row">
+      <div class="matrix-cell">Kunden-Touchpoints</div>
+      <div class="matrix-cell"><span class="status-icon yes"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>wöchentlich</div>
+      <div class="matrix-cell"><span class="status-icon yes"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>täglich</div>
+      <div class="matrix-cell"><span class="status-icon no"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>2x / Jahr</div>
+      <div class="matrix-cell col-highlight"><span class="status-icon highlight"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>wöchentlich</div>
+    </div>
+    <div class="matrix-row">
+      <div class="matrix-cell">Loyalty-Programm</div>
+      <div class="matrix-cell"><span class="status-icon yes"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Octoplus</div>
+      <div class="matrix-cell"><span class="status-icon no"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>keines</div>
+      <div class="matrix-cell"><span class="status-icon no"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>keines</div>
+      <div class="matrix-cell col-highlight"><span class="status-icon highlight"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>MAX+</div>
+    </div>
+    <div class="matrix-row">
+      <div class="matrix-cell">Dynamische Tarife</div>
+      <div class="matrix-cell"><span class="status-icon yes"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Agile</div>
+      <div class="matrix-cell"><span class="status-icon yes"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Spotmarkt</div>
+      <div class="matrix-cell"><span class="status-icon no"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>nur fix</div>
+      <div class="matrix-cell col-highlight"><span class="status-icon highlight"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Flextarif</div>
+    </div>
+    <div class="matrix-row">
+      <div class="matrix-cell">Energiegemeinschaften</div>
+      <div class="matrix-cell"><span class="status-icon no"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>nein</div>
+      <div class="matrix-cell"><span class="status-icon no"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>nein</div>
+      <div class="matrix-cell"><span class="status-icon no"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>nein</div>
+      <div class="matrix-cell col-highlight"><span class="status-icon highlight"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>GEA-Finder</div>
+    </div>
+    <div class="matrix-row">
+      <div class="matrix-cell">Partner-Rewards</div>
+      <div class="matrix-cell"><span class="status-icon yes"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Nero, Vue</div>
+      <div class="matrix-cell"><span class="status-icon no"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>keine</div>
+      <div class="matrix-cell"><span class="status-icon no"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>keine</div>
+      <div class="matrix-cell col-highlight"><span class="status-icon highlight"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Billa, A1, Uniqa</div>
+    </div>
+  </div>
+
+  <div class="quote-block reveal">
+    <p>
+      Weder Octopus noch Tibber sind in Österreich mit vollem Feature-Set aktiv. <strong>Das Fenster ist jetzt offen.</strong>
+    </p>
+    <p style="margin-top: 0.8rem;">
+      Octopus gibt <strong>300 GBP/Jahr an Rewards</strong> pro Kunde aus. Tibber bindet über <strong>Hardware + tägliche App-Nutzung</strong>.
+      MAXENERGY hat heute: <strong>2 Rechnungen pro Jahr.</strong><br />
+      Aber: MAXENERGY hat <strong>120.000 bestehende Kunden</strong> und das ElWG als Hebel —
+      mit MAX Pilot wird die Pflicht-Compliance zum Retention-Vorteil.
+    </p>
+    <div class="quote-source">— Strategische Schlussfolgerung</div>
+  </div>
+
+</section>
+
+<hr class="divider-line" />
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 3 · ElWG PFLICHTFEATURES                    -->
+<!-- ═══════════════════════════════════════════ -->
+<section class="section-spacer" id="elwg">
+
+  <div class="reveal">
+    <div class="section-title">03 · ElWG Pflichtfeatures</div>
+    <h2 class="section-heading"><span class="accent">9 Pflicht-Features</span> bis Oktober 2026</h2>
+    <p class="section-desc">
+      Das Elektrizitätswirtschaftsgesetz ist die größte Reform des österreichischen Strommarkts seit 20 Jahren.
+      Nicht optional, nicht nice-to-have.
+    </p>
+  </div>
+
+  <div class="timeline-bar reveal">
+    <div class="timeline-item">
+      <div class="timeline-date">Jänner 2026</div>
+      <div class="timeline-what">Preis-Runter-Garantie: Sinkende Kosten müssen binnen 6 Mon. weitergegeben werden</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">April 2026</div>
+      <div class="timeline-what">Sozialtarif: 6 ct/kWh netto für erste 2.900 kWh bei ~290.000 Haushalten</div>
+    </div>
+    <div class="timeline-item active">
+      <div class="timeline-date">Oktober 2026</div>
+      <div class="timeline-what">Dynamische Tarife, Energiegemeinschaften, beschleunigter Wechsel, Transparenz</div>
+    </div>
+    <div class="timeline-item">
+      <div class="timeline-date">Ende 2026</div>
+      <div class="timeline-what">Neue Netzentgelt-Struktur (Systemnutzungsentgelte)</div>
+    </div>
+  </div>
+
+  <div class="section-title reveal">Gesetzliche Pflicht · Was gebaut werden muss</div>
+
+  <div class="pflicht-grid reveal">
+    <div class="pflicht-card">
+      <div class="pflicht-num">01</div>
+      <div class="pflicht-name">Dynamischer Tarif</div>
+      <div class="pflicht-desc">Mindestens ein Spotmarkt-gekoppelter Vertrag. Aufklärungspflicht, Risiko-Warnung, jederzeitiges Kündigungsrecht.</div>
+      <span class="pflicht-badge pflicht">Pflicht Okt. 2026</span>
+    </div>
+    <div class="pflicht-card">
+      <div class="pflicht-num">02</div>
+      <div class="pflicht-name">Fixer Tarif</div>
+      <div class="pflicht-desc">Preisänderungen nur alle 6 Monate. Sinkende Kosten müssen weitergegeben werden — „Preis-Runter-Garantie".</div>
+      <span class="pflicht-badge pflicht">Pflicht Okt. 2026</span>
+    </div>
+    <div class="pflicht-card">
+      <div class="pflicht-num">03</div>
+      <div class="pflicht-name">Klare Rechnungen</div>
+      <div class="pflicht-desc">Energiepreis, Netzentgelte, Steuern/Abgaben getrennt. Verständlich statt PDF-Wüste.</div>
+      <span class="pflicht-badge pflicht">Pflicht Okt. 2026</span>
+    </div>
+    <div class="pflicht-card">
+      <div class="pflicht-num">04</div>
+      <div class="pflicht-name">Monatliche Abrechnung</div>
+      <div class="pflicht-desc">Bei Smart-Meter-Kunden muss monatliche Abrechnung möglich sein — statt nur jährlich.</div>
+      <span class="pflicht-badge pflicht">Pflicht Okt. 2026</span>
+    </div>
+    <div class="pflicht-card">
+      <div class="pflicht-num">05</div>
+      <div class="pflicht-name">15-Min-Verbrauchsdaten</div>
+      <div class="pflicht-desc">Kunden haben Recht auf ihre Smart-Meter-Daten im 15-Minuten-Intervall. Einheitliche Datenzugangsstelle.</div>
+      <span class="pflicht-badge pflicht">Pflicht Okt. 2026</span>
+    </div>
+    <div class="pflicht-card">
+      <div class="pflicht-num">06</div>
+      <div class="pflicht-name">24h Lieferantenwechsel</div>
+      <div class="pflicht-desc">Wechsel massiv beschleunigt. Kontrahierungszwang zu wettbewerbsfähigen Standardtarifen.</div>
+      <span class="pflicht-badge pflicht">Pflicht Okt. 2026</span>
+    </div>
+    <div class="pflicht-card">
+      <div class="pflicht-num">07</div>
+      <div class="pflicht-name">Herkunftsnachweise</div>
+      <div class="pflicht-desc">Ökostrom-Herkunft nachvollziehbar. Zertifikate sichtbar, Stromzusammensetzung offengelegt.</div>
+      <span class="pflicht-badge pflicht">Pflicht Okt. 2026</span>
+    </div>
+    <div class="pflicht-card">
+      <div class="pflicht-num">08</div>
+      <div class="pflicht-name">Sozialtarif</div>
+      <div class="pflicht-desc">6 ct/kWh netto für erste 2.900 kWh/Jahr. ~290.000 schutzbedürftige Haushalte. Automatische Erkennung.</div>
+      <span class="pflicht-badge pflicht">Pflicht Apr. 2026</span>
+    </div>
+    <div class="pflicht-card">
+      <div class="pflicht-num">09</div>
+      <div class="pflicht-name">AGB / Preisänderungen</div>
+      <div class="pflicht-desc">Gesetzliches Änderungsrecht mit erhöhten Informationspflichten. Neue Vertragslogik.</div>
+      <span class="pflicht-badge pflicht">Pflicht Okt. 2026</span>
+    </div>
+  </div>
+
+  <div class="section-title reveal">Strategisch wichtig · Kein Gesetz, aber entscheidend</div>
+
+  <div class="pflicht-grid reveal">
+    <div class="pflicht-card">
+      <div class="pflicht-num" style="color: var(--green)">10</div>
+      <div class="pflicht-name">Energiegemeinschaften</div>
+      <div class="pflicht-desc">GEA/EEG/BEG Onboarding. First-Mover-Vorteil, neue Kundengruppe. Organisator-Rolle übernehmen.</div>
+      <span class="pflicht-badge strategisch">Strategisch</span>
+    </div>
+    <div class="pflicht-card">
+      <div class="pflicht-num" style="color: var(--green)">11</div>
+      <div class="pflicht-name">Prosumer-Dashboard</div>
+      <div class="pflicht-desc">PV-Einspeisung, Eigenverbrauch, Vergütung. Wachsende Zielgruppe mit hohem LTV.</div>
+      <span class="pflicht-badge strategisch">Strategisch</span>
+    </div>
+    <div class="pflicht-card">
+      <div class="pflicht-num" style="color: var(--green)">12</div>
+      <div class="pflicht-name">Loyalty-Programm</div>
+      <div class="pflicht-desc">Einzige Waffe gegen Wechselbonus + 24h-Wechsel. Punkte > Einmalbonus.</div>
+      <span class="pflicht-badge strategisch">Strategisch</span>
+    </div>
+  </div>
+
+  <div class="section-title reveal">Pflicht → Chance · Wie MAX Pilot die Features umsetzt</div>
+
+  <div class="ux-mapping reveal">
+    <div class="ux-left">
+      <div class="ux-label">Pflicht: Dynamischer Tarif</div>
+      <div class="ux-text">Aufklärung, Risiko-Warnung, Opt-in</div>
+    </div>
+    <div class="ux-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+    <div class="ux-right">
+      <div class="ux-label">MAX Pilot: Flextarif-Screen</div>
+      <div class="ux-text">Persönliche Simulation „Du hättest 8,80 EUR gespart", animierter Opt-in-Toggle</div>
+    </div>
+  </div>
+
+  <div class="ux-mapping reveal">
+    <div class="ux-left">
+      <div class="ux-label">Pflicht: 15-Min-Verbrauchsdaten</div>
+      <div class="ux-text">Daten dem Kunden zugänglich machen</div>
+    </div>
+    <div class="ux-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+    <div class="ux-right">
+      <div class="ux-label">MAX Pilot: Energie-Dashboard</div>
+      <div class="ux-text">Wochen-Chart, Jahresprognose, Peak-Analyse, Spartipps</div>
+    </div>
+  </div>
+
+  <div class="ux-mapping reveal">
+    <div class="ux-left">
+      <div class="ux-label">Pflicht: Herkunftsnachweise</div>
+      <div class="ux-text">Stromzusammensetzung offenlegen</div>
+    </div>
+    <div class="ux-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+    <div class="ux-right">
+      <div class="ux-label">MAX Pilot: Herkunfts-Visualisierung</div>
+      <div class="ux-text">Wasserkraft 68%, Wind 22%, Solar 10% — „100% Österreich" Badge + PDF-Zertifikat</div>
+    </div>
+  </div>
+
+  <div class="ux-mapping reveal">
+    <div class="ux-left">
+      <div class="ux-label">Pflicht: 24h Lieferantenwechsel</div>
+      <div class="ux-text">Wechselhürde sinkt drastisch</div>
+    </div>
+    <div class="ux-arrow"><svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg></div>
+    <div class="ux-right">
+      <div class="ux-label">MAX Pilot: Loyalty-Programm MAX+</div>
+      <div class="ux-text">Punkte sammeln, Partner-Rewards (Billa, A1, Uniqa) — Treue > Wechselbonus</div>
+    </div>
+  </div>
+
+  <div class="quote-block reveal">
+    <p>
+      <strong>9 Pflicht-Features bis Oktober 2026.</strong> Nicht optional, nicht nice-to-have.
+    </p>
+    <p style="margin-top: 0.8rem;">
+      Die Frage: Baut MAXENERGY das als <strong>9 Compliance-Checkboxen</strong> —
+      oder als <strong>zusammenhängendes Kunden-Erlebnis</strong>, das gleichzeitig Retention löst?
+    </p>
+    <p style="margin-top: 0.8rem;">
+      Der Unterschied: <strong>4,8 Mio EUR Jahresumsatz.</strong>
+    </p>
+    <div class="quote-source">— Strategische Schlussfolgerung</div>
+  </div>
+
+</section>
+
+<hr class="divider-line" />
+
+<!-- ═══════════════════════════════════════════ -->
+<!-- 4 · PROTOTYPE                               -->
+<!-- ═══════════════════════════════════════════ -->
+<div class="proto-section" id="prototype">
+  <div class="proto-inner">
+    <div class="reveal">
+      <div class="section-title" style="justify-content: center;">04 · Prototype</div>
+      <h2 class="section-heading" style="text-align: center;">So sieht die <span class="accent">Lösung</span> aus</h2>
+      <p class="section-desc" style="text-align: center; margin: 0 auto 1rem;">
+        MAX Pilot vereint ElWG-Compliance, Energiemonitoring und Kundenbindung
+        in einer Plattform — und verwandelt gesetzliche Pflicht in einen
+        messbaren Retention-Vorteil.
+      </p>
+    </div>
+
+    <div class="reveal">
+      <div class="phone-mockup">
+        <div class="notch"></div>
+        <iframe src="https://www.prismatisk.com/maxpilot/" title="MAX Pilot Prototype"></iframe>
+      </div>
+    </div>
+
+    <p class="proto-hint reveal">
+      Interaktiver Prototyp — alle Screens über die Navigation bedienbar. ·
+      <a href="https://www.prismatisk.com/maxpilot/" target="_blank" rel="noopener">Vollbild öffnen</a>
+    </p>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<div class="footer">
+  Prismatisk e.U. · Martin Oisterschek · Februar 2026 · Vertraulich
+</div>
+
+</div><!-- /content-layer -->
+
+<!-- ─── SCRIPTS ─── -->
+<script>
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  const sections = ['journey', 'benchmark', 'elwg', 'prototype'];
+  const navLinks = document.querySelectorAll('.nav-link');
+
+  const updateNav = () => {
+    let current = sections[0];
+    for (const id of sections) {
+      const el = document.getElementById(id);
+      if (el && el.getBoundingClientRect().top <= 120) current = id;
+    }
+    navLinks.forEach(link => {
+      link.classList.toggle('active', link.dataset.section === current);
+    });
+  };
+
+  window.addEventListener('scroll', updateNav, { passive: true });
+  updateNav();
+</script>
+
+</body>
+</html>
