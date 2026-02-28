@@ -3,482 +3,1072 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Günstige Ökostrom-Tarife in Österreich</title>
+  <title>Ökostrom Tarifcheck — prismatisk</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;0,9..144,900;1,9..144,400&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --gruen: #2e7d32;
-      --gruen-hell: #e8f5e9;
-      --gruen-mittel: #a5d6a7;
-      --text: #1a1a1a;
-      --grau: #f5f5f5;
-      --grau-dunkel: #757575;
-      --rand: #e0e0e0;
-      --weiss: #ffffff;
+      --orange: #ec6726;
+      --orange-light: #fdf0e8;
+      --green: #a8d3af;
+      --green-dark: #2d7d4f;
+      --yellow: #f1ea75;
+      --red: #f39b8c;
+      --blue: #d6eceb;
+      --black: #1d1d1b;
+      --white: #ffffff;
+      --cream: #f9f7f2;
+      --warm-grey: #f1efe8;
+      --mid-grey: #b8b5ad;
+      --text-secondary: #8a8780;
+      --radius: 20px;
+      --radius-sm: 12px;
+      --radius-xs: 8px;
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: var(--grau);
-      color: var(--text);
+      font-family: 'Sora', sans-serif;
+      background: var(--cream);
+      color: var(--black);
       min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
     }
 
-    header {
-      background: var(--gruen);
-      color: var(--weiss);
-      padding: 1.5rem 1rem;
-      text-align: center;
+    /* Grain overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      z-index: 9999;
     }
 
-    header h1 {
-      font-size: 1.6rem;
-      font-weight: 700;
-      letter-spacing: -0.3px;
+    /* ─── HERO ─── */
+    .hero {
+      background: var(--black);
+      color: var(--white);
+      padding: 4rem 1.5rem 3rem;
+      position: relative;
+      overflow: hidden;
     }
 
-    header p {
-      margin-top: 0.4rem;
-      font-size: 0.95rem;
-      opacity: 0.88;
+    .hero::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -20%;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(236,103,38,0.15) 0%, transparent 70%);
+      pointer-events: none;
     }
 
-    main {
-      max-width: 900px;
+    .hero-inner {
+      max-width: 720px;
       margin: 0 auto;
-      padding: 1.5rem 1rem 3rem;
+      position: relative;
     }
 
-    /* Suchformular */
-    .suchbox {
-      background: var(--weiss);
-      border-radius: 12px;
-      padding: 1.5rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: rgba(255,255,255,0.08);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 99px;
+      padding: 6px 14px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--green);
+      margin-bottom: 1.5rem;
+      backdrop-filter: blur(8px);
+    }
+
+    .hero-badge .dot {
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--green);
+      animation: pulse 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .hero h1 {
+      font-family: 'Fraunces', serif;
+      font-size: clamp(2.2rem, 6vw, 3.4rem);
+      font-weight: 900;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      margin-bottom: 1rem;
+    }
+
+    .hero h1 .accent {
+      color: var(--orange);
+      font-style: italic;
+    }
+
+    .hero p {
+      font-size: 0.95rem;
+      color: rgba(255,255,255,0.55);
+      line-height: 1.6;
+      max-width: 480px;
+      font-weight: 300;
+    }
+
+    /* ─── MAIN ─── */
+    main {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 1.5rem 4rem;
+      position: relative;
+      top: -1.5rem;
+    }
+
+    /* ─── INPUT CARD ─── */
+    .input-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1.8rem;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.06), 0 1px 3px rgba(0,0,0,0.04);
+      margin-bottom: 1.5rem;
+    }
+
+    .tier-label {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
       display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      align-items: flex-end;
+      align-items: center;
+      gap: 8px;
     }
 
-    .feld {
+    .tier-label::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--warm-grey);
+    }
+
+    /* PLZ Field */
+    .field-group {
+      margin-bottom: 1.2rem;
+    }
+
+    .field-label {
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 0.4rem;
+      display: block;
+    }
+
+    .field-hint {
+      font-size: 0.7rem;
+      color: var(--text-secondary);
+      margin-top: 0.3rem;
+      font-weight: 400;
+    }
+
+    input[type="text"],
+    input[type="number"] {
+      width: 100%;
+      border: 2px solid var(--warm-grey);
+      border-radius: var(--radius-sm);
+      padding: 0.7rem 1rem;
+      font-size: 1rem;
+      font-family: 'Sora', sans-serif;
+      font-weight: 500;
+      color: var(--black);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+      background: var(--cream);
+    }
+
+    input:focus {
+      border-color: var(--orange);
+      box-shadow: 0 0 0 3px rgba(236,103,38,0.1);
+      background: var(--white);
+    }
+
+    /* Mode Toggle: kWh vs Personen */
+    .mode-toggle {
+      display: flex;
+      background: var(--warm-grey);
+      border-radius: var(--radius-sm);
+      padding: 3px;
+      margin-bottom: 1rem;
+    }
+
+    .mode-btn {
+      flex: 1;
+      border: none;
+      background: none;
+      border-radius: 10px;
+      padding: 0.55rem 0.8rem;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    .mode-btn.active {
+      background: var(--white);
+      color: var(--black);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    /* Person Selector */
+    .person-selector {
+      display: flex;
+      gap: 8px;
+      margin-top: 0.5rem;
+    }
+
+    .person-btn {
+      flex: 1;
+      aspect-ratio: 1;
+      max-width: 64px;
+      border: 2px solid var(--warm-grey);
+      background: var(--cream);
+      border-radius: var(--radius-sm);
+      cursor: pointer;
       display: flex;
       flex-direction: column;
-      gap: 0.4rem;
-      flex: 1;
-      min-width: 160px;
+      align-items: center;
+      justify-content: center;
+      gap: 2px;
+      transition: all 0.2s;
+      font-family: 'Sora', sans-serif;
     }
 
-    label {
-      font-size: 0.85rem;
+    .person-btn:hover {
+      border-color: var(--mid-grey);
+    }
+
+    .person-btn.active {
+      border-color: var(--orange);
+      background: var(--orange-light);
+    }
+
+    .person-btn .num {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--black);
+      line-height: 1;
+    }
+
+    .person-btn .lbl {
+      font-size: 0.6rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .person-btn.active .num { color: var(--orange); }
+    .person-btn.active .lbl { color: var(--orange); }
+
+    /* ─── TIER 2: Appliances ─── */
+    .tier2-toggle {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      font-size: 0.78rem;
       font-weight: 600;
-      color: var(--grau-dunkel);
-      text-transform: uppercase;
-      letter-spacing: 0.5px;
-    }
-
-    input {
-      border: 2px solid var(--rand);
-      border-radius: 8px;
-      padding: 0.65rem 0.9rem;
-      font-size: 1rem;
-      outline: none;
-      transition: border-color 0.2s;
+      color: var(--text-secondary);
+      padding: 0.5rem 0;
+      margin-top: 0.5rem;
       width: 100%;
     }
 
-    input:focus { border-color: var(--gruen); }
-
-    .hinweis {
-      font-size: 0.78rem;
-      color: var(--grau-dunkel);
-      margin-top: 0.2rem;
+    .tier2-toggle .arrow {
+      display: inline-block;
+      transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+      font-size: 0.7rem;
     }
 
-    button.suchen {
-      background: var(--gruen);
-      color: var(--weiss);
-      border: none;
-      border-radius: 8px;
-      padding: 0.65rem 1.8rem;
-      font-size: 1rem;
-      font-weight: 600;
+    .tier2-toggle.open .arrow {
+      transform: rotate(90deg);
+    }
+
+    .tier2-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 0.8rem;
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s;
+      opacity: 0;
+    }
+
+    .tier2-content.open {
+      max-height: 400px;
+      opacity: 1;
+    }
+
+    .appliance-card {
+      border: 2px solid var(--warm-grey);
+      border-radius: var(--radius-sm);
+      padding: 0.8rem;
       cursor: pointer;
-      transition: background 0.2s, transform 0.1s;
-      white-space: nowrap;
-      align-self: flex-start;
-      margin-top: 1.55rem;
+      transition: all 0.2s;
+      background: var(--cream);
+      position: relative;
+      user-select: none;
     }
 
-    button.suchen:hover { background: #1b5e20; }
-    button.suchen:active { transform: scale(0.98); }
-    button.suchen:disabled { background: var(--grau-dunkel); cursor: not-allowed; }
+    .appliance-card:hover {
+      border-color: var(--mid-grey);
+    }
 
-    /* Filter-Info */
-    .filter-info {
+    .appliance-card.active {
+      border-color: var(--green-dark);
+      background: rgba(168,211,175,0.12);
+    }
+
+    .appliance-icon {
+      font-size: 1.3rem;
+      margin-bottom: 0.3rem;
+    }
+
+    .appliance-name {
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--black);
+      line-height: 1.2;
+    }
+
+    .appliance-kwh {
+      font-size: 0.65rem;
+      color: var(--text-secondary);
+      margin-top: 0.15rem;
+      font-weight: 500;
+    }
+
+    .appliance-check {
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      border: 2px solid var(--warm-grey);
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .appliance-card.active .appliance-check {
+      background: var(--green-dark);
+      border-color: var(--green-dark);
+    }
+
+    .appliance-card.active .appliance-check::after {
+      content: '✓';
+      color: white;
+      font-size: 0.6rem;
+      font-weight: 700;
+    }
+
+    /* Consumption preview */
+    .consumption-preview {
+      background: var(--warm-grey);
+      border-radius: var(--radius-sm);
+      padding: 0.7rem 1rem;
+      margin-top: 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      transition: all 0.3s;
+    }
+
+    .consumption-preview .label {
+      font-size: 0.72rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .consumption-preview .value {
+      font-size: 0.9rem;
+      font-weight: 700;
+      color: var(--black);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ─── SEARCH BUTTON ─── */
+    .search-btn {
+      width: 100%;
+      background: var(--black);
+      color: var(--white);
+      border: none;
+      border-radius: var(--radius-sm);
+      padding: 0.9rem;
+      font-size: 0.9rem;
+      font-weight: 700;
+      cursor: pointer;
+      font-family: 'Sora', sans-serif;
+      letter-spacing: 0.01em;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 1.2rem;
+    }
+
+    .search-btn:hover {
+      background: #2a2a28;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+    }
+
+    .search-btn:active { transform: translateY(0); }
+
+    .search-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .search-btn .spinner {
+      width: 16px; height: 16px;
+      border: 2px solid rgba(255,255,255,0.3);
+      border-top-color: #fff;
+      border-radius: 50%;
+      animation: spin 0.7s linear infinite;
+    }
+
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* ─── RESULTS ─── */
+    #ergebnisse { margin-top: 0.5rem; }
+
+    .result-meta {
       display: flex;
       flex-wrap: wrap;
+      align-items: baseline;
       gap: 0.5rem;
-      margin-top: 1rem;
-    }
-
-    .badge {
-      background: var(--gruen-hell);
-      color: var(--gruen);
-      border-radius: 20px;
-      padding: 0.3rem 0.8rem;
-      font-size: 0.82rem;
-      font-weight: 600;
-    }
-
-    /* Status-Meldungen */
-    .meldung {
-      text-align: center;
-      padding: 2rem;
-      color: var(--grau-dunkel);
-      font-size: 0.95rem;
-    }
-
-    .fehler {
-      background: #fff3f3;
-      border: 1px solid #f8a0a0;
-      border-radius: 10px;
-      padding: 1rem 1.2rem;
-      color: #c62828;
-      margin-top: 1.5rem;
-    }
-
-    /* Ergebnisse */
-    #ergebnisse { margin-top: 1.5rem; }
-
-    .meta {
-      font-size: 0.88rem;
-      color: var(--grau-dunkel);
       margin-bottom: 1rem;
       padding: 0 0.2rem;
     }
 
-    .meta strong { color: var(--text); }
+    .result-meta .count {
+      font-family: 'Fraunces', serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--black);
+      line-height: 1;
+    }
 
-    /* Karten-Layout */
-    .tarif-liste {
+    .result-meta .detail {
+      font-size: 0.78rem;
+      color: var(--text-secondary);
+      font-weight: 400;
+    }
+
+    .result-legend {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      padding: 0 0.2rem;
+      flex-wrap: wrap;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.68rem;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .legend-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+    }
+
+    /* ─── TARIFF CARDS ─── */
+    .tarif-list {
       display: flex;
       flex-direction: column;
-      gap: 0.75rem;
+      gap: 8px;
     }
 
-    .tarif-karte {
-      background: var(--weiss);
-      border-radius: 12px;
-      padding: 1rem 1.2rem;
-      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+    .tarif-card {
+      background: var(--white);
+      border-radius: var(--radius);
+      padding: 1.1rem 1.3rem;
       display: grid;
-      grid-template-columns: 2.5rem 1fr auto;
-      gap: 0.5rem 1rem;
+      grid-template-columns: 2.2rem 1fr auto;
+      gap: 0.4rem 0.9rem;
       align-items: center;
-      transition: box-shadow 0.2s;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.04);
+      transition: all 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+      animation: cardIn 0.35s cubic-bezier(0.22, 1, 0.36, 1) both;
+      cursor: default;
     }
 
-    .tarif-karte:hover { box-shadow: 0 4px 14px rgba(0,0,0,0.12); }
+    .tarif-card:hover {
+      box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+      transform: translateY(-2px);
+    }
 
-    .tarif-karte.guenstig { background-color: orange; }
+    @keyframes cardIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
-    .tarif-karte.platz-1 { border-left: 4px solid #f9a825; }
-    .tarif-karte.platz-2 { border-left: 4px solid #9e9e9e; }
-    .tarif-karte.platz-3 { border-left: 4px solid #8d6e63; }
+    .tarif-card.top-1 { border-left: 4px solid var(--orange); }
+    .tarif-card.top-2 { border-left: 4px solid var(--mid-grey); }
+    .tarif-card.top-3 { border-left: 4px solid var(--green); }
+
+    .tarif-card.stabil { background: linear-gradient(135deg, var(--white) 0%, rgba(168,211,175,0.06) 100%); }
 
     .rang {
-      font-size: 1.3rem;
-      font-weight: 800;
-      color: var(--grau-dunkel);
+      font-family: 'Fraunces', serif;
+      font-size: 1.2rem;
+      font-weight: 900;
+      color: var(--mid-grey);
       text-align: center;
     }
 
-    .platz-1 .rang { color: #f9a825; }
-    .platz-2 .rang { color: #9e9e9e; }
-    .platz-3 .rang { color: #8d6e63; }
+    .top-1 .rang { color: var(--orange); }
+    .top-2 .rang { color: #9e9e9e; }
+    .top-3 .rang { color: var(--green-dark); }
 
     .tarif-info { min-width: 0; }
 
-    .anbieter {
-      font-size: 0.8rem;
-      color: var(--grau-dunkel);
+    .tarif-anbieter {
+      font-size: 0.68rem;
+      color: var(--text-secondary);
       text-transform: uppercase;
-      letter-spacing: 0.4px;
+      letter-spacing: 0.04em;
+      font-weight: 600;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
     }
 
-    .produkt {
-      font-size: 1rem;
+    .tarif-produkt {
+      font-size: 0.92rem;
       font-weight: 700;
       margin: 0.1rem 0 0.35rem;
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      color: var(--black);
     }
 
-    .tarif-details {
+    .tarif-tags {
       display: flex;
       flex-wrap: wrap;
-      gap: 0.5rem 1rem;
-      font-size: 0.83rem;
-      color: var(--grau-dunkel);
+      gap: 4px;
     }
 
-    .tarif-details span { white-space: nowrap; }
-    .tarif-details .oeko { color: var(--gruen); font-weight: 600; }
+    .tag {
+      font-size: 0.62rem;
+      font-weight: 600;
+      padding: 3px 8px;
+      border-radius: 99px;
+      white-space: nowrap;
+    }
 
+    .tag-green {
+      background: rgba(168,211,175,0.2);
+      color: var(--green-dark);
+    }
+
+    .tag-grey {
+      background: var(--warm-grey);
+      color: var(--text-secondary);
+    }
+
+    .tag-orange {
+      background: var(--orange-light);
+      color: var(--orange);
+    }
+
+    .tag-yellow {
+      background: rgba(241,234,117,0.3);
+      color: #8a7e00;
+    }
+
+    .tag-red {
+      background: rgba(243,155,140,0.2);
+      color: #b5402d;
+    }
+
+    /* Stability indicator */
+    .stability-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 3px;
+      font-size: 0.62rem;
+      font-weight: 700;
+      padding: 3px 8px;
+      border-radius: 99px;
+    }
+
+    .stability-badge.stable {
+      background: rgba(168,211,175,0.25);
+      color: var(--green-dark);
+    }
+
+    .stability-badge.variable {
+      background: rgba(243,155,140,0.2);
+      color: #b5402d;
+    }
+
+    .stability-badge .s-dot {
+      width: 5px; height: 5px;
+      border-radius: 50%;
+    }
+
+    .stability-badge.stable .s-dot { background: var(--green-dark); }
+    .stability-badge.variable .s-dot { background: #b5402d; }
+
+    /* Price Block */
     .preis-block {
       text-align: right;
       white-space: nowrap;
     }
 
-    .arbeitspreis-wert {
-      font-size: 1.5rem;
-      font-weight: 800;
-      color: var(--gruen);
+    .preis-wert {
+      font-family: 'Fraunces', serif;
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: var(--black);
       line-height: 1;
     }
 
-    .arbeitspreis-einheit {
-      font-size: 0.75rem;
-      color: var(--grau-dunkel);
-      margin-top: 0.1rem;
+    .preis-einheit {
+      font-size: 0.65rem;
+      color: var(--text-secondary);
+      margin-top: 0.15rem;
+      font-weight: 500;
     }
 
-    .anbieter-link {
-      display: inline-block;
-      margin-top: 0.5rem;
-      font-size: 0.8rem;
-      color: var(--gruen);
+    .preis-gesamt {
+      font-size: 0.68rem;
+      color: var(--text-secondary);
+      margin-top: 0.3rem;
+      font-weight: 500;
+    }
+
+    .tarif-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 0.4rem;
+      font-size: 0.72rem;
+      color: var(--orange);
       font-weight: 600;
       text-decoration: none;
+      transition: gap 0.2s;
     }
-    .anbieter-link:hover { text-decoration: underline; }
 
-    /* Fußzeile */
-    footer {
+    .tarif-link:hover { gap: 8px; }
+
+    /* Error */
+    .fehler {
+      background: rgba(243,155,140,0.15);
+      border: 1px solid rgba(243,155,140,0.4);
+      border-radius: var(--radius-sm);
+      padding: 1rem 1.2rem;
+      color: #8b2e1f;
+      font-size: 0.85rem;
+      font-weight: 500;
+    }
+
+    .meldung {
       text-align: center;
-      padding: 1.5rem;
-      font-size: 0.8rem;
-      color: var(--grau-dunkel);
-    }
-    footer a { color: var(--gruen); }
-
-    /* Spinner */
-    .spinner {
-      display: inline-block;
-      width: 1.2rem;
-      height: 1.2rem;
-      border: 3px solid rgba(255,255,255,0.4);
-      border-top-color: #fff;
-      border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-      vertical-align: middle;
-      margin-right: 0.5rem;
+      padding: 3rem 1rem;
+      color: var(--text-secondary);
+      font-size: 0.88rem;
     }
 
-    @keyframes spin { to { transform: rotate(360deg); } }
+    /* ─── FOOTER ─── */
+    footer {
+      max-width: 720px;
+      margin: 0 auto;
+      padding: 0 1.5rem 3rem;
+      text-align: center;
+    }
 
+    footer p {
+      font-size: 0.7rem;
+      color: var(--mid-grey);
+      line-height: 1.7;
+    }
+
+    footer a {
+      color: var(--text-secondary);
+      text-decoration: underline;
+      text-underline-offset: 2px;
+    }
+
+    /* ─── RESPONSIVE ─── */
     @media (max-width: 540px) {
-      .tarif-karte {
-        grid-template-columns: 2rem 1fr;
-        grid-template-rows: auto auto;
+      .hero { padding: 3rem 1.2rem 2.5rem; }
+      main { padding: 0 1rem 3rem; }
+      .input-card { padding: 1.4rem; }
+
+      .tarif-card {
+        grid-template-columns: 1.8rem 1fr;
+        padding: 0.9rem 1rem;
       }
+
       .preis-block {
         grid-column: 2;
         text-align: left;
+        margin-top: 0.2rem;
       }
-      .arbeitspreis-wert { font-size: 1.25rem; }
+
+      .preis-wert { font-size: 1.3rem; }
+
+      .person-btn { max-width: 56px; }
     }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>Günstige Ökostrom-Tarife</h1>
-  <p>Die 10 preiswertesten 100%-Ökostrom-Angebote in Österreich – ohne Wechselrabatte</p>
-</header>
+<div class="hero">
+  <div class="hero-inner">
+    <div class="hero-badge">
+      <span class="dot"></span>
+      Live-Daten von E-Control
+    </div>
+    <h1>Die günstigsten<br /><span class="accent">Ökostrom</span>-Tarife<br />in Österreich</h1>
+    <p>100% erneuerbare Energie, ohne Wechselrabatte, sortiert nach Arbeitspreis — mit Preisgarantie-Check.</p>
+  </div>
+</div>
 
 <main>
-  <div class="suchbox">
-    <div class="feld">
-      <label for="plz">Postleitzahl</label>
-      <input id="plz" type="text" inputmode="numeric" maxlength="4" placeholder="z.B. 1010" />
-      <span class="hinweis">Bestimmt den Netzbetreiber</span>
-    </div>
-    <div class="feld">
-      <label for="verbrauch">Jahresverbrauch (kWh)</label>
-      <input id="verbrauch" type="number" min="100" max="100000" value="3500" />
-      <span class="hinweis">Typischer Haushalt: 3.000–4.000 kWh</span>
-    </div>
-    <button class="suchen" id="btn" onclick="suchen()">Tarife suchen</button>
-  </div>
+  <!-- ─── TIER 1 ─── -->
+  <div class="input-card">
+    <div class="tier-label">Deine Angaben</div>
 
-  <div class="filter-info">
-    <span class="badge">🌿 100% Ökostrom</span>
-    <span class="badge">🚫 Ohne Wechselrabatte</span>
-    <span class="badge">📊 Sortiert nach Arbeitspreis</span>
-    <span class="badge">Quelle: E-Control Tarifkalkulator</span>
+    <div class="field-group">
+      <label class="field-label" for="plz">Postleitzahl</label>
+      <input id="plz" type="text" inputmode="numeric" maxlength="4" placeholder="z.B. 1010" />
+      <div class="field-hint">Bestimmt deinen Netzbetreiber. Leer = ganz Österreich.</div>
+    </div>
+
+    <div class="mode-toggle">
+      <button class="mode-btn active" data-mode="kwh" onclick="setMode('kwh')">kWh eingeben</button>
+      <button class="mode-btn" data-mode="personen" onclick="setMode('personen')">Personen wählen</button>
+    </div>
+
+    <div id="kwh-input" class="field-group">
+      <label class="field-label" for="verbrauch">Jahresverbrauch</label>
+      <input id="verbrauch" type="number" min="500" max="50000" value="3500" />
+      <div class="field-hint">Typischer Haushalt: 3.000–4.000 kWh</div>
+    </div>
+
+    <div id="personen-input" class="field-group" style="display: none;">
+      <label class="field-label">Anzahl Personen im Haushalt</label>
+      <div class="person-selector">
+        <button class="person-btn" data-persons="1" onclick="setPersons(1)">
+          <span class="num">1</span><span class="lbl">Person</span>
+        </button>
+        <button class="person-btn active" data-persons="2" onclick="setPersons(2)">
+          <span class="num">2</span><span class="lbl">Pers.</span>
+        </button>
+        <button class="person-btn" data-persons="3" onclick="setPersons(3)">
+          <span class="num">3</span><span class="lbl">Pers.</span>
+        </button>
+        <button class="person-btn" data-persons="4" onclick="setPersons(4)">
+          <span class="num">4</span><span class="lbl">Pers.</span>
+        </button>
+        <button class="person-btn" data-persons="5" onclick="setPersons(5)">
+          <span class="num">5+</span><span class="lbl">Pers.</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ─── TIER 2: Appliances ─── -->
+    <button class="tier2-toggle" id="tier2Toggle" onclick="toggleTier2()">
+      <span class="arrow">▶</span>
+      Zusatzverbraucher angeben
+      <span style="font-size:0.65rem; color:var(--mid-grey); margin-left:auto;">optional</span>
+    </button>
+
+    <div class="tier2-content" id="tier2Content">
+      <div class="appliance-card" data-appliance="waermepumpe" onclick="toggleAppliance('waermepumpe')">
+        <div class="appliance-check"></div>
+        <div class="appliance-icon">🌡️</div>
+        <div class="appliance-name">Wärmepumpe</div>
+        <div class="appliance-kwh">+4.000 kWh</div>
+      </div>
+      <div class="appliance-card" data-appliance="heisswasser" onclick="toggleAppliance('heisswasser')">
+        <div class="appliance-check"></div>
+        <div class="appliance-icon">🚿</div>
+        <div class="appliance-name">Heißwasser&shy;boiler</div>
+        <div class="appliance-kwh">+1.800 kWh</div>
+      </div>
+      <div class="appliance-card" data-appliance="stromheizung" onclick="toggleAppliance('stromheizung')">
+        <div class="appliance-check"></div>
+        <div class="appliance-icon">♨️</div>
+        <div class="appliance-name">Strom&shy;heizung</div>
+        <div class="appliance-kwh">+5.000 kWh</div>
+      </div>
+      <div class="appliance-card" data-appliance="gas" onclick="toggleAppliance('gas')">
+        <div class="appliance-check"></div>
+        <div class="appliance-icon">🔥</div>
+        <div class="appliance-name">Gas&shy;heizung</div>
+        <div class="appliance-kwh">−500 kWh</div>
+      </div>
+    </div>
+
+    <!-- Consumption Preview -->
+    <div class="consumption-preview" id="consumptionPreview">
+      <span class="label">Berechneter Jahresverbrauch</span>
+      <span class="value" id="consumptionValue">3.500 kWh</span>
+    </div>
+
+    <button class="search-btn" id="btn" onclick="suchen()">
+      Tarife finden
+      <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    </button>
   </div>
 
   <div id="ergebnisse"></div>
 </main>
 
 <footer>
-  Daten vom <a href="https://www.e-control.at/tarifkalkulator" target="_blank">E-Control Tarifkalkulator</a> –
-  Alle Preise brutto inkl. 20% USt. –
-  Kein Anspruch auf Vollständigkeit oder Richtigkeit.
+  <p>
+    Daten vom <a href="https://www.e-control.at/tarifkalkulator" target="_blank">E-Control Tarifkalkulator</a> ·
+    Alle Preise brutto inkl. 20% USt. ·
+    Kein Anspruch auf Vollständigkeit oder Richtigkeit.<br />
+    © prismatisk 2026
+  </p>
 </footer>
 
 <script>
-  function renderErgebnisse(data, ortsLabel, verbrauch) {
-    const bereich = document.getElementById("ergebnisse");
+  // ─── STATE ───
+  let mode = 'kwh';
+  let selectedPersons = 2;
+  const appliances = { waermepumpe: false, heisswasser: false, stromheizung: false, gas: false };
+  const CONSUMPTION_MAP = { 1: 1500, 2: 2500, 3: 3500, 4: 4500, 5: 5500 };
+  const APPLIANCE_KWH = { waermepumpe: 4000, heisswasser: 1800, stromheizung: 5000, gas: -500 };
+
+  function setMode(m) {
+    mode = m;
+    document.querySelectorAll('.mode-btn').forEach(b => b.classList.toggle('active', b.dataset.mode === m));
+    document.getElementById('kwh-input').style.display = m === 'kwh' ? '' : 'none';
+    document.getElementById('personen-input').style.display = m === 'personen' ? '' : 'none';
+    updatePreview();
+  }
+
+  function setPersons(n) {
+    selectedPersons = n;
+    document.querySelectorAll('.person-btn').forEach(b => b.classList.toggle('active', parseInt(b.dataset.persons) === n));
+    updatePreview();
+  }
+
+  function toggleTier2() {
+    const toggle = document.getElementById('tier2Toggle');
+    const content = document.getElementById('tier2Content');
+    toggle.classList.toggle('open');
+    content.classList.toggle('open');
+  }
+
+  function toggleAppliance(key) {
+    appliances[key] = !appliances[key];
+    document.querySelector(`[data-appliance="${key}"]`).classList.toggle('active', appliances[key]);
+    updatePreview();
+  }
+
+  function getConsumption() {
+    let base;
+    if (mode === 'kwh') {
+      base = parseInt(document.getElementById('verbrauch').value) || 3500;
+    } else {
+      base = CONSUMPTION_MAP[Math.min(selectedPersons, 5)] || 3500;
+    }
+    for (const [k, active] of Object.entries(appliances)) {
+      if (active) base += APPLIANCE_KWH[k];
+    }
+    return Math.max(base, 500);
+  }
+
+  function updatePreview() {
+    const val = getConsumption();
+    document.getElementById('consumptionValue').textContent = val.toLocaleString('de-AT') + ' kWh';
+  }
+
+  document.getElementById('verbrauch').addEventListener('input', updatePreview);
+
+  // ─── RENDER ───
+  function esc(s) { return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+  function renderErgebnisse(data, ortsLabel) {
+    const el = document.getElementById('ergebnisse');
 
     if (!data.products.length) {
-      bereich.innerHTML = '<div class="meldung">Keine Ökostrom-Tarife mit fixem Arbeitspreis gefunden.</div>';
+      el.innerHTML = '<div class="meldung">Keine Ökostrom-Tarife gefunden.</div>';
       return;
     }
 
-    const platzKlassen = ["platz-1", "platz-2", "platz-3"];
+    const topClasses = ['top-1', 'top-2', 'top-3'];
 
     const karten = data.products.map((t, i) => {
       const rang = i + 1;
-      const klasse = platzKlassen[i] || "";
-      const guenstigKlasse = t.arbeitspreisCtKwh < 12 ? "guenstig" : "";
-      const rangSymbol = rang === 1 ? "🥇" : rang === 2 ? "🥈" : rang === 3 ? "🥉" : `#${rang}`;
+      const topCls = topClasses[i] || '';
+      const stabilCls = t.preisStabil ? 'stabil' : '';
+      const delay = Math.min(i * 0.04, 0.5);
 
-      const grundpreisText = t.grundpreisMonat > 0
-        ? `Grundpreis ${t.grundpreisMonat.toFixed(2).replace(".", ",")} €/Monat`
-        : "Kein Grundpreis";
+      const rangSymbol = rang === 1 ? '🥇' : rang === 2 ? '🥈' : rang === 3 ? '🥉' : `${rang}`;
 
-      const gesamtText = t.gesamtJahr > 0
-        ? `Gesamt ca. ${t.gesamtJahr.toFixed(0)} €/Jahr`
-        : "";
+      // Tags
+      let tags = '';
 
-      const garantieText = t.garantie ? `⏱ ${t.garantie}` : "";
+      // Grundpreis
+      const gp = t.grundpreisMonat > 0
+        ? `${t.grundpreisMonat.toFixed(2).replace('.', ',')} €/Mo`
+        : 'Kein Grundpreis';
+      tags += `<span class="tag tag-grey">${gp}</span>`;
+
+      // Gesamtkosten
+      if (t.gesamtJahr > 0) {
+        tags += `<span class="tag tag-grey">${Math.round(t.gesamtJahr)} €/Jahr gesamt</span>`;
+      }
+
+      // Stability badge
+      if (t.preisStabil) {
+        const g = t.garantie || '12+ Monate';
+        tags += `<span class="stability-badge stable"><span class="s-dot"></span>Preis stabil · ${esc(g)}</span>`;
+      } else if (t.garantie) {
+        tags += `<span class="stability-badge variable"><span class="s-dot"></span>${esc(t.garantie)}</span>`;
+      } else {
+        tags += `<span class="stability-badge variable"><span class="s-dot"></span>Kein Preisschutz</span>`;
+      }
+
+      // Ökostrom
+      tags += `<span class="tag tag-green">🌿 100% Ökostrom</span>`;
 
       const linkHTML = t.link
-        ? `<a class="anbieter-link" href="${t.link}" target="_blank" rel="noopener">Zum Anbieter →</a>`
-        : "";
+        ? `<a class="tarif-link" href="${t.link}" target="_blank" rel="noopener">Zum Anbieter <span>→</span></a>`
+        : '';
 
       return `
-        <div class="tarif-karte ${klasse} ${guenstigKlasse}">
+        <div class="tarif-card ${topCls} ${stabilCls}" style="animation-delay:${delay}s">
           <div class="rang">${rangSymbol}</div>
           <div class="tarif-info">
-            <div class="anbieter">${escHTML(t.anbieter)}</div>
-            <div class="produkt">${escHTML(t.produkt)}</div>
-            <div class="tarif-details">
-              <span>${grundpreisText}</span>
-              ${gesamtText ? `<span>${gesamtText}</span>` : ""}
-              ${garantieText ? `<span>${garantieText}</span>` : ""}
-              <span class="oeko">🌿 100% Ökostrom</span>
-            </div>
+            <div class="tarif-anbieter">${esc(t.anbieter)}</div>
+            <div class="tarif-produkt">${esc(t.produkt)}</div>
+            <div class="tarif-tags">${tags}</div>
             ${linkHTML}
           </div>
           <div class="preis-block">
-            <div class="arbeitspreis-wert">${t.arbeitspreisCtKwh.toFixed(2).replace(".", ",")} ct</div>
-            <div class="arbeitspreis-einheit">pro kWh (brutto)</div>
+            <div class="preis-wert">${t.arbeitspreisCtKwh.toFixed(2).replace('.', ',')}</div>
+            <div class="preis-einheit">ct/kWh brutto</div>
           </div>
         </div>`;
-    }).join("");
+    }).join('');
 
-    bereich.innerHTML = `
-      <div class="meta">
-        <strong>${data.netzbetreiber}</strong> · ${ortsLabel} · ${verbrauch.toLocaleString("de-AT")} kWh/Jahr ·
-        ${data.anzahlGesamt} Ökostrom-Tarife gefunden, Top 10 nach Arbeitspreis
+    el.innerHTML = `
+      <div class="result-meta">
+        <span class="count">${data.anzahlGesamt}</span>
+        <span class="detail">Ökostrom-Tarife · ${esc(data.netzbetreiber)} · ${data.verbrauch.toLocaleString('de-AT')} kWh/Jahr</span>
       </div>
-      <div class="tarif-liste">${karten}</div>`;
+      <div class="result-legend">
+        <div class="legend-item"><div class="legend-dot" style="background:var(--green-dark)"></div> Preisgarantie ≥ 12 Mon.</div>
+        <div class="legend-item"><div class="legend-dot" style="background:#b5402d"></div> Kein/kurzer Preisschutz</div>
+      </div>
+      <div class="tarif-list">${karten}</div>`;
   }
 
+  // ─── FETCH ───
   async function suchen() {
-    const plz = document.getElementById("plz").value.trim();
-    const verbrauch = parseInt(document.getElementById("verbrauch").value) || 3500;
-    const btn = document.getElementById("btn");
-    const bereich = document.getElementById("ergebnisse");
+    const plz = document.getElementById('plz').value.trim();
+    const btn = document.getElementById('btn');
+    const el = document.getElementById('ergebnisse');
 
-    if (!/^\d{4}$/.test(plz)) {
-      bereich.innerHTML = '<div class="fehler">Bitte eine gültige 4-stellige Postleitzahl eingeben.</div>';
+    if (plz && !/^\d{4}$/.test(plz)) {
+      el.innerHTML = '<div class="fehler">Bitte eine gültige 4-stellige PLZ eingeben.</div>';
       return;
     }
 
     btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span>Wird geladen…';
-    bereich.innerHTML = '<div class="meldung">Tarife werden abgerufen…</div>';
+    btn.innerHTML = '<span class="spinner"></span>Suche läuft…';
+
+    const isGesamt = !plz;
+    el.innerHTML = `<div class="meldung">${isGesamt ? 'Tarife für ganz Österreich werden abgerufen (9 Netzgebiete)…' : 'Tarife werden abgerufen…'}</div>`;
+
+    const body = { gesamt: isGesamt };
+    if (!isGesamt) body.zipCode = plz;
+
+    if (mode === 'kwh') {
+      body.consumption = parseInt(document.getElementById('verbrauch').value) || 3500;
+    } else {
+      body.persons = selectedPersons;
+    }
+
+    // Add active appliances
+    const activeAppliances = {};
+    let hasAppliances = false;
+    for (const [k, v] of Object.entries(appliances)) {
+      if (v) { activeAppliances[k] = true; hasAppliances = true; }
+    }
+    if (hasAppliances) body.appliances = activeAppliances;
 
     try {
-      const res = await fetch("/api/tarife", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ zipCode: plz, consumption: verbrauch }),
+      const res = await fetch('/api/tarife', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body),
       });
 
       const data = await res.json();
 
       if (!res.ok) {
-        bereich.innerHTML = `<div class="fehler">${data.error || "Unbekannter Fehler."}</div>`;
+        el.innerHTML = `<div class="fehler">${data.error || 'Unbekannter Fehler.'}</div>`;
         return;
       }
 
-      renderErgebnisse(data, `PLZ ${plz}`, verbrauch);
-
+      renderErgebnisse(data, plz ? `PLZ ${plz}` : 'Österreich');
     } catch (e) {
-      bereich.innerHTML = '<div class="fehler">Verbindungsfehler. Bitte versuche es später nochmal.</div>';
+      el.innerHTML = '<div class="fehler">Verbindungsfehler. Bitte später erneut versuchen.</div>';
     } finally {
       btn.disabled = false;
-      btn.innerHTML = "Tarife suchen";
+      btn.innerHTML = 'Tarife finden <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>';
     }
   }
 
-  function escHTML(str) {
-    return str.replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-  }
+  // ─── INIT ───
+  updatePreview();
+  // Auto-search on load (all of Austria)
+  suchen();
 
-  // Beim Laden: ganz Österreich anzeigen
-  async function startabfrage() {
-    const verbrauch = parseInt(document.getElementById("verbrauch").value) || 3500;
-    const btn = document.getElementById("btn");
-    const bereich = document.getElementById("ergebnisse");
-
-    btn.disabled = true;
-    btn.innerHTML = '<span class="spinner"></span>Wird geladen…';
-    bereich.innerHTML = '<div class="meldung">Tarife für ganz Österreich werden abgerufen (9 Netzgebiete)…</div>';
-
-    try {
-      const res = await fetch("/api/tarife", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ consumption: verbrauch, gesamt: true }),
-      });
-      const data = await res.json();
-      if (!res.ok) {
-        bereich.innerHTML = `<div class="fehler">${data.error || "Unbekannter Fehler."}</div>`;
-        return;
-      }
-      renderErgebnisse(data, "Österreich", verbrauch);
-    } catch (e) {
-      bereich.innerHTML = '<div class="fehler">Verbindungsfehler. Bitte versuche es später nochmal.</div>';
-    } finally {
-      btn.disabled = false;
-      btn.innerHTML = "Tarife suchen";
-    }
-  }
-
-  startabfrage();
-
-  // Enter-Taste im PLZ-Feld
-  document.getElementById("plz").addEventListener("keydown", e => {
-    if (e.key === "Enter") suchen();
+  document.getElementById('plz').addEventListener('keydown', e => {
+    if (e.key === 'Enter') suchen();
   });
-</script>
 
-<script>
-  // Hot Reload
-  const es = new EventSource("/__reload");
-  es.onmessage = () => location.reload();
+  document.getElementById('verbrauch').addEventListener('keydown', e => {
+    if (e.key === 'Enter') suchen();
+  });
 </script>
 </body>
 </html>
