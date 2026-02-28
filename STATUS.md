@@ -15,6 +15,7 @@
 | Netlify Site | `reliable-lolly-cb1111.netlify.app` (Site-ID: `ee019919-6ca6-4a01-8a59-bb332385fef4`) |
 | Build Pipeline | `build.sh` → baut maxpilot, kopiert tarife → `deploy/` |
 | MAX Pilot | ✅ live unter `www.prismatisk.com/maxpilot/` |
+| Pitch-Präsentation | ✅ live unter `www.prismatisk.com/maxpilot/pitch/` |
 | Ökostrom Tarife | ✅ live unter `www.prismatisk.com/tarife/` |
 | DNS A-Record | `prismatisk.com` → `75.2.60.5` (Netlify load balancer) |
 | DNS CNAME | `www.prismatisk.com` → `reliable-lolly-cb1111.netlify.app` |
@@ -59,6 +60,8 @@ github.com/prismatisk/projects
 │   │       └── CheckScreen.jsx
 │   ├── vite.config.js     # base: '/maxpilot/'
 │   └── package.json
+├── pitch/
+│   └── index.html         # Pitch-Präsentation (statisch) → /maxpilot/pitch/
 ├── tarife/
 │   └── index.html         # Ökostrom Tarife statische App
 ├── netlify/
