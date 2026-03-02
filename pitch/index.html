@@ -140,8 +140,9 @@
 
     .hero-tag {
       display: inline-flex;
+      flex-wrap: wrap;
       align-items: center;
-      gap: 10px;
+      gap: 6px 10px;
       margin-bottom: 1.5rem;
     }
 
@@ -160,6 +161,14 @@
       font-size: 0.85rem;
       color: var(--text-dim);
       font-weight: 500;
+    }
+
+    .hero-tag .date {
+      width: 100%;
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      font-weight: 500;
+      padding-left: 2px;
     }
 
     .hero h1 {
@@ -1297,7 +1306,8 @@
   <div class="hero-content">
     <div class="hero-tag">
       <span class="tag">Vertraulich</span>
-      <span class="label">Prismatisk x MAXENERGY · Februar 2026</span>
+      <span class="label">Prismatisk x MAXENERGY</span>
+      <span class="date">März 2026</span>
     </div>
     <h1>Wie MAXENERGY<br /><span class="accent">120.000 Kunden</span> hält</h1>
     <p class="hero-sub">
@@ -1948,7 +1958,7 @@
 
 <!-- ─── FOOTER ─── -->
 <div class="footer">
-  Prismatisk e.U. · Martin Oisterschek · Februar 2026 · Vertraulich
+  Prismatisk e.U. · Martin Oisterschek · März 2026 · Vertraulich
 </div>
 
 </div><!-- /content-layer -->
