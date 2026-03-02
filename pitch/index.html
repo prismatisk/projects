@@ -15,7 +15,7 @@
       --border: #2a2a32;
       --text: #e8e6e1;
       --text-dim: #7a7872;
-      --text-muted: #4a4944;
+      --text-muted: #72706a;
       --orange: #ec6726;
       --orange-dim: rgba(236,103,38,0.12);
       --red: #e84c3d;
@@ -88,7 +88,7 @@
     }
 
     .nav-link {
-      font-size: 0.72rem;
+      font-size: 0.82rem;
       font-weight: 600;
       color: var(--text-dim);
       text-decoration: none;
@@ -146,7 +146,7 @@
     }
 
     .hero-tag .tag {
-      font-size: 0.65rem;
+      font-size: 0.75rem;
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -157,7 +157,7 @@
     }
 
     .hero-tag .label {
-      font-size: 0.7rem;
+      font-size: 0.85rem;
       color: var(--text-dim);
       font-weight: 500;
     }
@@ -196,7 +196,7 @@
     }
 
     .hero-kpi-label {
-      font-size: 0.72rem;
+      font-size: 0.85rem;
       color: var(--text-dim);
       margin-top: 0.35rem;
       font-weight: 500;
@@ -357,7 +357,7 @@
       align-items: center;
       gap: 8px;
       color: var(--text-muted);
-      font-size: 0.68rem;
+      font-size: 0.78rem;
       font-weight: 500;
       letter-spacing: 0.06em;
       animation: bobble 2s ease-in-out infinite;
@@ -376,7 +376,7 @@
 
     /* ─── SHARED COMPONENTS ─── */
     .section-title {
-      font-size: 0.65rem;
+      font-size: 0.75rem;
       font-weight: 700;
       letter-spacing: 0.12em;
       text-transform: uppercase;
@@ -450,7 +450,7 @@
     }
 
     .kpi-label {
-      font-size: 0.65rem;
+      font-size: 0.75rem;
       font-weight: 600;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -467,7 +467,7 @@
     }
 
     .kpi-sub {
-      font-size: 0.72rem;
+      font-size: 0.85rem;
       color: var(--text-dim);
       margin-top: 0.4rem;
       font-weight: 500;
@@ -553,7 +553,7 @@
     }
 
     .stage-time {
-      font-size: 0.68rem;
+      font-size: 0.8rem;
       font-weight: 600;
       color: var(--text-muted);
       background: var(--surface-2);
@@ -562,14 +562,14 @@
     }
 
     .stage-desc {
-      font-size: 0.82rem;
+      font-size: 0.9rem;
       color: var(--text-dim);
       line-height: 1.6;
       margin-bottom: 0.6rem;
     }
 
     .stage-problem {
-      font-size: 0.78rem;
+      font-size: 0.85rem;
       line-height: 1.5;
       padding: 0.6rem 0.9rem;
       border-radius: 8px;
@@ -589,7 +589,7 @@
     }
 
     .stage-problem .problem-label {
-      font-size: 0.62rem;
+      font-size: 0.72rem;
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.08em;
@@ -628,7 +628,7 @@
     .leak-number.neutral { color: var(--text-dim); }
 
     .leak-label {
-      font-size: 0.68rem;
+      font-size: 0.82rem;
       color: var(--text-dim);
       margin-top: 0.2rem;
       font-weight: 500;
@@ -678,12 +678,12 @@
     .comp-row:last-child { border-bottom: none; }
 
     .comp-label {
-      font-size: 0.78rem;
+      font-size: 0.88rem;
       color: var(--text-dim);
       font-weight: 500;
     }
 
-    .comp-value { font-size: 0.85rem; font-weight: 700; }
+    .comp-value { font-size: 0.9rem; font-weight: 700; }
     .comp-value.red { color: var(--red); }
     .comp-value.green { color: var(--green); }
 
@@ -793,7 +793,7 @@
     }
 
     .bench-col .bench-sub {
-      font-size: 0.72rem;
+      font-size: 0.85rem;
       color: var(--text-dim);
       margin-bottom: 1.2rem;
       font-weight: 500;
@@ -814,7 +814,7 @@
     }
 
     .bench-feature-name {
-      font-size: 0.82rem;
+      font-size: 0.9rem;
       font-weight: 700;
       color: var(--text);
     }
@@ -836,20 +836,45 @@
     .retention-dot.filled { background: var(--orange); }
 
     .bench-feature-desc {
-      font-size: 0.72rem;
+      font-size: 0.82rem;
       color: var(--text-dim);
       line-height: 1.5;
     }
 
     /* ─── SIMPLIFIED MATRIX ─── */
+    .matrix-scroll-wrapper {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      margin-bottom: 2.5rem;
+      border-radius: 12px;
+      border: 1px solid var(--border);
+      position: relative;
+    }
+
+    @media (max-width: 900px) {
+      .matrix-scroll-wrapper::after {
+        content: '';
+        position: sticky;
+        right: 0;
+        top: 0;
+        width: 48px;
+        height: 100%;
+        background: linear-gradient(to right, transparent, var(--bg));
+        pointer-events: none;
+        flex-shrink: 0;
+        display: block;
+        float: right;
+        margin-left: -48px;
+      }
+    }
+
     .matrix-simple {
       display: grid;
       grid-template-columns: 1fr;
       gap: 0;
-      margin-bottom: 2.5rem;
+      min-width: 720px;
       border-radius: 12px;
       overflow: hidden;
-      border: 1px solid var(--border);
     }
 
     .matrix-row {
@@ -867,7 +892,7 @@
 
     .matrix-cell {
       padding: 1rem 1.2rem;
-      font-size: 0.82rem;
+      font-size: 0.88rem;
       font-weight: 500;
       color: var(--text-dim);
       display: flex;
@@ -875,7 +900,7 @@
     }
 
     .matrix-row.header .matrix-cell {
-      font-size: 0.7rem;
+      font-size: 0.8rem;
       font-weight: 700;
       letter-spacing: 0.04em;
       text-transform: uppercase;
@@ -885,7 +910,7 @@
     .matrix-cell:first-child {
       font-weight: 700;
       color: var(--text);
-      font-size: 0.88rem;
+      font-size: 0.92rem;
     }
 
     .matrix-cell .status-icon {
@@ -955,7 +980,7 @@
     }
 
     .timeline-date {
-      font-size: 0.62rem;
+      font-size: 0.75rem;
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -964,7 +989,7 @@
     }
 
     .timeline-what {
-      font-size: 0.82rem;
+      font-size: 0.88rem;
       font-weight: 600;
       color: var(--text);
       line-height: 1.4;
@@ -1005,7 +1030,7 @@
     }
 
     .pflicht-desc {
-      font-size: 0.72rem;
+      font-size: 0.82rem;
       color: var(--text-dim);
       line-height: 1.55;
       margin-bottom: 0.6rem;
@@ -1013,7 +1038,7 @@
 
     .pflicht-badge {
       display: inline-block;
-      font-size: 0.6rem;
+      font-size: 0.72rem;
       font-weight: 700;
       letter-spacing: 0.06em;
       text-transform: uppercase;
@@ -1055,7 +1080,7 @@
     }
 
     .ux-label {
-      font-size: 0.62rem;
+      font-size: 0.75rem;
       font-weight: 700;
       letter-spacing: 0.08em;
       text-transform: uppercase;
@@ -1093,7 +1118,7 @@
 
     .quote-block .quote-source {
       margin-top: 1rem;
-      font-size: 0.72rem;
+      font-size: 0.82rem;
       color: var(--text-muted);
       font-weight: 600;
     }
@@ -1149,7 +1174,7 @@
 
     .proto-hint {
       margin-top: 1.5rem;
-      font-size: 0.78rem;
+      font-size: 0.88rem;
       color: var(--text-dim);
       font-weight: 500;
     }
@@ -1174,7 +1199,7 @@
       margin: 0 auto;
       padding: 3rem 2.5rem;
       text-align: center;
-      font-size: 0.68rem;
+      font-size: 0.82rem;
       color: var(--text-muted);
       font-weight: 500;
     }
@@ -1206,18 +1231,19 @@
       .phone-mockup { width: 320px; height: 640px; border-radius: 36px; padding: 10px; }
       .phone-mockup iframe { border-radius: 28px; }
       .phone-mockup .notch { width: 100px; height: 24px; }
-      .nav-link { padding: 18px 8px; font-size: 0.65rem; }
+      .nav-link { padding: 18px 8px; font-size: 0.75rem; }
       .hero-kpis { gap: 1.5rem; }
       .prism-container { display: none; }
-      .matrix-row { grid-template-columns: 1.4fr repeat(4, 1fr); }
-      .matrix-cell { padding: 0.7rem 0.6rem; font-size: 0.7rem; }
+      .matrix-row { grid-template-columns: 200px repeat(4, 1fr); }
+      .matrix-cell { padding: 0.8rem 0.7rem; font-size: 0.78rem; }
+      .matrix-cell:first-child { white-space: nowrap; }
     }
 
     @media (max-width: 500px) {
       .nav-links { gap: 0; }
-      .nav-link { padding: 18px 5px; font-size: 0.6rem; }
+      .nav-link { padding: 18px 5px; font-size: 0.7rem; }
       .phone-mockup { width: 100%; max-width: 360px; height: 72vw; min-height: 580px; }
-      .matrix-cell:first-child { font-size: 0.72rem; }
+      .matrix-cell:first-child { font-size: 0.82rem; }
     }
 
     @media print {
@@ -1635,7 +1661,8 @@
   <!-- Simplified Matrix -->
   <div class="section-title reveal">Auf einen Blick</div>
 
-  <div class="matrix-simple reveal">
+  <div class="matrix-scroll-wrapper reveal">
+  <div class="matrix-simple">
     <div class="matrix-row header">
       <div class="matrix-cell"></div>
       <div class="matrix-cell">Octopus</div>
@@ -1678,6 +1705,7 @@
       <div class="matrix-cell"><span class="status-icon no"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></span>keine</div>
       <div class="matrix-cell col-highlight"><span class="status-icon highlight"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg></span>Billa, A1, Uniqa</div>
     </div>
+  </div>
   </div>
 
   <div class="quote-block reveal">

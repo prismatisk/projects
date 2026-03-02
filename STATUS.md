@@ -143,9 +143,7 @@ Die `start-chrome.ps1` liegt unter:
    # Erwartet: 200
    ```
 
-3. **[ ] Demo-Link an Bernd** nach SSL-Fix: `https://prismatisk.com/maxpilot/`
-
-4. **[ ] Lokale Entwicklung** (MAX Pilot weiterentwickeln):
+3. **[ ] Lokale Entwicklung** (MAX Pilot weiterentwickeln):
    ```bash
    cd "C:/Users/Martin/.pi/Projects/MAX Pilot/maxpilot"
    node dev.cjs start    # http://localhost:3000/maxpilot/
