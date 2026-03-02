@@ -140,9 +140,8 @@
 
     .hero-tag {
       display: inline-flex;
-      flex-wrap: wrap;
       align-items: center;
-      gap: 6px 10px;
+      gap: 10px;
       margin-bottom: 1.5rem;
     }
 
@@ -163,12 +162,16 @@
       font-weight: 500;
     }
 
+    .hero-tag-right {
+      display: flex;
+      flex-direction: column;
+      gap: 3px;
+    }
+
     .hero-tag .date {
-      width: 100%;
       font-size: 0.82rem;
       color: var(--text-dim);
       font-weight: 500;
-      padding-left: 2px;
     }
 
     .hero h1 {
@@ -1306,8 +1309,10 @@
   <div class="hero-content">
     <div class="hero-tag">
       <span class="tag">Vertraulich</span>
-      <span class="label">Prismatisk x MAXENERGY</span>
-      <span class="date">März 2026</span>
+      <span class="hero-tag-right">
+        <span class="label">Prismatisk x MAXENERGY</span>
+        <span class="date">März 2026</span>
+      </span>
     </div>
     <h1>Wie MAXENERGY<br /><span class="accent">120.000 Kunden</span> hält</h1>
     <p class="hero-sub">
