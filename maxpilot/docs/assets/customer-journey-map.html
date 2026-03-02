@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>maxenergy — Customer Journey · Leaky Bucket Analyse</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&family=Playfair+Display:wght@700;900&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #0c0c0e;
+      --surface: #16161a;
+      --surface-2: #1e1e24;
+      --border: #2a2a32;
+      --text: #e8e6e1;
+      --text-dim: #7a7872;
+      --text-muted: #4a4944;
+      --orange: #ec6726;
+      --orange-dim: rgba(236,103,38,0.12);
+      --red: #e84c3d;
+      --red-dim: rgba(232,76,61,0.1);
+      --green: #3dbd6f;
+      --green-dim: rgba(61,189,111,0.1);
+      --yellow: #f1ea75;
+      --blue: #5b9bd5;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Instrument Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    /* Subtle texture via repeating gradient instead of SVG noise */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: 0.4;
+      background:
+        radial-gradient(ellipse at 20% 0%, rgba(236,103,38,0.04) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 100%, rgba(61,189,111,0.03) 0%, transparent 50%);
+      z-index: 9999;
+    }
+
+    .page {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 3rem 2.5rem 4rem;
+    }
+
+    /* ─── HEADER ─── */
+    .header {
+      margin-bottom: 3.5rem;
+      position: relative;
+    }
+
+    .header::after {
+      content: '';
+      position: absolute;
+      top: -80px;
+      right: -200px;
+      width: 500px;
+      height: 500px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(236,103,38,0.06) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .header-meta {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 1.2rem;
+    }
+
+    .header-meta .tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--orange);
+      background: var(--orange-dim);
+      padding: 5px 12px;
+      border-radius: 4px;
+    }
+
+    .header-meta .divider {
+      width: 1px;
+      height: 16px;
+      background: var(--border);
+    }
+
+    .header-meta .label {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem;
+      font-weight: 900;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+      margin-bottom: 0.8rem;
+    }
+
+    h1 .accent { color: var(--orange); }
+
+    .subtitle {
+      font-size: 1rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+      max-width: 640px;
+      font-weight: 400;
+    }
+
+    /* ─── KPI ROW ─── */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 3rem;
+      animation: fadeUp 0.6s 0.1s both;
+    }
+
+    .kpi {
+      background: var(--surface);
+      padding: 1.4rem 1.5rem;
+      position: relative;
+    }
+
+    .kpi-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-dim);
+      margin-bottom: 0.5rem;
+    }
+
+    .kpi-value {
+      font-family: 'Playfair Display', serif;
+      font-size: 2rem;
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .kpi-sub {
+      font-size: 0.72rem;
+      color: var(--text-dim);
+      margin-top: 0.4rem;
+      font-weight: 500;
+    }
+
+    .kpi-value.red { color: var(--red); }
+    .kpi-value.green { color: var(--green); }
+    .kpi-value.orange { color: var(--orange); }
+
+    /* ─── JOURNEY SECTION ─── */
+    .section-title {
+      font-size: 0.65rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .section-title::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--border);
+    }
+
+    /* ─── FUNNEL ─── */
+    .funnel {
+      position: relative;
+      margin-bottom: 3rem;
+    }
+
+    .stage {
+      display: grid;
+      grid-template-columns: 48px 1fr 200px;
+      gap: 0 1.5rem;
+      align-items: start;
+      padding: 1.5rem 0;
+      position: relative;
+      animation: fadeUp 0.5s both;
+    }
+
+    .stage:nth-child(1) { animation-delay: 0.15s; }
+    .stage:nth-child(2) { animation-delay: 0.25s; }
+    .stage:nth-child(3) { animation-delay: 0.35s; }
+    .stage:nth-child(4) { animation-delay: 0.45s; }
+    .stage:nth-child(5) { animation-delay: 0.55s; }
+    .stage:nth-child(6) { animation-delay: 0.65s; }
+
+    .stage + .stage {
+      border-top: 1px solid var(--border);
+    }
+
+    /* Timeline column */
+    .stage-num {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 2px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem;
+      font-weight: 900;
+      color: var(--text-dim);
+      position: relative;
+      z-index: 2;
+    }
+
+    .stage.leak .stage-num {
+      border-color: var(--red);
+      color: var(--red);
+      background: var(--red-dim);
+    }
+
+    .stage.critical .stage-num {
+      border-color: var(--red);
+      color: var(--bg);
+      background: var(--red);
+      box-shadow: 0 0 20px rgba(232,76,61,0.3);
+    }
+
+    /* Connector line */
+    .stage:not(:last-child)::before {
+      content: '';
+      position: absolute;
+      left: 23px;
+      top: 72px;
+      bottom: -24px;
+      width: 2px;
+      background: var(--border);
+      z-index: 1;
+    }
+
+    .stage.leak:not(:last-child)::before,
+    .stage.critical:not(:last-child)::before {
+      background: linear-gradient(to bottom, var(--red) 0%, var(--border) 100%);
+    }
+
+    /* Content */
+    .stage-content { min-width: 0; }
+
+    .stage-header {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 0.4rem;
+    }
+
+    .stage-name {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .stage-time {
+      font-size: 0.68rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      background: var(--surface-2);
+      padding: 3px 8px;
+      border-radius: 4px;
+    }
+
+    .stage-desc {
+      font-size: 0.82rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+      margin-bottom: 0.6rem;
+    }
+
+    .stage-problem {
+      font-size: 0.78rem;
+      line-height: 1.5;
+      padding: 0.6rem 0.9rem;
+      border-radius: 8px;
+      margin-top: 0.5rem;
+    }
+
+    .stage-problem.bad {
+      background: var(--red-dim);
+      border-left: 3px solid var(--red);
+      color: #e8a09a;
+    }
+
+    .stage-problem.good {
+      background: var(--green-dim);
+      border-left: 3px solid var(--green);
+      color: #8edaaa;
+    }
+
+    .stage-problem .problem-label {
+      font-size: 0.62rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 0.25rem;
+      display: block;
+    }
+
+    .stage-problem.bad .problem-label { color: var(--red); }
+    .stage-problem.good .problem-label { color: var(--green); }
+
+    /* Leak indicator */
+    .stage-leak {
+      text-align: right;
+      padding-top: 0.2rem;
+    }
+
+    .leak-bar-container {
+      width: 100%;
+      height: 8px;
+      background: var(--surface);
+      border-radius: 99px;
+      overflow: hidden;
+      margin-bottom: 0.5rem;
+    }
+
+    .leak-bar {
+      height: 100%;
+      border-radius: 99px;
+      animation: fillBar 1s cubic-bezier(0.22, 1, 0.36, 1) both;
+      animation-delay: inherit;
+    }
+
+    .leak-bar.red { background: linear-gradient(90deg, var(--red), #f07060); }
+    .leak-bar.green { background: linear-gradient(90deg, var(--green), #5dd888); }
+    .leak-bar.grey { background: var(--border); }
+
+    .leak-number {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      font-weight: 900;
+      line-height: 1;
+    }
+
+    .leak-number.red { color: var(--red); }
+    .leak-number.green { color: var(--green); }
+    .leak-number.neutral { color: var(--text-dim); }
+
+    .leak-label {
+      font-size: 0.68rem;
+      color: var(--text-dim);
+      margin-top: 0.2rem;
+      font-weight: 500;
+    }
+
+    /* ─── COMPARISON ─── */
+    .comparison {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 3rem;
+      animation: fadeUp 0.6s 0.8s both;
+    }
+
+    .comparison-col {
+      background: var(--surface);
+      padding: 2rem;
+    }
+
+    .comparison-col h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.3rem;
+      font-weight: 900;
+      margin-bottom: 0.3rem;
+    }
+
+    .comparison-col .comp-sub {
+      font-size: 0.75rem;
+      color: var(--text-dim);
+      margin-bottom: 1.5rem;
+      font-weight: 500;
+    }
+
+    .comparison-col.heute h3 { color: var(--red); }
+    .comparison-col.zukunft h3 { color: var(--green); }
+
+    .comp-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.7rem 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .comp-row:last-child { border-bottom: none; }
+
+    .comp-label {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+      font-weight: 500;
+    }
+
+    .comp-value {
+      font-size: 0.85rem;
+      font-weight: 700;
+    }
+
+    .comp-value.red { color: var(--red); }
+    .comp-value.green { color: var(--green); }
+
+    /* ─── BOTTOM LINE ─── */
+    .bottom-line {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 2rem 2.5rem;
+      display: flex;
+      align-items: center;
+      gap: 2.5rem;
+      animation: fadeUp 0.6s 1s both;
+    }
+
+    .bottom-line .bl-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 16px;
+      background: var(--orange-dim);
+      border: 1px solid rgba(236,103,38,0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+
+    .bottom-line .bl-text {
+      flex: 1;
+    }
+
+    .bottom-line h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      font-weight: 900;
+      margin-bottom: 0.4rem;
+      color: var(--orange);
+    }
+
+    .bottom-line p {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      line-height: 1.6;
+    }
+
+    .bottom-line .bl-number {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .bottom-line .bl-number .big {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.2rem;
+      font-weight: 900;
+      color: var(--green);
+      line-height: 1;
+    }
+
+    .bottom-line .bl-number .small {
+      font-size: 0.7rem;
+      color: var(--text-dim);
+      margin-top: 0.3rem;
+      font-weight: 500;
+    }
+
+    /* ─── FOOTER ─── */
+    .footer {
+      margin-top: 3rem;
+      text-align: center;
+      font-size: 0.68rem;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    .footer a { color: var(--text-dim); }
+
+    /* ─── ANIMATIONS ─── */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fillBar {
+      from { width: 0%; }
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 768px) {
+      .page { padding: 2rem 1.2rem 3rem; }
+      h1 { font-size: 2rem; }
+      .kpi-row { grid-template-columns: 1fr 1fr; }
+      .stage { grid-template-columns: 40px 1fr; gap: 0 1rem; }
+      .stage-leak { grid-column: 2; margin-top: 0.8rem; text-align: left; }
+      .comparison { grid-template-columns: 1fr; }
+      .bottom-line { flex-direction: column; text-align: center; gap: 1.2rem; }
+    }
+
+    /* Print-friendly */
+    @media print {
+      body { background: #fff; color: #111; }
+      .kpi, .comparison-col, .bottom-line { background: #f8f8f8; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="page">
+
+  <!-- ─── HEADER ─── -->
+  <div class="header">
+    <div class="header-meta">
+      <span class="tag">Vertraulich</span>
+      <span class="divider"></span>
+      <span class="label">Prismatisk × maxenergy · Customer Journey Analyse · Februar 2026</span>
+    </div>
+    <h1>Der <span class="accent">Leaky Bucket</span><br />von maxenergy</h1>
+    <p class="subtitle">
+      Wo verliert maxenergy Kunden — und warum das ElWG ab Oktober 2026
+      das Problem verschärft, wenn man es nicht als Chance nutzt.
+    </p>
+  </div>
+
+  <!-- ─── KPIs ─── -->
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="kpi-label">Kunden Österreich</div>
+      <div class="kpi-value">120.000</div>
+      <div class="kpi-sub">Stärker als DE-Markt</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Geschätzter Churn</div>
+      <div class="kpi-value red">~15%</div>
+      <div class="kpi-sub">18.000 Kunden/Jahr verloren</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Verlorener Umsatz</div>
+      <div class="kpi-value red">14,4 Mio €</div>
+      <div class="kpi-sub">Bei ~800 €/Kunde/Jahr</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">ElWG Deadline</div>
+      <div class="kpi-value orange">Okt. 2026</div>
+      <div class="kpi-sub">Noch ~8 Monate</div>
+    </div>
+  </div>
+
+  <!-- ─── JOURNEY ─── -->
+  <div class="section-title">Customer Journey · 6 Phasen</div>
+
+  <div class="funnel">
+
+    <!-- Phase 1: Akquise -->
+    <div class="stage">
+      <div class="stage-num">1</div>
+      <div class="stage-content">
+        <div class="stage-header">
+          <span class="stage-name">Akquise</span>
+          <span class="stage-time">Woche 0</span>
+        </div>
+        <div class="stage-desc">
+          Kunde sucht neuen Stromanbieter. Vergleichsportal, Google, Empfehlung.
+          maxenergy positioniert sich über Preis + Ökostrom.
+        </div>
+        <div class="stage-problem good">
+          <span class="problem-label">Funktioniert</span>
+          Gute Online-Buchungsplattform, kompetitiver Preis, 100% Ökostrom.
+        </div>
+      </div>
+      <div class="stage-leak">
+        <div class="leak-bar-container"><div class="leak-bar green" style="width:85%; animation-delay:0.3s"></div></div>
+        <div class="leak-number green">85%</div>
+        <div class="leak-label">Conversion vom Visit</div>
+      </div>
+    </div>
+
+    <!-- Phase 2: Onboarding -->
+    <div class="stage">
+      <div class="stage-num">2</div>
+      <div class="stage-content">
+        <div class="stage-header">
+          <span class="stage-name">Onboarding</span>
+          <span class="stage-time">Monat 1–3</span>
+        </div>
+        <div class="stage-desc">
+          Vertrag aktiv, Wechsel abgeschlossen. Erste Abrechnung, erste Erfahrung.
+          Der Kunde hat noch das „Neukunden-Gefühl".
+        </div>
+        <div class="stage-problem bad">
+          <span class="problem-label">Schwachstelle</span>
+          Kein Welcome-Flow, keine App, kein Touchpoint außer der ersten Rechnung.
+          Der Kunde vergisst maxenergy.
+        </div>
+      </div>
+      <div class="stage-leak">
+        <div class="leak-bar-container"><div class="leak-bar red" style="width:15%; animation-delay:0.45s"></div></div>
+        <div class="leak-number red">−3%</div>
+        <div class="leak-label">Frühabwanderer</div>
+      </div>
+    </div>
+
+    <!-- Phase 3: Stille Mitte -->
+    <div class="stage leak">
+      <div class="stage-num">3</div>
+      <div class="stage-content">
+        <div class="stage-header">
+          <span class="stage-name">Die stille Mitte</span>
+          <span class="stage-time">Monat 4–11</span>
+        </div>
+        <div class="stage-desc">
+          8 Monate ohne Kontakt. Der Kunde zahlt, maxenergy liefert. Keine
+          Interaktion, kein Mehrwert, keine Bindung. Strom ist unsichtbar.
+        </div>
+        <div class="stage-problem bad">
+          <span class="problem-label">Kernproblem</span>
+          Nullkontakt. Keine Verbrauchsinfos, keine Tipps, kein Grund loyal zu sein.
+          Der Kunde baut keine emotionale Bindung auf. Strom = Commodity.
+        </div>
+      </div>
+      <div class="stage-leak">
+        <div class="leak-bar-container"><div class="leak-bar grey" style="width:5%; animation-delay:0.55s"></div></div>
+        <div class="leak-number neutral">0%</div>
+        <div class="leak-label">Kein aktiver Churn — aber auch keine Bindung</div>
+      </div>
+    </div>
+
+    <!-- Phase 4: Wechselbonus-Attacke -->
+    <div class="stage critical">
+      <div class="stage-num">4</div>
+      <div class="stage-content">
+        <div class="stage-header">
+          <span class="stage-name">Die Wechselbonus-Attacke</span>
+          <span class="stage-time">Monat 10–14</span>
+        </div>
+        <div class="stage-desc">
+          Konkurrenz-Angebote: „Wechsle jetzt und spar €150!" per Vergleichsportal,
+          Google Ads, Postwurfsendung. Der Kunde hat keinen Grund zu bleiben.
+        </div>
+        <div class="stage-problem bad">
+          <span class="problem-label">Größtes Leck</span>
+          maxenergy hat dem Wechselbonus nichts entgegenzusetzen. Kein Loyalty-Programm,
+          kein aufgebauter Mehrwert, keine Wechselkosten. Der Preis entscheidet — und da verliert man immer.
+        </div>
+      </div>
+      <div class="stage-leak">
+        <div class="leak-bar-container"><div class="leak-bar red" style="width:80%; animation-delay:0.65s"></div></div>
+        <div class="leak-number red">−10%</div>
+        <div class="leak-label">12.000 Kunden/Jahr</div>
+      </div>
+    </div>
+
+    <!-- Phase 5: ElWG macht es schlimmer -->
+    <div class="stage critical">
+      <div class="stage-num">5</div>
+      <div class="stage-content">
+        <div class="stage-header">
+          <span class="stage-name">ElWG-Beschleuniger</span>
+          <span class="stage-time">Ab Oktober 2026</span>
+        </div>
+        <div class="stage-desc">
+          Neues Gesetz: Lieferantenwechsel in 24 Stunden statt 14 Tagen.
+          Dynamische Tarife, Energiegemeinschaften — neue Optionen, neue Konkurrenz.
+        </div>
+        <div class="stage-problem bad">
+          <span class="problem-label">Eskalation</span>
+          Wechselhürde sinkt drastisch. Tibber, Octopus und neue Anbieter drängen mit
+          App-First-Ansatz in den Markt. Wenn maxenergy bis Oktober nur Pflicht-Compliance macht,
+          wird der Churn von 15% auf geschätzt <strong>20–25%</strong> steigen.
+        </div>
+      </div>
+      <div class="stage-leak">
+        <div class="leak-bar-container"><div class="leak-bar red" style="width:95%; animation-delay:0.75s"></div></div>
+        <div class="leak-number red">+5–10%</div>
+        <div class="leak-label">Zusätzlicher Churn-Risiko</div>
+      </div>
+    </div>
+
+    <!-- Phase 6: Verloren -->
+    <div class="stage">
+      <div class="stage-num">6</div>
+      <div class="stage-content">
+        <div class="stage-header">
+          <span class="stage-name">Verloren</span>
+          <span class="stage-time">Monat 12+</span>
+        </div>
+        <div class="stage-desc">
+          Der Kunde ist weg. Rückgewinnung kostet 5× mehr als Retention. Bei einem
+          Commodity-Produkt wie Strom gibt es keinen Grund zurückzukommen.
+        </div>
+      </div>
+      <div class="stage-leak">
+        <div class="leak-bar-container"><div class="leak-bar grey" style="width:100%; animation-delay:0.85s"></div></div>
+        <div class="leak-number neutral">18.000</div>
+        <div class="leak-label">Verlorene Kunden/Jahr (heute)</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ─── COMPARISON ─── -->
+  <div class="section-title">Szenario-Vergleich · 12 Monate</div>
+
+  <div class="comparison">
+    <div class="comparison-col heute">
+      <h3>Heute</h3>
+      <p class="comp-sub">Ohne Retention-Strategie, Compliance-only ElWG</p>
+      <div class="comp-row">
+        <span class="comp-label">Touchpoints pro Jahr</span>
+        <span class="comp-value red">2 (Rechnung)</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-label">Retention-Instrument</span>
+        <span class="comp-value red">Keines (nur Preis)</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-label">Churn-Rate</span>
+        <span class="comp-value red">15% → 20–25%</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-label">Verlorener Umsatz/Jahr</span>
+        <span class="comp-value red">14,4 → 19,2 Mio €</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-label">ElWG-Readiness</span>
+        <span class="comp-value red">Compliance-Checkbox</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-label">Wechselbonus-Abwehr</span>
+        <span class="comp-value red">Keine</span>
+      </div>
+    </div>
+    <div class="comparison-col zukunft">
+      <h3>Mit MAX Pilot</h3>
+      <p class="comp-sub">Loyalty + Smart Energy + ElWG als Retention-Hebel</p>
+      <div class="comp-row">
+        <span class="comp-label">Touchpoints pro Jahr</span>
+        <span class="comp-value green">52+ (wöchentlich)</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-label">Retention-Instrumente</span>
+        <span class="comp-value green">Loyalty, Tipps, Flextarif</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-label">Churn-Rate (Ziel)</span>
+        <span class="comp-value green">10% (−5 Pkt.)</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-label">Gesicherter Umsatz/Jahr</span>
+        <span class="comp-value green">+4,8 Mio €</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-label">ElWG-Readiness</span>
+        <span class="comp-value green">Retention-Hebel</span>
+      </div>
+      <div class="comp-row">
+        <span class="comp-label">Wechselbonus-Abwehr</span>
+        <span class="comp-value green">Loyalty > Einmalbonus</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── BOTTOM LINE ─── -->
+  <div class="bottom-line">
+    <div class="bl-icon">⚡</div>
+    <div class="bl-text">
+      <h3>Die Frage ist nicht ob, sondern wie</h3>
+      <p>
+        maxenergy muss die ElWG-Features bis Oktober 2026 bauen — das steht fest.
+        Die einzige Frage ist: Compliance-Checkbox oder Retention-Hebel?
+        Der Unterschied ist <strong>4,8 Mio € Jahresumsatz</strong>.
+      </p>
+    </div>
+    <div class="bl-number">
+      <div class="big">4,8M €</div>
+      <div class="small">gesicherter Umsatz/Jahr</div>
+    </div>
+  </div>
+
+  <div class="footer">
+    Prismatisk e.U. · Martin Oisterschek · Analyse basiert auf geschätzten Branchenwerten · Februar 2026
+  </div>
+
+</div>
+
+</body>
+</html>

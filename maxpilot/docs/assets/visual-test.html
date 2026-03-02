@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Visual Test — Hero Animation</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: #0c0c0e;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .visual {
+      width: 480px;
+      height: 480px;
+      position: relative;
+    }
+
+    .visual::after {
+      content: '';
+      position: absolute;
+      inset: -60px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(236,103,38,0.06) 0%, transparent 70%);
+      pointer-events: none;
+      animation: glowPulse 6s ease-in-out infinite;
+    }
+
+    @keyframes glowPulse {
+      0%, 100% { opacity: 0.6; transform: scale(1); }
+      50% { opacity: 1; transform: scale(1.05); }
+    }
+
+    .prism-shape {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 220px;
+      height: 220px;
+      animation: prismRotate 20s linear infinite;
+    }
+
+    .prism-face {
+      position: absolute;
+      inset: 0;
+    }
+
+    .prism-face polygon {
+      fill: none;
+      stroke-width: 1.2;
+    }
+
+    .prism-face:nth-child(1) polygon {
+      stroke: #ec6726;
+      opacity: 0.7;
+    }
+
+    .prism-face:nth-child(2) polygon {
+      stroke: #3dbd6f;
+      opacity: 0.5;
+    }
+
+    .prism-face:nth-child(3) polygon {
+      stroke: #f1ea75;
+      opacity: 0.4;
+    }
+
+
+
+    .prism-inner {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 100px;
+      height: 100px;
+      animation: prismRotate 15s linear infinite;
+    }
+
+    .prism-inner polygon {
+      fill: rgba(236,103,38,0.04);
+      stroke: #ec6726;
+      stroke-width: 0.8;
+      opacity: 0.6;
+    }
+
+    .prism-particle {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      animation: particleFloat 8s ease-in-out infinite;
+    }
+
+    .prism-particle:nth-child(1)  { background: #ec6726; top: 25%; left: 30%; animation-delay: 0s; opacity: 0.6; }
+    .prism-particle:nth-child(2)  { background: #3dbd6f; top: 60%; left: 70%; animation-delay: 2s; opacity: 0.5; width: 2px; height: 2px; }
+    .prism-particle:nth-child(3)  { background: #f1ea75; top: 35%; left: 65%; animation-delay: 4s; opacity: 0.4; width: 4px; height: 4px; }
+    .prism-particle:nth-child(4)  { background: #5b9bd5; top: 70%; left: 35%; animation-delay: 6s; opacity: 0.3; }
+    .prism-particle:nth-child(5)  { background: #ec6726; top: 15%; left: 55%; animation-delay: 1s; opacity: 0.5; width: 2px; height: 2px; }
+    .prism-particle:nth-child(6)  { background: #3dbd6f; top: 45%; left: 20%; animation-delay: 3s; opacity: 0.4; }
+    .prism-particle:nth-child(7)  { background: #f1ea75; top: 75%; left: 55%; animation-delay: 5s; opacity: 0.35; width: 2px; height: 2px; }
+    .prism-particle:nth-child(8)  { background: #ec6726; top: 50%; left: 80%; animation-delay: 7s; opacity: 0.5; width: 4px; height: 4px; }
+    .prism-particle:nth-child(9)  { background: #5b9bd5; top: 20%; left: 75%; animation-delay: 0.5s; opacity: 0.3; width: 2px; height: 2px; }
+    .prism-particle:nth-child(10) { background: #ec6726; top: 80%; left: 45%; animation-delay: 2.5s; opacity: 0.45; }
+    .prism-particle:nth-child(11) { background: #3dbd6f; top: 40%; left: 40%; animation-delay: 4.5s; opacity: 0.3; width: 2px; height: 2px; }
+    .prism-particle:nth-child(12) { background: #f1ea75; top: 65%; left: 25%; animation-delay: 6.5s; opacity: 0.4; width: 3px; height: 3px; }
+    .prism-particle:nth-child(13) { background: #ec6726; top: 30%; left: 15%; animation-delay: 1.5s; opacity: 0.5; width: 2px; height: 2px; }
+    .prism-particle:nth-child(14) { background: #5b9bd5; top: 55%; left: 60%; animation-delay: 3.5s; opacity: 0.35; }
+    .prism-particle:nth-child(15) { background: #3dbd6f; top: 18%; left: 45%; animation-delay: 5.5s; opacity: 0.4; width: 3px; height: 3px; }
+    .prism-particle:nth-child(16) { background: #ec6726; top: 85%; left: 70%; animation-delay: 7.5s; opacity: 0.3; width: 2px; height: 2px; }
+
+    @keyframes prismRotate {
+      from { transform: translate(-50%, -50%) rotate(0deg); }
+      to { transform: translate(-50%, -50%) rotate(360deg); }
+    }
+
+    @keyframes particleFloat {
+      0%, 100% { transform: translate(0, 0); opacity: 0; }
+      20% { opacity: 1; }
+      50% { transform: translate(20px, -30px); opacity: 0.6; }
+      80% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="visual">
+  <!-- Prism triangles -->
+  <div class="prism-shape">
+    <svg class="prism-face" viewBox="0 0 220 220">
+      <polygon points="110,20 200,180 20,180" />
+    </svg>
+    <svg class="prism-face" viewBox="0 0 220 220" style="transform: rotate(60deg);">
+      <polygon points="110,20 200,180 20,180" />
+    </svg>
+    <svg class="prism-face" viewBox="0 0 220 220" style="transform: rotate(120deg);">
+      <polygon points="110,20 200,180 20,180" />
+    </svg>
+  </div>
+
+  <!-- Inner triangle -->
+  <svg class="prism-inner" viewBox="0 0 100 100">
+    <polygon points="50,10 90,80 10,80" />
+  </svg>
+
+  <!-- Particles -->
+  <div class="prism-particle"></div>
+  <div class="prism-particle"></div>
+  <div class="prism-particle"></div>
+  <div class="prism-particle"></div>
+  <div class="prism-particle"></div>
+  <div class="prism-particle"></div>
+  <div class="prism-particle"></div>
+  <div class="prism-particle"></div>
+  <div class="prism-particle"></div>
+  <div class="prism-particle"></div>
+  <div class="prism-particle"></div>
+  <div class="prism-particle"></div>
+  <div class="prism-particle"></div>
+  <div class="prism-particle"></div>
+  <div class="prism-particle"></div>
+  <div class="prism-particle"></div>
+</div>
+
+</body>
+</html>
