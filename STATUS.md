@@ -166,9 +166,10 @@ npx wrangler pages deploy deploy --project-name prismatisk --branch main
 |---|---|---|
 | ✅ ~~1~~ | ~~DNS-Records umstellen~~ | Erledigt 9. März 2026 |
 | ✅ ~~2~~ | ~~„Check DNS records" klicken~~ | Erledigt, beide Domains Active + SSL |
-| 🔴 3 | **Netlify Function migrieren** | `netlify/functions/tarife.mjs` → `functions/api/tarife.js` (Cloudflare Pages Function) |
+| ✅ ~~3~~ | ~~Netlify Function migrieren~~ | `functions/api/tarife.js` live, alle Routen 200 ✅ |
+| ✅ ~~3b~~ | ~~CV Pitchdeck deployen~~ | `prismatisk.com/cv/` live ✅ |
 | 🟡 4 | **Auto-Deploy via GitHub** | GitHub-Verbindung in Cloudflare Pages Dashboard herstellen |
-| 🟢 5 | **Netlify Site kündigen/löschen** | Go-Live auf Cloudflare erfolgreich ✅ |
+| 🟢 5 | **Netlify Site kündigen/löschen** | Kann jetzt abgeschaltet werden |
 | 🟢 6 | **Squarespace kündigen** | DNS ist weg, kein Bedarf mehr |
 
 ---
@@ -193,4 +194,7 @@ npx wrangler pages deploy deploy --project-name prismatisk --branch main
 - **DNS-Records umgestellt:** A `75.2.60.5` → CNAME `prismatisk.pages.dev`, www-CNAME auf `prismatisk.pages.dev` ✅
 - **Custom Domains verifiziert:** beide Active + SSL enabled ✅
 - **prismatisk.com ist live auf Cloudflare Pages** 🟢
-- Nächster Schritt: Netlify Function `/api/tarife` → Cloudflare Pages Function migrieren
+- **Netlify Function migriert:** `functions/api/tarife.js` als Cloudflare Pages Function ✅
+- **CV Pitchdeck deployed:** `prismatisk.com/cv/` live ✅
+- **netlify.toml gelöscht**, `_redirects` ersetzt alle Weiterleitungen ✅
+- Alle Routen live und getestet: `/cv/`, `/tarife/`, `/maxpilot/`, `/maxpilot/pitch/`, `/api/tarife` ✅
