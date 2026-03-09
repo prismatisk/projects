@@ -169,8 +169,9 @@ npx wrangler pages deploy deploy --project-name prismatisk --branch main
 | ✅ ~~3~~ | ~~Netlify Function migrieren~~ | `functions/api/tarife.js` live, alle Routen 200 ✅ |
 | ✅ ~~3b~~ | ~~CV Pitchdeck deployen~~ | `prismatisk.com/cv/` live ✅ |
 | 🟡 4 | **Auto-Deploy via GitHub** | GitHub-Verbindung in Cloudflare Pages Dashboard herstellen |
-| 🟢 5 | **Netlify Site kündigen/löschen** | Kann jetzt abgeschaltet werden |
-| 🟢 6 | **Squarespace kündigen** | DNS ist weg, kein Bedarf mehr |
+| ✅ ~~5~~ | ~~Netlify Site löschen~~ | Erledigt 9. März 2026 |
+| 🟡 6 | **Domain zu Cloudflare Registrar transferieren** | Auth Code bei Squarespace angefordert, Mail noch ausstehend. Dann: Cloudflare → Transfer Domains → Auth Code eingeben ($10.46) |
+| 🟢 7 | **Squarespace kündigen** | Erst nach abgeschlossenem Domain-Transfer (dauert 5–7 Tage) |
 
 ---
 
@@ -198,3 +199,5 @@ npx wrangler pages deploy deploy --project-name prismatisk --branch main
 - **CV Pitchdeck deployed:** `prismatisk.com/cv/` live ✅
 - **netlify.toml gelöscht**, `_redirects` ersetzt alle Weiterleitungen ✅
 - Alle Routen live und getestet: `/cv/`, `/tarife/`, `/maxpilot/`, `/maxpilot/pitch/`, `/api/tarife` ✅
+- **Netlify Site gelöscht** ✅
+- **Squarespace Auth Code angefordert** — Mail ausstehend, Transfer in nächster Session abschließen
