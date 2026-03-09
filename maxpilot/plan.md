@@ -1,6 +1,6 @@
 # MAX Pilot – Strategie & Kontakt-Log
 
-> Zuletzt aktualisiert: 2. März 2026 (Abend — Pitch-Page Überarbeitung)  
+> Zuletzt aktualisiert: 2. März 2026 (Nacht — Pitch-Page + Ordnerstruktur)  
 > Produkt: `prismatisk.com/maxpilot/` — ElWG Companion App Prototyp für maxenergy  
 > Pitch-Seite: `prismatisk.com/maxpilot/pitch/`
 
@@ -128,16 +128,40 @@ Alle Textelemente unter 13px wurden auf lesbare Größen angehoben. Schlimmster 
 
 **Ergebnis:** Tabelle auf Mobile per Wisch vollständig lesbar. Zeilenhöhen bündig auf beiden Scroll-Positionen. Auf Desktop unverändert.
 
-#### 4. Noch offen / nicht gemacht
+#### 4. Datum aktualisiert
 
-- [ ] Datum in Hero-Tag & Footer noch auf „März 2026" aktualisieren (steht noch auf „Februar 2026")
-- [ ] Deploy auf Netlify (`git push` im `prismatisk/` Ordner)
+- [x] Hero-Tag: „Februar 2026" → „März 2026" ✅
+- [x] Footer: „Februar 2026" → „März 2026" ✅
+- [x] Deploy auf Netlify (`git push`) ✅
+
+#### 5. Hero-Tag — Datum in eigener Zeile
+
+**Problem:** „März 2026" stand inline hinter „Prismatisk x MAXENERGY", nicht bündig darunter.
+
+**Fix:**
+- Neuer Wrapper-Span `.hero-tag-right` mit `flex-direction: column; gap: 3px` um Label + Datum
+- Neues CSS-Element `.hero-tag .date` für die Datumszeile
+- `flex-wrap` auf `.hero-tag` entfernt (nicht mehr nötig)
+
+**Ergebnis:** „März 2026" steht linksbündig unter „Prismatisk x MAXENERGY", VERTRAULICH-Badge bleibt vertikal zentriert daneben.
+
+#### 6. Mobile — Szenario-Vergleich (comp-row) Layout-Fix
+
+**Problem:** Im Szenario-Vergleich kollidierten auf schmalen Screens Label und Wert nebeneinander — lange Labels wie „Wechselbonus-Abwehr" und lange Werte wie „14,4 → 19,2 Mio EUR" brachen unkontrolliert um.
+
+**Fix:** `@media (max-width: 500px)`
+- `.comp-row`: `flex-direction: column; align-items: flex-start; gap: 0.15rem`
+- `.comp-label`: Schriftgröße auf `0.78rem` (dezenter)
+- `.comp-value`: Schriftgröße auf `1rem` (stärker betont)
+- `.comparison-col`: Padding reduziert auf `1.5rem 1.2rem`
+
+**Ergebnis:** Label und Wert gestapelt statt nebeneinander — kein Kollisionsrisiko, egal wie lang der Text ist.
 
 ---
 
-## Ordnerstruktur — geplante Bereinigung
+## Ordnerstruktur — Bereinigung
 
-> Beschlossen am 2. März 2026, noch nicht ausgeführt — in nächster Session erledigen
+> Durchgeführt: 2. März 2026 (Nacht)
 
 **Problem:** MAX Pilot Inhalte sind redundant über 3 Ordner verteilt:
 
@@ -167,6 +191,10 @@ prismatisk/
 └── deploy/             ← Build-Output → Netlify
 ```
 
-**Offene Frage vor Ausführung:**
-- `MAX Pilot/documentation.md` (sehr ausführlich: Taktik, Pricing, Gesprächsstrategie) — mit `plan.md` zusammenführen oder als eigene Datei behalten?
-- `oekostrom-tarife/` hat eigenes `.git` — komplett löschen oder archivieren?
+**Durchgeführt:**
+- `MAX Pilot/docs/` → `prismatisk/maxpilot/docs/` ✅
+- `MAX Pilot/assets/` → `prismatisk/maxpilot/docs/assets/` ✅
+- `MAX Pilot/documentation.md` → `prismatisk/maxpilot/docs/strategy.md` (getrennt behalten) ✅
+- `oekostrom-tarife/docs/` → `prismatisk/tarife/docs/` ✅
+- `MAX Pilot/` gelöscht ✅
+- `oekostrom-tarife/` gelöscht ✅

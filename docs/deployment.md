@@ -4,111 +4,88 @@
 
 | Service | Detail |
 |---------|--------|
-| **Hosting** | Netlify (CDN + Serverless Functions) |
-| **Site** | `reliable-lolly-cb1111.netlify.app` |
-| **Site-ID** | `ee019919-6ca6-4a01-8a59-bb332385fef4` |
+| **Hosting** | Cloudflare Pages |
+| **Pages URL** | `https://prismatisk.pages.dev` |
 | **Domain** | `prismatisk.com` / `www.prismatisk.com` |
 | **Repo** | [github.com/prismatisk/projects](https://github.com/prismatisk/projects) |
-| **Branch** | `main` (auto-deploy bei Push) |
+| **Branch** | `main` |
 | **Build** | `bash build.sh` → Output in `deploy/` |
+| **Account** | `Martin.oisterschek@gmail.com` |
+| **Account ID** | `674aebc7901337b9b587f2f02f81cbaa` |
 
 ## Build-Prozess
 
-`build.sh` wird von Netlify bei jedem Push auf `main` ausgeführt:
+`build.sh` wird manuell oder via CI ausgeführt:
 
 ```bash
-# 1. MAX Pilot bauen (Vite)
-cd maxpilot && npm ci && npm run build && cd ..
+bash build.sh
+```
 
-# 2. Deploy-Verzeichnis zusammenstellen
+Output-Struktur:
+
+```
 deploy/
-├── maxpilot/    ← maxpilot/dist/ (Vite output, base: '/maxpilot/')
-└── tarife/
-    └── index.html  ← tarife/index.html (statisch, kein Build)
+├── maxpilot/         ← maxpilot/dist/ (Vite output, base: '/maxpilot/')
+├── maxpilot/pitch/   ← pitch/index.html (statisch)
+├── tarife/           ← tarife/index.html (statisch)
+├── cv/               ← cv/index.html + cv/martin.jfif
+└── _redirects        ← Cloudflare Pages Redirects
 ```
 
-## Netlify-Konfiguration
+## Cloudflare Pages Konfiguration
 
-`netlify.toml`:
+### Redirects (`_redirects`)
 
-```toml
-[build]
-  command = "bash build.sh"
-  publish = "deploy"
-
-[functions]
-  directory = "netlify/functions"
-  node_bundler = "esbuild"
-
-# Trailing-Slash Redirects
-[[redirects]]
-  from = "/tarife"
-  to = "/tarife/"
-  status = 301
-
-[[redirects]]
-  from = "/maxpilot"
-  to = "/maxpilot/"
-  status = 301
-
-# MAX Pilot SPA Routing
-[[redirects]]
-  from = "/maxpilot/*"
-  to = "/maxpilot/index.html"
-  status = 200
+```
+/tarife         /tarife/              301
+/maxpilot       /maxpilot/            301
+/maxpilot/pitch /maxpilot/pitch/      301
+/cv             /cv/                  301
+/maxpilot/*     /maxpilot/index.html  200
 ```
 
-### Serverless Functions
+### Serverless Function
 
-- **Pfad:** `netlify/functions/tarife.mjs`
+- **Pfad im Repo:** `functions/api/tarife.js`
 - **URL:** `POST /api/tarife`
-- **Runtime:** Node.js (ESM), gebündelt mit esbuild
+- **Runtime:** Cloudflare Workers (V8 isolates, kein Node.js)
 - **Externe Calls:** E-Control API (`www.e-control.at`)
 
 ## DNS-Konfiguration
 
-DNS wird über **Squarespace** verwaltet (Custom Nameservers: ns01–03.squarespacedns.com).
+DNS wird über **Cloudflare** verwaltet (Nameserver: `martin.ns.cloudflare.com` + `mina.ns.cloudflare.com`).
 
 | Host | Typ | Wert | Zweck |
 |------|-----|------|-------|
-| `@` | A | `75.2.60.5` | Netlify Apex Domain |
-| `www` | CNAME | `reliable-lolly-cb1111.netlify.app` | Netlify www |
-| `@` | MX (10) | `mx.zoho.com` | Zoho Mail |
-| `@` | MX (20) | `mx2.zoho.com` | Zoho Mail |
-| `@` | MX (50) | `mx3.zoho.com` | Zoho Mail |
-| `@` | TXT | `v=spf1 include:zoho.com ~all` | Zoho SPF |
+| `@` | CNAME | `prismatisk.pages.dev` | Cloudflare Pages |
+| `www` | CNAME | `prismatisk.pages.dev` | Cloudflare Pages |
+| `@` | MX (10) | `mx.zoho.com` | Zoho Mail — nicht ändern |
+| `@` | MX (20) | `mx2.zoho.com` | Zoho Mail — nicht ändern |
+| `@` | MX (50) | `mx3.zoho.com` | Zoho Mail — nicht ändern |
+| `@` | TXT | `v=spf1 include:zoho.com ~all` | Zoho SPF — nicht ändern |
 
 ## SSL
 
-SSL-Zertifikat wird automatisch von Netlify via Let's Encrypt provisioniert.
-
-**Bekanntes Problem:** Falls `prismatisk.com` noch als Custom Domain im Netlify-Account
-`badlogic` (Mario Zechner) registriert ist, kann Netlify kein SSL-Cert ausstellen.
-→ Domain muss dort entfernt werden (siehe `prismatisk/STATUS.md`).
+SSL-Zertifikat wird automatisch von Cloudflare provisioniert. Beide Domains **Active · SSL enabled** ✅
 
 ## E-Mail
 
-E-Mail für `@prismatisk.com` läuft über **Zoho Mail** (MX-Records in DNS konfiguriert).
+E-Mail für `@prismatisk.com` läuft über **Zoho Mail** (MX-Records in Cloudflare DNS konfiguriert).
 
 ## Manuelles Deployment
 
-Falls nötig (ohne Git Push):
-
 ```bash
-# Netlify CLI
-cd prismatisk
-npx netlify deploy --prod --dir=deploy --site=ee019919-6ca6-4a01-8a59-bb332385fef4
-
-# Oder mit Auth Token
-NETLIFY_AUTH_TOKEN=nfp_ieG3iqNnHU3yd4jj1j37CEUeQCxg7Cr1d540 \
-  npx netlify deploy --prod --dir=deploy
+cd "C:/Users/Martin/.pi/Projects/prismatisk"
+bash build.sh
+CLOUDFLARE_API_TOKEN="7mjFCYQI0YO5HFrbDK0Iv34wW9ec0OH0FxnTVjeW" \
+CLOUDFLARE_ACCOUNT_ID="674aebc7901337b9b587f2f02f81cbaa" \
+npx wrangler pages deploy deploy --project-name prismatisk --branch main
 ```
 
-## Zugänge
+## Cloudflare Dashboards
 
-| Service | Zugang |
-|---------|--------|
-| Netlify | Auth Token in STATUS.md |
-| GitHub | Org `prismatisk`, Repo `projects` |
-| Squarespace | martin.oisterschek@gmail.com |
-| Zoho Mail | Über Squarespace DNS |
+| Was | URL |
+|-----|-----|
+| Pages Projekt | https://dash.cloudflare.com/674aebc7901337b9b587f2f02f81cbaa/pages/view/prismatisk |
+| Custom Domains | https://dash.cloudflare.com/674aebc7901337b9b587f2f02f81cbaa/pages/view/prismatisk/domains |
+| DNS | https://dash.cloudflare.com/674aebc7901337b9b587f2f02f81cbaa/prismatisk.com/dns/records |

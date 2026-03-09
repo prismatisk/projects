@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Martin Oisterschek — Persönliche Präsentation</title>
+
+  <!-- Reveal.js -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.css" />
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ─── Design Tokens ─────────────────────────────────────────── */
+    :root {
+      --bg:        #07070E;
+      --surface:   #0F0F1A;
+      --surface2:  #161624;
+      --gold:      #C9963A;
+      --gold-lt:   #E8B857;
+      --blue:      #4A8FE7;
+      --blue-lt:   #7BB3F5;
+      --text:      #E2E4EF;
+      --muted:     #5A5A78;
+      --muted2:    #8585A8;
+      --border:    rgba(201,150,58,0.18);
+      --border2:   rgba(255,255,255,0.06);
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body, html {
+      background: var(--bg);
+      font-family: 'DM Sans', sans-serif;
+      color: var(--text);
+      height: 100%;
+    }
+
+    .reveal {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 16px;
+      color: var(--text);
+    }
+
+    .reveal .slides section {
+      display: flex !important;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 0;
+      text-align: left;
+      height: 100% !important;
+      top: 0 !important;
+      position: absolute !important;
+      inset: 0 !important;
+    }
+
+    .reveal .slide-background {
+      background: var(--bg);
+    }
+
+    .display {
+      font-family: 'Cormorant', serif;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+      line-height: 1.05;
+    }
+
+    .label {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    .slide-inner {
+      width: 100%;
+      max-width: 1100px;
+      padding: 0 60px;
+    }
+
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    .deco-line {
+      width: 48px;
+      height: 2px;
+      background: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    .noise-overlay {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1000;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      background-size: 128px 128px;
+    }
+
+    .corner-mark {
+      position: absolute;
+      bottom: 36px;
+      right: 56px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.18em;
+      color: var(--muted);
+      text-transform: uppercase;
+    }
+
+    /* ═══ SLIDE 1 — HERO ═══════════════════════════════════════════ */
+    .slide-hero { position: relative; overflow: hidden; }
+
+    .hero-bg-ring {
+      position: absolute;
+      width: 700px; height: 700px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,150,58,0.08);
+      top: 50%; right: -180px;
+      transform: translateY(-50%);
+    }
+    .hero-bg-ring:nth-child(2) { width: 480px; height: 480px; border-color: rgba(74,143,231,0.07); right: -50px; }
+    .hero-bg-ring:nth-child(3) { width: 280px; height: 280px; border-color: rgba(201,150,58,0.12); right: 90px; }
+
+    .hero-dot {
+      position: absolute;
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+      right: 280px; top: 50%;
+      transform: translateY(-50%);
+      box-shadow: 0 0 24px rgba(201,150,58,0.6);
+    }
+
+    .hero-name {
+      font-family: 'Cormorant', serif;
+      font-size: clamp(3.2rem, 6vw, 5.5rem);
+      font-weight: 600;
+      letter-spacing: -0.02em;
+      line-height: 1.0;
+      color: #fff;
+      margin: 0 0 8px 0;
+    }
+    .hero-name span { color: var(--gold-lt); }
+
+    .hero-title {
+      font-family: 'DM Sans', sans-serif;
+      font-weight: 300;
+      font-size: 1.15rem;
+      color: var(--muted2);
+      letter-spacing: 0.04em;
+      margin: 0 0 40px 0;
+    }
+
+    .hero-tag {
+      display: inline-block;
+      border: 1px solid var(--border);
+      padding: 8px 20px;
+      border-radius: 2px;
+      font-family: 'DM Mono', monospace;
+      font-size: 0.65rem;
+      letter-spacing: 0.18em;
+      color: var(--gold);
+      text-transform: uppercase;
+      margin-right: 12px;
+      margin-bottom: 8px;
+    }
+
+    .hero-sub {
+      margin-top: 28px;
+      font-size: 0.82rem;
+      color: var(--muted2);
+      font-weight: 300;
+      border-left: 2px solid var(--gold);
+      padding-left: 16px;
+      line-height: 1.6;
+      max-width: 520px;
+    }
+
+    /* ═══ SLIDE 2 — PROFIL ═════════════════════════════════════════ */
+    .stat-block {
+      padding: 18px 22px;
+      border: 1px solid var(--border2);
+      border-top: 2px solid var(--gold);
+      background: var(--surface);
+      position: relative;
+    }
+    .stat-block::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(201,150,58,0.04) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .stat-number {
+      font-family: 'Cormorant', serif;
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: var(--gold-lt);
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .stat-label {
+      font-size: 0.78rem;
+      color: var(--muted2);
+      font-weight: 400;
+      line-height: 1.5;
+    }
+
+    .profile-text {
+      font-size: 0.88rem;
+      line-height: 1.65;
+      color: var(--text);
+      font-weight: 300;
+      margin-bottom: 16px;
+    }
+    .profile-text strong { color: #fff; font-weight: 500; }
+
+    .profile-pill {
+      display: inline-block;
+      background: rgba(74,143,231,0.1);
+      border: 1px solid rgba(74,143,231,0.25);
+      color: var(--blue-lt);
+      padding: 5px 14px;
+      border-radius: 2px;
+      font-size: 0.72rem;
+      margin: 4px 6px 4px 0;
+      font-weight: 500;
+      letter-spacing: 0.04em;
+    }
+
+    /* ═══ SLIDE 3 — KARRIERE ═══════════════════════════════════════ */
+    .timeline { position: relative; padding-left: 2px; }
+    .timeline-spine {
+      position: absolute;
+      left: 0; top: 8px; bottom: 8px;
+      width: 1px;
+      background: linear-gradient(to bottom, var(--gold), rgba(74,143,231,0.4), transparent);
+    }
+    .timeline-item {
+      display: flex;
+      gap: 20px;
+      margin-bottom: 11px;
+      padding-left: 24px;
+      position: relative;
+    }
+    .timeline-dot {
+      position: absolute;
+      left: -4px; top: 7px;
+      width: 9px; height: 9px;
+      border-radius: 50%;
+      background: var(--bg);
+      border: 2px solid var(--gold);
+      flex-shrink: 0;
+    }
+    .timeline-dot.blue { border-color: var(--blue); }
+    .timeline-dot.bright {
+      background: var(--gold);
+      box-shadow: 0 0 16px rgba(201,150,58,0.7);
+    }
+    .timeline-year {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.62rem;
+      color: var(--muted);
+      white-space: nowrap;
+      padding-top: 4px;
+      width: 80px;
+      flex-shrink: 0;
+    }
+    .timeline-role {
+      font-size: 0.9rem;
+      font-weight: 500;
+      color: var(--text);
+      line-height: 1.3;
+    }
+    .timeline-co {
+      font-size: 0.75rem;
+      color: var(--muted2);
+      margin-top: 2px;
+    }
+    .timeline-co span { color: var(--gold); font-weight: 500; }
+
+    .timeline-highlight {
+      background: linear-gradient(135deg, rgba(201,150,58,0.07) 0%, transparent 70%);
+      border-left: 2px solid var(--gold);
+      padding: 10px 16px 10px 16px;
+      margin-left: -2px;
+    }
+
+    /* ═══ SLIDE 4 — KOMPETENZEN ════════════════════════════════════ */
+    .competency-card {
+      padding: 20px 18px;
+      border: 1px solid var(--border2);
+      background: var(--surface);
+      position: relative;
+      overflow: hidden;
+    }
+    .competency-card::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold), transparent);
+    }
+    .competency-icon {
+      font-size: 1.4rem;
+      margin-bottom: 10px;
+      display: block;
+      line-height: 1;
+    }
+    .competency-title {
+      font-family: 'Cormorant', serif;
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 8px;
+      line-height: 1.2;
+    }
+    .competency-desc {
+      font-size: 0.74rem;
+      color: var(--muted2);
+      line-height: 1.55;
+      font-weight: 300;
+    }
+    .competency-tags {
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+    .tag-sm {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.57rem;
+      letter-spacing: 0.1em;
+      padding: 3px 10px;
+      border: 1px solid var(--border2);
+      color: var(--muted2);
+      text-transform: uppercase;
+    }
+
+    /* ═══ SLIDE 5 — ENERGIE-EXPERTISE ═════════════════════════════ */
+    .energy-main {
+      background: linear-gradient(135deg, rgba(201,150,58,0.08) 0%, rgba(74,143,231,0.04) 100%);
+      border: 1px solid var(--border);
+      padding: 20px 24px;
+      margin-bottom: 16px;
+    }
+    .energy-main-title {
+      font-family: 'Cormorant', serif;
+      font-size: 1.5rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .energy-main-body {
+      font-size: 0.76rem;
+      color: var(--muted2);
+      line-height: 1.6;
+      font-weight: 300;
+      max-width: 520px;
+    }
+    .energy-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(201,150,58,0.12);
+      border: 1px solid rgba(201,150,58,0.3);
+      padding: 6px 14px;
+      color: var(--gold-lt);
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      margin-top: 16px;
+    }
+    .energy-badge::before { content: '◆'; font-size: 0.5rem; }
+
+    .energy-item {
+      padding: 12px 16px;
+      border: 1px solid var(--border2);
+      background: var(--surface);
+    }
+    .energy-item-title {
+      font-size: 0.82rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 6px;
+    }
+    .energy-item-body {
+      font-size: 0.74rem;
+      color: var(--muted2);
+      line-height: 1.55;
+      font-weight: 300;
+    }
+    .energy-item-tag {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.14em;
+      color: var(--gold);
+      text-transform: uppercase;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    /* ═══ SLIDE 6 — HIGHLIGHTS ═════════════════════════════════════ */
+    .highlight-block {
+      padding: 20px 24px;
+      border: 1px solid var(--border2);
+      position: relative;
+      background: var(--surface);
+    }
+    .highlight-block::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--gold);
+    }
+    .highlight-block.blue::before { background: var(--blue); }
+    .highlight-block.dim::before  { background: var(--muted); }
+
+    .highlight-num {
+      font-family: 'Cormorant', serif;
+      font-size: 2.2rem;
+      font-weight: 700;
+      line-height: 1;
+      margin-bottom: 4px;
+    }
+    .highlight-num.gold { color: var(--gold-lt); }
+    .highlight-num.blue { color: var(--blue-lt); }
+    .highlight-num.dim  { color: var(--muted2); }
+
+    .highlight-title {
+      font-size: 0.88rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 8px;
+    }
+    .highlight-body {
+      font-size: 0.76rem;
+      color: var(--muted2);
+      line-height: 1.6;
+      font-weight: 300;
+    }
+    .highlight-wide {
+      grid-column: span 2;
+      padding: 18px 24px;
+      border: 1px solid var(--border);
+      background: linear-gradient(135deg, rgba(201,150,58,0.06) 0%, transparent 60%);
+      position: relative;
+    }
+    .highlight-wide::before {
+      content: '';
+      position: absolute;
+      left: 0; top: 0; bottom: 0;
+      width: 3px;
+      background: var(--gold);
+    }
+    .highlight-wide-text {
+      font-family: 'Cormorant', serif;
+      font-size: 1.2rem;
+      font-weight: 400;
+      font-style: italic;
+      color: var(--text);
+      line-height: 1.5;
+    }
+    .highlight-wide-text em { font-style: normal; color: var(--gold-lt); }
+
+    /* ═══ SLIDE 7 — WAS ICH SUCHE ══════════════════════════════════ */
+    .target-role {
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      padding: 12px 16px;
+      border: 1px solid var(--border2);
+      background: var(--surface);
+    }
+    .target-role.primary {
+      border-color: rgba(201,150,58,0.3);
+      background: linear-gradient(135deg, rgba(201,150,58,0.05) 0%, transparent 60%);
+    }
+    .target-prio {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.55rem;
+      letter-spacing: 0.15em;
+      padding: 4px 10px;
+      text-transform: uppercase;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .target-prio.p1 {
+      background: rgba(201,150,58,0.15);
+      color: var(--gold-lt);
+      border: 1px solid rgba(201,150,58,0.35);
+    }
+    .target-prio.p2 {
+      background: rgba(74,143,231,0.1);
+      color: var(--blue-lt);
+      border: 1px solid rgba(74,143,231,0.25);
+    }
+    .target-title {
+      font-size: 0.92rem;
+      font-weight: 500;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+    .target-context {
+      font-size: 0.75rem;
+      color: var(--muted2);
+      font-weight: 300;
+    }
+    .condition-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 9px 14px;
+      border: 1px solid var(--border2);
+      background: var(--surface);
+      font-size: 0.76rem;
+      color: var(--text);
+    }
+    .condition-row::before { content: attr(data-icon); font-size: 1rem; }
+    .condition-label {
+      color: var(--muted2);
+      font-size: 0.72rem;
+      margin-right: 6px;
+    }
+
+    /* ═══ SLIDE 8 — KONTAKT ════════════════════════════════════════ */
+    .contact-glow {
+      position: absolute;
+      width: 600px; height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(201,150,58,0.07) 0%, transparent 70%);
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+    .contact-name {
+      font-family: 'Cormorant', serif;
+      font-size: clamp(3rem, 5vw, 4.5rem);
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .contact-name span { color: var(--gold-lt); }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--border2);
+      font-size: 0.88rem;
+      color: var(--text);
+    }
+    .contact-item:last-child { border-bottom: none; }
+    .contact-icon { font-size: 1rem; width: 28px; text-align: center; flex-shrink: 0; }
+    .contact-val { font-weight: 400; }
+    .contact-lbl {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+      text-transform: uppercase;
+      width: 80px;
+      flex-shrink: 0;
+    }
+    .contact-availability {
+      margin-top: 36px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      border: 1px solid rgba(201,150,58,0.3);
+      padding: 12px 24px;
+      font-size: 0.82rem;
+      color: var(--gold-lt);
+    }
+    .availability-dot {
+      width: 8px; height: 8px;
+      border-radius: 50%;
+      background: #4ADE80;
+      box-shadow: 0 0 10px rgba(74,222,128,0.7);
+      animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(0.85); }
+    }
+
+    /* ─── Reveal overrides ──────────────────────────────────────── */
+    .reveal .progress { height: 2px; color: var(--gold); }
+    .reveal .slide-number {
+      font-family: 'DM Mono', monospace;
+      font-size: 0.6rem;
+      color: var(--muted);
+      background: transparent;
+      bottom: 20px;
+      right: 24px;
+    }
+
+    .section-header { margin-bottom: 24px; }
+    .section-title {
+      font-family: 'Cormorant', serif;
+      font-size: 2.2rem;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: -0.01em;
+      line-height: 1.1;
+    }
+    .section-subtitle {
+      font-size: 0.8rem;
+      color: var(--muted2);
+      font-weight: 300;
+      margin-top: 4px;
+    }
+    .divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border2);
+      margin: 16px 0;
+    }
+  </style>
+</head>
+<body>
+
+<div class="noise-overlay"></div>
+
+<div class="reveal">
+  <div class="slides">
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 1 — HERO
+    ══════════════════════════════════════════════════════════════ -->
+    <section class="slide-hero" style="background: var(--bg);">
+      <div class="hero-bg-ring"></div>
+      <div class="hero-bg-ring"></div>
+      <div class="hero-bg-ring"></div>
+      <div class="hero-dot"></div>
+
+      <div class="slide-inner" style="position:relative; z-index:2; display:flex; align-items:center; gap:64px;">
+
+        <!-- Text left -->
+        <div style="flex:1;">
+          <p class="label" style="margin-bottom:16px;">Persönliche Präsentation · 2026</p>
+
+          <h1 class="hero-name">Martin<br /><span>Oisterschek</span></h1>
+          <p class="hero-title">VP Innovation &amp; Business Development &nbsp;·&nbsp; Digitale Produkte &nbsp;·&nbsp; Energiesektor</p>
+
+          <div>
+            <span class="hero-tag">Energie &amp; Nachhaltigkeit</span>
+            <span class="hero-tag">Digitale Transformation</span>
+            <span class="hero-tag">Business Development</span>
+            <span class="hero-tag">Produktmanagement</span>
+          </div>
+
+          <p class="hero-sub">
+            20+ Jahre Erfahrung im Aufbau digitaler Produkte, die wirklich Wirkung zeigen —
+            an der Schnittstelle von Technologie, Innovation und nachhaltiger Energie.
+            Strategische Vision gepaart mit operativer Umsetzungsstärke.
+          </p>
+        </div>
+
+        <!-- Photo right -->
+        <div style="flex-shrink:0; position:relative;">
+          <div style="
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 0 6px rgba(201,150,58,0.08), 0 0 40px rgba(201,150,58,0.2);
+            position: relative;
+            z-index: 2;
+          ">
+            <img src="martin.jfif" alt="Martin Oisterschek" style="width:100%; height:100%; object-fit:cover; object-position: center top;" />
+          </div>
+          <!-- decorative ring -->
+          <div style="
+            position: absolute;
+            width: 230px; height: 230px;
+            border-radius: 50%;
+            border: 1px solid rgba(201,150,58,0.2);
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+          "></div>
+        </div>
+
+      </div>
+
+      <span class="corner-mark">Martin Oisterschek · 2026</span>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 2 — PROFIL
+    ══════════════════════════════════════════════════════════════ -->
+    <section style="background: var(--bg);">
+      <div class="slide-inner">
+        <div class="section-header">
+          <p class="label">Profil</p>
+          <h2 class="section-title">Wer ich bin</h2>
+        </div>
+
+        <div class="grid-2" style="align-items: start;">
+          <div>
+            <p class="profile-text">
+              Ich bin ein <strong>digitaler Produktleiter und Business Developer</strong> mit über zwei
+              Jahrzehnten Erfahrung in der Transformation — in Agenturen, Startups und Konzernen in
+              Österreich, Deutschland, Dubai und den USA.
+            </p>
+            <p class="profile-text">
+              Zuletzt als <strong>VP Business Development &amp; Innovation</strong> bei backbone.one:
+              Verantwortung für Innovation, Produkt, UX und Partnerschaften im Clean-Energy-Sektor —
+              digitale Plattformen für Energiegemeinschaften, Smart Metering und nachhaltiges Energiemanagement.
+            </p>
+            <p class="profile-text" style="margin-bottom: 20px;">
+              Ich überbrücke die Lücke zwischen <strong>Strategie und Umsetzung</strong> — von der
+              Regulatorik und Produktvision bis zu konkreter UX, Teamführung und Go-to-Market.
+            </p>
+            <div>
+              <span class="profile-pill">Energiegemeinschaften (GEA/EEG)</span>
+              <span class="profile-pill">ElWG / Regulatorik</span>
+              <span class="profile-pill">Digitale Produktstrategie</span>
+              <span class="profile-pill">Teamführung</span>
+              <span class="profile-pill">UX &amp; Produktdesign</span>
+              <span class="profile-pill">B2B &amp; B2C BD</span>
+              <span class="profile-pill">Stakeholder-Management</span>
+              <span class="profile-pill">AR / VR / IoT</span>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div class="stat-block">
+              <div class="stat-number">20+</div>
+              <div class="stat-label">Jahre Erfahrung in digitaler Transformation, Innovation und Produktentwicklung</div>
+            </div>
+            <div class="grid-2" style="gap:16px;">
+              <div class="stat-block">
+                <div class="stat-number">5</div>
+                <div class="stat-label">Jahre im Clean-Energy-Sektor (backbone.one)</div>
+              </div>
+              <div class="stat-block">
+                <div class="stat-number">4</div>
+                <div class="stat-label">Länder: AT, DE, VAE, USA</div>
+              </div>
+            </div>
+            <div class="stat-block">
+              <div class="stat-number" style="font-size:2rem;">Graz · Remote</div>
+              <div class="stat-label">Standort: Graz, Österreich &nbsp;·&nbsp; Verfügbar ab April 2026</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span class="corner-mark">Martin Oisterschek · 2026</span>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 3 — KARRIERE
+    ══════════════════════════════════════════════════════════════ -->
+    <section style="background: var(--bg);">
+      <div class="slide-inner">
+        <div class="section-header" style="margin-bottom: 32px;">
+          <p class="label">Karriere</p>
+          <h2 class="section-title">Mein Weg</h2>
+          <p class="section-subtitle">Von digitalen Grundlagen zur Energie-Innovation</p>
+        </div>
+
+        <div class="grid-2" style="align-items: start; gap: 40px;">
+          <div>
+            <p class="label" style="margin-bottom: 18px; color: var(--muted);">Grundlagen &amp; Wachstum</p>
+            <div class="timeline" style="padding-left: 16px;">
+              <div class="timeline-spine"></div>
+
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2002–2007</div>
+                <div>
+                  <div class="timeline-role">New Media &amp; Web</div>
+                  <div class="timeline-co">new10 · Karl-Franzens-Uni · <span>MAGNA STEYR</span></div>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2007–2012</div>
+                <div>
+                  <div class="timeline-role">Head of Web Operations</div>
+                  <div class="timeline-co"><span>Scoop &amp; Spoon / Evolaris</span>, Graz</div>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2012–2014</div>
+                <div>
+                  <div class="timeline-role">Manager Digital &amp; Interactive</div>
+                  <div class="timeline-co"><span>Moodley Brand Identity</span>, Graz</div>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-dot"></div>
+                <div class="timeline-year">2014–2017</div>
+                <div>
+                  <div class="timeline-role">Group Head Digital &amp; Interactive</div>
+                  <div class="timeline-co"><span>plan.net Austria</span>, Wien — Abteilung von Grund auf aufgebaut</div>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-dot blue"></div>
+                <div class="timeline-year">2016–2017</div>
+                <div>
+                  <div class="timeline-role">Innovation Director</div>
+                  <div class="timeline-co"><span>Serviceplan Middle East</span>, Dubai 🇦🇪</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p class="label" style="margin-bottom: 18px; color: var(--muted);">Führung &amp; Energie</p>
+            <div class="timeline" style="padding-left: 16px;">
+              <div class="timeline-spine" style="background: linear-gradient(to bottom, var(--blue), var(--gold), rgba(201,150,58,0.2));"></div>
+
+              <div class="timeline-item">
+                <div class="timeline-dot blue"></div>
+                <div class="timeline-year">2018–2022</div>
+                <div>
+                  <div class="timeline-role">Gründer</div>
+                  <div class="timeline-co"><span>Prismatisk</span>, Graz — Digitale Innovationsberatung</div>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-dot blue"></div>
+                <div class="timeline-year">2018–2019</div>
+                <div>
+                  <div class="timeline-role">Senior Personalberater Digital</div>
+                  <div class="timeline-co"><span>Designerdock</span>, Wien</div>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-dot blue"></div>
+                <div class="timeline-year">2019–2020</div>
+                <div>
+                  <div class="timeline-role">Mixed Reality Expert</div>
+                  <div class="timeline-co"><span>Evolaris</span>, Graz — AR/VR/MR für Industrie</div>
+                </div>
+              </div>
+
+              <div class="timeline-item">
+                <div class="timeline-dot blue"></div>
+                <div class="timeline-year">2020–2021</div>
+                <div>
+                  <div class="timeline-role">COO &amp; Co-Geschäftsführer</div>
+                  <div class="timeline-co"><span>menonthemoon</span>, Wien</div>
+                </div>
+              </div>
+
+              <div class="timeline-item timeline-highlight" style="padding-left: 0; margin-left: 0;">
+                <div class="timeline-dot bright" style="left: -4px;"></div>
+                <div class="timeline-year">2021–2026</div>
+                <div>
+                  <div class="timeline-role" style="color: var(--gold-lt); font-size: 0.95rem;">VP Business Development &amp; Innovation</div>
+                  <div class="timeline-co"><span>backbone.one</span>, Wien — Clean Energy · AT, DE, USA</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span class="corner-mark">Martin Oisterschek · 2026</span>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 4 — KOMPETENZEN
+    ══════════════════════════════════════════════════════════════ -->
+    <section style="background: var(--bg);">
+      <div class="slide-inner">
+        <div class="section-header">
+          <p class="label">Kompetenzen</p>
+          <h2 class="section-title">Meine Stärken</h2>
+        </div>
+
+        <div class="grid-4">
+          <div class="competency-card">
+            <span class="competency-icon">⚡</span>
+            <div class="competency-title">Innovation &amp; Strategie</div>
+            <div class="competency-desc">
+              Marktsignale und regulatorische Veränderungen in klare Produkt- und
+              Geschäftsstrategie übersetzen — vom C-Level-Gespräch bis zur Roadmap.
+            </div>
+            <div class="competency-tags">
+              <span class="tag-sm">Produktvision</span>
+              <span class="tag-sm">Roadmapping</span>
+              <span class="tag-sm">Trendforschung</span>
+            </div>
+          </div>
+
+          <div class="competency-card">
+            <span class="competency-icon">🤝</span>
+            <div class="competency-title">Business Development</div>
+            <div class="competency-desc">
+              Nachhaltige Partnerschaften aufbauen und Geschäfte in komplexen,
+              regulierten Märkten entwickeln — B2B und B2C, von der Erstansprache
+              bis zum Abschluss.
+            </div>
+            <div class="competency-tags">
+              <span class="tag-sm">Partnerschaften</span>
+              <span class="tag-sm">Sales-Strategie</span>
+              <span class="tag-sm">Markteintritt</span>
+            </div>
+          </div>
+
+          <div class="competency-card">
+            <span class="competency-icon">📐</span>
+            <div class="competency-title">Produkt &amp; UX-Führung</div>
+            <div class="competency-desc">
+              End-to-End-Verantwortung für digitale Produkte — von User Research
+              und UX-Konzept über technische Koordination bis zur Lieferung und
+              Weiterentwicklung.
+            </div>
+            <div class="competency-tags">
+              <span class="tag-sm">UX-Strategie</span>
+              <span class="tag-sm">Agiles PM</span>
+              <span class="tag-sm">Onboarding UX</span>
+            </div>
+          </div>
+
+          <div class="competency-card">
+            <span class="competency-icon">👥</span>
+            <div class="competency-title">Team &amp; Stakeholder-Führung</div>
+            <div class="competency-desc">
+              Cross-funktionale Teams leiten und komplexe interne wie externe
+              Stakeholder-Netzwerke managen — IT, Vertrieb, Recht, Betrieb.
+            </div>
+            <div class="competency-tags">
+              <span class="tag-sm">Teamleitung</span>
+              <span class="tag-sm">Stakeholder-Mgmt</span>
+              <span class="tag-sm">Change-Mgmt</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div style="display: flex; gap: 40px; justify-content: center;">
+          <div style="text-align: center;">
+            <p class="label" style="color: var(--muted2);">Technisches Verständnis</p>
+            <p style="font-size: 0.82rem; color: var(--text); margin-top: 6px;">APIs · Smart Metering · IoT · AR/VR · Datenplattformen</p>
+          </div>
+          <div style="text-align: center;">
+            <p class="label" style="color: var(--muted2);">Regulatorik</p>
+            <p style="font-size: 0.82rem; color: var(--text); margin-top: 6px;">ElWG · GEA/EEG · Energiemarkt AT/DE</p>
+          </div>
+          <div style="text-align: center;">
+            <p class="label" style="color: var(--muted2);">International</p>
+            <p style="font-size: 0.82rem; color: var(--text); margin-top: 6px;">Österreich · Deutschland · VAE · USA</p>
+          </div>
+        </div>
+      </div>
+      <span class="corner-mark">Martin Oisterschek · 2026</span>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 5 — ENERGIE-EXPERTISE
+    ══════════════════════════════════════════════════════════════ -->
+    <section style="background: var(--bg);">
+      <div class="slide-inner">
+        <div class="section-header">
+          <p class="label">Spezialisierung</p>
+          <h2 class="section-title">Energie &amp; Digital</h2>
+          <p class="section-subtitle">Die Schnittstelle, an der ich am stärksten bin</p>
+        </div>
+
+        <div class="grid-2" style="align-items: start; gap: 32px;">
+          <div>
+            <div class="energy-main">
+              <div class="energy-main-title">Energiegemeinschaften &amp; digitale Plattformen</div>
+              <div class="energy-main-body">
+                5 Jahre Aufbau digitaler Produkte für den österreichischen Energiemarkt —
+                GEA-Onboarding-Flows, Smart-Metering-Plattformen, HEMS-Integrationen und
+                B2C-Nachhaltigkeitsprodukte. Die regulatorische Komplexität von GEA/EEG kenne
+                ich aus erster Hand und weiß, was es braucht, um sie für echte Kunden nutzbar zu machen.
+              </div>
+              <div class="energy-badge">backbone.one · 2021 – 2026</div>
+            </div>
+
+            <div class="energy-item">
+              <span class="energy-item-tag">ElWG · Oktober 2026</span>
+              <div class="energy-item-title">Regulatorische Bereitschaft</div>
+              <div class="energy-item-body">
+                Tiefes Verständnis des Elektrizitätswirtschaftsgesetzes — Auswirkungen auf
+                Preistransparenz, Flextarife, Smart-Meter-Datenzugang und das BEG-Framework.
+                Regulatorische Veränderungen kann ich ab Tag eins in Produktanforderungen übersetzen.
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; flex-direction: column; gap: 16px;">
+            <div class="energy-item">
+              <span class="energy-item-tag">Produkt</span>
+              <div class="energy-item-title">GEA-Onboarding &amp; UX</div>
+              <div class="energy-item-body">
+                End-to-End-Onboarding-Erfahrungen für Energiegemeinschaftskunden entwickelt und
+                geleitet — Reduktion von Reibung aus komplexen regulatorischen Konstrukten
+                zu einfachen, menschzentrierten Abläufen.
+              </div>
+            </div>
+
+            <div class="energy-item">
+              <span class="energy-item-tag">Technisch</span>
+              <div class="energy-item-title">HEMS &amp; Smart Energy Plattformen</div>
+              <div class="energy-item-body">
+                Produktentwicklung für Home Energy Management Systeme, IoT-Integrationen und
+                Smart-Meter-Datenplattformen in Zusammenarbeit mit externen Technologiepartnern.
+              </div>
+            </div>
+
+            <div class="energy-item">
+              <span class="energy-item-tag">Märkte</span>
+              <div class="energy-item-title">AT · DE · USA Energiemärkte</div>
+              <div class="energy-item-body">
+                Aktives Business Development in Österreich, Deutschland und den USA —
+                strategische Partnerschaften mit EVUs, Gemeinden und Energiedienstleistern.
+              </div>
+            </div>
+
+            <div class="energy-item">
+              <span class="energy-item-tag">Innovation</span>
+              <div class="energy-item-title">AR/VR für Industrie (Evolaris)</div>
+              <div class="energy-item-body">
+                Mixed-Reality-Lösungen für Industriekunden — Brücke zwischen physischer
+                Infrastruktur und digitalen Tools. Frühe Erfahrung mit Technologien, die
+                jetzt in der Energie konvergieren.
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span class="corner-mark">Martin Oisterschek · 2026</span>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 6 — HIGHLIGHTS
+    ══════════════════════════════════════════════════════════════ -->
+    <section style="background: var(--bg);">
+      <div class="slide-inner">
+        <div class="section-header">
+          <p class="label">Ausgewählte Highlights</p>
+          <h2 class="section-title">Was ich aufgebaut habe</h2>
+        </div>
+
+        <div class="grid-2" style="gap: 20px;">
+          <div class="highlight-block">
+            <div class="highlight-num gold">5 J.</div>
+            <div class="highlight-title">Energiesektor-Leadership · backbone.one</div>
+            <div class="highlight-body">
+              VP BD &amp; Innovation — Co-Geschäftsführer mit Verantwortung für Innovation, Produkt,
+              UX und Partnerschaften. Digitale Produkte für Energiegemeinschaften in AT, DE und USA
+              aufgebaut. Vollständiger Produkt-Stack von Strategie über UX bis zur technischen Lieferung.
+            </div>
+          </div>
+
+          <div class="highlight-block blue">
+            <div class="highlight-num blue">0→1</div>
+            <div class="highlight-title">Abteilung von Grund auf aufgebaut · plan.net Austria</div>
+            <div class="highlight-body">
+              Digital &amp; Interactive Division bei plan.net Austria gegründet und gewachsen —
+              Business Development, Teamaufbau, Kundenakquise und Key-Account-Management für
+              namhafte österreichische Marken. Großprojekte end-to-end geliefert.
+            </div>
+          </div>
+
+          <div class="highlight-block dim">
+            <div class="highlight-num dim">🌍</div>
+            <div class="highlight-title">Internationale Erfahrung — Dubai &amp; weltweit</div>
+            <div class="highlight-body">
+              Innovation Director bei Serviceplan Middle East in Dubai — Ideation, Machbarkeitsstudien,
+              Technologieforschung und Teamführung für MENA-Kunden. Vorstandsmitglied und Präsident
+              des La Futura Global Trend Network (2017–2023), treibende Kraft der Internationalisierung.
+            </div>
+          </div>
+
+          <div class="highlight-block">
+            <div class="highlight-num gold">AR/VR</div>
+            <div class="highlight-title">Mixed Reality für Industrie · Evolaris</div>
+            <div class="highlight-body">
+              AR/VR/MR-Lösungen für Industriekunden konzipiert, evaluiert und geleitet —
+              von Produktentwicklung über Software-Supervision bis zur Projektleitung.
+              Praxiserfahrung mit Technologien, die heute den Energiesektor transformieren.
+            </div>
+          </div>
+
+          <div class="highlight-wide">
+            <div class="highlight-wide-text">
+              „Ich verstehe die Energiewende nicht nur — ich habe <em>fünf Jahre lang Produkte dafür gebaut</em>.
+              Das regulatorische Umfeld (ElWG, GEA/EEG, Smart Metering) ist für mich keine Lernkurve.
+              Es ist <em>mein Heimspiel</em>."
+            </div>
+          </div>
+        </div>
+      </div>
+      <span class="corner-mark">Martin Oisterschek · 2026</span>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 7 — WAS ICH SUCHE
+    ══════════════════════════════════════════════════════════════ -->
+    <section style="background: var(--bg);">
+      <div class="slide-inner">
+        <div class="section-header">
+          <p class="label">Zielprofil</p>
+          <h2 class="section-title">Was ich suche</h2>
+        </div>
+
+        <div class="grid-2" style="align-items: start; gap: 40px;">
+          <div>
+            <p class="label" style="margin-bottom: 18px; color: var(--muted);">Zielrollen</p>
+            <div style="display: flex; flex-direction: column; gap: 12px;">
+              <div class="target-role primary">
+                <span class="target-prio p1">Priorität 1</span>
+                <div>
+                  <div class="target-title">Country Manager</div>
+                  <div class="target-context">EVU, Energiedienstleister, Netzbetreiber</div>
+                </div>
+              </div>
+              <div class="target-role primary">
+                <span class="target-prio p1">Priorität 1</span>
+                <div>
+                  <div class="target-title">Head of / Director Innovation</div>
+                  <div class="target-context">Energiesektor, Nachhaltigkeit, digitale Transformation</div>
+                </div>
+              </div>
+              <div class="target-role">
+                <span class="target-prio p2">Priorität 2</span>
+                <div>
+                  <div class="target-title">Head of Business Development</div>
+                  <div class="target-context">Digitale Lösungen im Energie- &amp; Nachhaltigkeitsbereich</div>
+                </div>
+              </div>
+              <div class="target-role">
+                <span class="target-prio p2">Priorität 2</span>
+                <div>
+                  <div class="target-title">Teamleiter / Director Produktmanagement</div>
+                  <div class="target-context">Energie, Nachhaltigkeit, digitale Plattformen</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <p class="label" style="margin-bottom: 18px; color: var(--muted);">Rahmenbedingungen</p>
+            <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px;">
+              <div class="condition-row" data-icon="📍">
+                <span class="condition-label">Standort</span>
+                Graz / Graz-Umgebung · Remote · 50%+ Homeoffice bevorzugt
+              </div>
+              <div class="condition-row" data-icon="📅">
+                <span class="condition-label">Start</span>
+                Verfügbar ab April 2026
+              </div>
+              <div class="condition-row" data-icon="💶">
+                <span class="condition-label">Gehalt</span>
+                Ab €7.000 brutto/Monat · inkl. relevanter Benefits
+              </div>
+              <div class="condition-row" data-icon="🏭">
+                <span class="condition-label">Branche</span>
+                Energie · Nachhaltigkeit · CleanTech · Digitale Innovation
+              </div>
+              <div class="condition-row" data-icon="🚫">
+                <span class="condition-label">Ausschluss</span>
+                Generelle Sales-Rollen ohne strategischen Anteil oder Energie-Fokus
+              </div>
+            </div>
+
+            <p class="label" style="margin-bottom: 12px; color: var(--muted);">Ideales Unternehmensprofil</p>
+            <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+              <span class="profile-pill">Österreichisches EVU</span>
+              <span class="profile-pill">Energy Startup (post-funding)</span>
+              <span class="profile-pill">Netzbetreiber</span>
+              <span class="profile-pill">Energiedienstleister</span>
+              <span class="profile-pill">CleanTech Scale-up</span>
+              <span class="profile-pill">Digitale Innovationsabteilung</span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <span class="corner-mark">Martin Oisterschek · 2026</span>
+    </section>
+
+    <!-- ══════════════════════════════════════════════════════════════
+         SLIDE 8 — KONTAKT
+    ══════════════════════════════════════════════════════════════ -->
+    <section style="background: var(--bg); position:relative; overflow:hidden;">
+      <div class="contact-glow"></div>
+
+      <div style="position:absolute; right: 60px; top:50%; transform: translateY(-50%) rotate(90deg); font-family:'DM Mono',monospace; font-size:0.55rem; letter-spacing:0.3em; color:var(--muted); text-transform:uppercase; white-space:nowrap;">
+        Lass uns reden
+      </div>
+
+      <div class="slide-inner" style="position:relative; z-index:2; max-width: 700px;">
+        <div style="display:flex; align-items:center; gap:28px; margin-bottom:20px;">
+          <div style="
+            width: 72px; height: 72px;
+            border-radius: 50%;
+            overflow: hidden;
+            border: 2px solid var(--gold);
+            box-shadow: 0 0 20px rgba(201,150,58,0.25);
+            flex-shrink: 0;
+          ">
+            <img src="martin.jfif" alt="Martin Oisterschek" style="width:100%; height:100%; object-fit:cover; object-position: center top;" />
+          </div>
+          <p class="label">Kontakt</p>
+        </div>
+
+        <h2 class="contact-name">Martin<br /><span>Oisterschek</span></h2>
+
+        <p style="font-size: 0.88rem; color: var(--muted2); font-weight: 300; margin: 20px 0 36px; line-height: 1.65; max-width: 460px;">
+          Wenn du etwas Sinnvolles in der Energiewende aufbaust und jemanden suchst,
+          der führen, liefern und wachsen kann — dann lass uns sprechen.
+        </p>
+
+        <div style="border-top: 1px solid var(--border2);">
+          <div class="contact-item">
+            <span class="contact-icon">✉️</span>
+            <span class="contact-lbl">E-Mail</span>
+            <span class="contact-val">martin.oisterschek@gmail.com</span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon">📞</span>
+            <span class="contact-lbl">Telefon</span>
+            <span class="contact-val">+43 664 9141819</span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon">🔗</span>
+            <span class="contact-lbl">LinkedIn</span>
+            <span class="contact-val">linkedin.com/in/Martinoisterschek</span>
+          </div>
+          <div class="contact-item">
+            <span class="contact-icon">📍</span>
+            <span class="contact-lbl">Standort</span>
+            <span class="contact-val">Graz, Österreich &nbsp;·&nbsp; Remote-fähig</span>
+          </div>
+        </div>
+
+        <div class="contact-availability">
+          <div class="availability-dot"></div>
+          Verfügbar ab April 2026 · Gespräche ab sofort möglich
+        </div>
+      </div>
+
+      <span class="corner-mark">Martin Oisterschek · 2026</span>
+    </section>
+
+  </div><!-- /.slides -->
+</div><!-- /.reveal -->
+
+<!-- Fullscreen Button -->
+<button id="fs-btn" onclick="(function(){var e=document.documentElement;if(e.requestFullscreen)e.requestFullscreen();else if(e.webkitRequestFullscreen)e.webkitRequestFullscreen();document.getElementById('fs-btn').style.display='none';})()" style="
+  position: fixed;
+  top: 20px; right: 20px;
+  z-index: 9999;
+  background: rgba(201,150,58,0.15);
+  border: 1px solid rgba(201,150,58,0.4);
+  color: #E8B857;
+  font-family: 'DM Mono', monospace;
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 8px 16px;
+  cursor: pointer;
+  transition: background 0.2s;
+" onmouseover="this.style.background='rgba(201,150,58,0.3)'" onmouseout="this.style.background='rgba(201,150,58,0.15)'">
+  ⛶ Vollbild
+</button>
+
+<script src="https://cdn.jsdelivr.net/npm/reveal.js@5.1.0/dist/reveal.js"></script>
+<script>
+  Reveal.initialize({
+    hash: true,
+    slideNumber: 'c/t',
+    progress: true,
+    controls: true,
+    center: true,
+    width: 1280,
+    height: 720,
+    margin: 0.04,
+    minScale: 0.5,
+    maxScale: 1.5,
+    transition: 'fade',
+    transitionSpeed: 'slow',
+    backgroundTransition: 'fade',
+    autoAnimateDuration: 0.6,
+  });
+</script>
+</body>
+</html>

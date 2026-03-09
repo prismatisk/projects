@@ -8,46 +8,38 @@
 ## Projektordner
 
 ```
-C:/Users/Martin/.pi/Projects/oekostrom-tarife/
+C:/Users/Martin/.pi/Projects/prismatisk/
 ```
-
-Der zugehörige Deploy-Code liegt in `C:/Users/Martin/.pi/Projects/prismatisk/` —
-das ist das Git-Repo das nach GitHub gepusht und von Netlify gebaut wird.
 
 ## Lokale Entwicklung
 
 Die Tarife-Seite ist eine **Single-File HTML** (`tarife/index.html`) und braucht keinen Build.
-Allerdings braucht sie die API (`/api/tarife`), die über Netlify Functions läuft.
+Allerdings braucht sie die API (`/api/tarife`), die als Cloudflare Pages Function läuft.
 
-### Option 1: Netlify Dev (empfohlen)
+### Mit Wrangler (empfohlen)
 
 ```bash
 cd C:/Users/Martin/.pi/Projects/prismatisk
-npx netlify dev
-# → http://localhost:8888/tarife/
-# → API unter http://localhost:8888/api/tarife (Functions emuliert)
+npx wrangler pages dev deploy --compatibility-flag=nodejs_compat
+# → http://localhost:8788/tarife/
+# → API unter http://localhost:8788/api/tarife (Function emuliert)
 ```
 
-### Option 2: Lokaler Node-Server
+### Nur statisches HTML (ohne API)
 
-```bash
-cd C:/Users/Martin/.pi/Projects/oekostrom-tarife
-node server.js
-# → http://localhost:3000
-# ⚠ server.js hat ggf. nicht die neuesten API-Features (persons, appliances)
-```
+Einfach `tarife/index.html` im Browser öffnen — API-Calls schlagen fehl, UI ist testbar.
 
 ## Änderungen deployen
 
 ```bash
 cd C:/Users/Martin/.pi/Projects/prismatisk
 
-# 1. tarife/index.html oder netlify/functions/tarife.mjs bearbeiten
-# 2. Committen und pushen
-git add -A
-git commit -m "Beschreibung der Änderung"
-git push
-# 3. Netlify baut automatisch und deployed
+# 1. tarife/index.html oder functions/api/tarife.js bearbeiten
+# 2. Builden und deployen
+bash build.sh
+CLOUDFLARE_API_TOKEN="7mjFCYQI0YO5HFrbDK0Iv34wW9ec0OH0FxnTVjeW" \
+CLOUDFLARE_ACCOUNT_ID="674aebc7901337b9b587f2f02f81cbaa" \
+npx wrangler pages deploy deploy --project-name prismatisk --branch main
 ```
 
 ## Datei-Änderungen
@@ -55,8 +47,8 @@ git push
 | Datei | Build nötig? | Was passiert |
 |-------|-------------|-------------|
 | `tarife/index.html` | Nein (wird kopiert) | Sofort live nach Deploy |
-| `netlify/functions/tarife.mjs` | Nein (esbuild bundled) | Neue Function nach Deploy |
-| `netlify.toml` | — | Netlify liest bei Deploy |
+| `functions/api/tarife.js` | Nein | Neue Function nach Deploy |
+| `_redirects` | Nein (wird kopiert) | Redirects aktiv nach Deploy |
 
 ## API testen
 
@@ -76,10 +68,3 @@ curl -X POST https://www.prismatisk.com/api/tarife \
   -H "Content-Type: application/json" \
   -d '{"gesamt":true,"consumption":4000}'
 ```
-
-### Erwartete Ergebnisse
-
-- Response hat `products` Array mit bis zu 15 Einträgen
-- Jedes Produkt hat `arbeitspreisCtKwh`, `preisStabil`, `garantie`
-- Bei `persons: 3` + `waermepumpe: true` → `verbrauch` = 7500 kWh (3500 + 4000)
-- Sortierung: aufsteigend nach `arbeitspreisCtKwh`

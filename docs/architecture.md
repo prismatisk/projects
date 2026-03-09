@@ -4,69 +4,74 @@
 
 ```
 prismatisk/
-├── docs/                          # Projektdokumentation
-│   ├── README.md                  # Übersicht (dieses Dokument verlinkt)
-│   ├── architecture.md            # Architektur (dieses Dokument)
-│   ├── tarifcheck.md              # Tarifcheck Feature-Dokumentation
-│   ├── maxpilot.md                # MAX Pilot App-Dokumentation
-│   ├── deployment.md              # Deployment & Infrastruktur
-│   ├── design.md                  # Design-System & Styleguide
-│   └── development.md             # Lokales Setup & Entwicklung
+├── docs/
+│   ├── README.md
+│   ├── architecture.md        # dieses Dokument
+│   ├── deployment.md          # Cloudflare, DNS, Build
 │
 ├── tarife/
-│   └── index.html                 # Ökostrom Tarifcheck (Single-File HTML/CSS/JS)
+│   └── index.html             # Ökostrom Tarifcheck (Single-File HTML/CSS/JS)
 │
-├── maxpilot/                      # MAX Pilot React App
+├── maxpilot/                  # MAX Pilot React App
 │   ├── src/
-│   │   ├── App.jsx                # Root-Komponente mit Screen-Router
-│   │   ├── main.jsx               # React-Einstiegspunkt
-│   │   ├── index.css              # Globale Styles + Tailwind + Animationen
+│   │   ├── App.jsx
+│   │   ├── main.jsx
+│   │   ├── index.css
 │   │   ├── components/
-│   │   │   └── BottomNav.jsx      # Tab-Navigation (5 Tabs)
+│   │   │   └── BottomNav.jsx
 │   │   └── screens/
-│   │       ├── HomeScreen.jsx     # Dashboard mit Verbrauchschart
-│   │       ├── EnergyScreen.jsx   # Energieübersicht + Herkunftsnachweis
-│   │       ├── LoyaltyScreen.jsx  # MAX+ Treueprogramm
-│   │       ├── ElwgScreen.jsx     # ElWG-Features (Flextarif, GEA)
-│   │       └── CheckScreen.jsx    # Tarif-Check Wizard
-│   ├── vite.config.js             # Vite Config (base: '/maxpilot/')
-│   └── package.json               # Dependencies: React 19, Recharts, Tailwind 4
+│   │       ├── HomeScreen.jsx
+│   │       ├── EnergyScreen.jsx
+│   │       ├── LoyaltyScreen.jsx
+│   │       ├── ElwgScreen.jsx
+│   │       └── CheckScreen.jsx
+│   ├── vite.config.js         # base: '/maxpilot/'
+│   └── package.json
 │
-├── netlify/
-│   └── functions/
-│       └── tarife.mjs             # Serverless API: /api/tarife
+├── pitch/
+│   └── index.html             # MAX Pilot Pitch-Präsentation (statisch)
 │
-├── build.sh                       # Build-Script für Netlify CI
-├── netlify.toml                   # Netlify-Konfiguration (Build, Redirects)
-├── STATUS.md                      # Deployment-Status & offene Punkte
-└── .gitignore
+├── cv/
+│   ├── index.html             # Persönliche Präsentation / Pitchdeck
+│   └── martin.jfif            # Profilfoto
+│
+├── functions/
+│   └── api/
+│       └── tarife.js          # Cloudflare Pages Function: POST /api/tarife
+│
+├── _redirects                 # Cloudflare Pages Redirects
+├── build.sh                   # Build-Script → deploy/
+└── STATUS.md
 ```
 
 ## Architektur-Diagramm
 
 ```
-┌─────────────────────────────────────────────────┐
-│                  prismatisk.com                  │
-├───────────────────┬─────────────────────────────┤
-│                   │                             │
-│  /tarife/         │  /maxpilot/                 │
-│  Static HTML      │  React SPA (Vite)           │
-│  (Single File)    │  Tailwind + Recharts        │
-│                   │                             │
-├───────────────────┴─────────────────────────────┤
-│                                                 │
-│  /api/tarife (POST)                             │
-│  Netlify Function (tarife.mjs)                  │
-│  └─→ E-Control Tarifkalkulator API             │
-│       www.e-control.at/o/rc-public-rest/        │
-│                                                 │
-├─────────────────────────────────────────────────┤
-│                                                 │
-│  Netlify CDN                                    │
-│  DNS: Squarespace → Netlify Load Balancer       │
-│  SSL: Let's Encrypt (auto-provisioned)          │
-│                                                 │
-└─────────────────────────────────────────────────┘
+┌─────────────────────────────────────────────────────┐
+│                   prismatisk.com                     │
+├──────────────┬──────────────┬───────────────────────┤
+│              │              │                       │
+│  /tarife/    │  /maxpilot/  │  /cv/                 │
+│  Static HTML │  React SPA   │  Static HTML          │
+│              │  (Vite)      │  (Persönl. Pitchdeck) │
+│              │              │                       │
+│              │  /maxpilot/pitch/                    │
+│              │  Static HTML (MAX Pitch)             │
+│              │                                      │
+├──────────────┴──────────────┴───────────────────────┤
+│                                                     │
+│  /api/tarife (POST)                                 │
+│  Cloudflare Pages Function (functions/api/tarife.js)│
+│  └─→ E-Control Tarifkalkulator API                 │
+│       www.e-control.at/o/rc-public-rest/            │
+│                                                     │
+├─────────────────────────────────────────────────────┤
+│                                                     │
+│  Cloudflare Pages CDN                               │
+│  DNS: Cloudflare (CNAME → prismatisk.pages.dev)     │
+│  SSL: Cloudflare (automatisch)                      │
+│                                                     │
+└─────────────────────────────────────────────────────┘
 ```
 
 ## Technologie-Stack
@@ -78,35 +83,9 @@ prismatisk/
 | **Styling (MAX Pilot)** | Tailwind CSS | v4 |
 | **Charts** | Recharts | v3 |
 | **Icons** | Lucide React | v0.575 |
-| **Serverless API** | Netlify Functions | ESM (`.mjs`) |
+| **CV / Pitchdeck** | Vanilla HTML + Reveal.js | Single-File, kein Build |
+| **Serverless API** | Cloudflare Pages Functions | ESM, V8 isolates |
 | **Externe Daten** | E-Control REST API | Tarifkalkulator v2 |
-| **Hosting** | Netlify | CDN + Functions |
-| **DNS** | Squarespace | Custom NS |
+| **Hosting** | Cloudflare Pages | CDN + Functions |
+| **DNS** | Cloudflare | CNAME Flattening |
 | **Domain** | prismatisk.com | Squarespace Registrar |
-
-## Datenfluss: Tarifcheck
-
-```
-Browser                    Netlify Function           E-Control API
-  │                            │                          │
-  │  POST /api/tarife          │                          │
-  │  { zipCode, persons,       │                          │
-  │    appliances, gesamt }    │                          │
-  │ ──────────────────────────>│                          │
-  │                            │  GET grid-operators      │
-  │                            │ ────────────────────────>│
-  │                            │  ← gridOperatorId        │
-  │                            │                          │
-  │                            │  POST rate (consumption) │
-  │                            │ ────────────────────────>│
-  │                            │  ← ratedProducts[]       │
-  │                            │                          │
-  │                            │  Filter: 100% Ökostrom   │
-  │                            │  Sort: Arbeitspreis ↑    │
-  │                            │  Enrich: preisStabil     │
-  │  ← { products, verbrauch, │                          │
-  │       netzbetreiber }      │                          │
-  │ <──────────────────────────│                          │
-  │                            │                          │
-  │  Render Tarif-Karten       │                          │
-```

@@ -1,0 +1,8 @@
+# Trailing-slash redirects
+/tarife         /tarife/              301
+/maxpilot       /maxpilot/            301
+/maxpilot/pitch /maxpilot/pitch/      301
+/cv             /cv/                  301
+
+# MAX Pilot SPA routing
+/maxpilot/*     /maxpilot/index.html  200

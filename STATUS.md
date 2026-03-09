@@ -1,45 +1,118 @@
 # Prismatisk Deployment – Status & Offene Punkte
 
-> Zuletzt aktualisiert: 27. Februar 2026  
-> Session: prismatisk.com Setup & Deployment
+> Zuletzt aktualisiert: 9. März 2026 (Session 2)  
+> Session: DNS-Umstellung + Go-Live auf Cloudflare Pages
 
 ---
 
-## Aktueller Stand
+## Aktueller Stand (nach Session 9. März 2026)
 
 ### ✅ Erledigt
 
 | Was | Detail |
 |---|---|
 | GitHub Repo | `github.com/prismatisk/projects` (Org: prismatisk) |
-| Netlify Site | `reliable-lolly-cb1111.netlify.app` (Site-ID: `ee019919-6ca6-4a01-8a59-bb332385fef4`) |
 | Build Pipeline | `build.sh` → baut maxpilot, kopiert tarife → `deploy/` |
-| MAX Pilot | ✅ live unter `www.prismatisk.com/maxpilot/` |
-| Pitch-Präsentation | ✅ live unter `www.prismatisk.com/maxpilot/pitch/` |
-| Ökostrom Tarife | ✅ live unter `www.prismatisk.com/tarife/` |
-| DNS A-Record | `prismatisk.com` → `75.2.60.5` (Netlify load balancer) |
-| DNS CNAME | `www.prismatisk.com` → `reliable-lolly-cb1111.netlify.app` |
-| Zoho Mail | MX-Records erhalten, E-Mail funktioniert weiter |
+| **DNS: Squarespace → Cloudflare** | ✅ Nameserver auf `martin.ns.cloudflare.com` + `mina.ns.cloudflare.com` umgestellt |
+| **Cloudflare Account** | ✅ `Martin.oisterschek@gmail.com` · Account-ID: `674aebc7901337b9b587f2f02f81cbaa` |
+| **prismatisk.com in Cloudflare** | ✅ Domain aktiv, Free Plan, DNS vollständig importiert |
+| **Cloudflare Pages Projekt** | ✅ Projekt `prismatisk` angelegt · deployed unter `https://prismatisk.pages.dev` |
+| **Erster Deploy** | ✅ `deploy/` Ordner hochgeladen, live unter `https://24fd552d.prismatisk.pages.dev` |
+| **Custom Domains verknüpft** | ✅ `prismatisk.com` + `www.prismatisk.com` — **Active, SSL enabled** 🟢 |
+| **DNS auf Cloudflare Pages** | ✅ A-Record + www-CNAME → `prismatisk.pages.dev` umgestellt |
+| **Go-Live** | ✅ `prismatisk.com` läuft live auf Cloudflare Pages (9. März 2026) |
+| **Cloudflare GitHub App** | ✅ Auf prismatisk Org installiert (`github.com/prismatisk`) |
+| **API Token** | ✅ erstellt: `7mjFCYQI0YO5HFrbDK0Iv34wW9ec0OH0FxnTVjeW` (Cloudflare Workers/Pages Edit) |
+| Zoho Mail MX-Records | ✅ erhalten in Cloudflare DNS, Mail funktioniert weiter |
 
-### ❌ Offen: SSL für prismatisk.com
+---
 
-**Problem:**  
-`prismatisk.com` (apex domain) ist als Custom Domain in einem **anderen Netlify-Account** (`badlogic` / Mario Zechner, Repo: `oekostrom-tarife`) registriert. Netlify routet deshalb HTTP/HTTPS-Anfragen für `prismatisk.com` zum falschen Account → Squarespace antwortet statt unserem Site.
+## ✅ DNS-Records umgestellt (9. März 2026, Session 2)
 
-**Symptom:**  
-- `curl http://prismatisk.com` → `Server: Squarespace` (falsch)  
-- `www.prismatisk.com/maxpilot/` → 200 OK, aber SSL-Cert ist `*.netlify.app` (Browser-Warnung)  
-- Netlify kann kein Let's Encrypt Cert ausstellen, weil der HTTP-01 Challenge zum badlogic-Account geroutet wird
+| Record | Vorher | Jetzt |
+|---|---|---|
+| `prismatisk.com` | A → `75.2.60.5` (Netlify) | CNAME → `prismatisk.pages.dev` ✅ |
+| `www.prismatisk.com` | CNAME → `reliable-lolly-cb1111.netlify.app` | CNAME → `prismatisk.pages.dev` ✅ |
 
-**Lösung (1 Schritt):**  
-**Mario Zechner (badlogic) muss `prismatisk.com` aus seinem Netlify-Account entfernen.**  
-→ app.netlify.com → oekostrom-tarife Site → Domain Management → `prismatisk.com` entfernen  
-→ Danach provisioniert Netlify SSL automatisch innerhalb von Minuten
+Beide Domains: **Active · SSL enabled** 🟢
 
-**Was dann noch zu tun ist (automatisch durch Netlify):**  
-- SSL-Cert wird ausgestellt  
-- `prismatisk.com` → HTTPS mit grünem Schloss  
-- Netlify API: `POST /api/v1/sites/ee019919-6ca6-4a01-8a59-bb332385fef4/ssl` zum Anstoßen falls nötig
+---
+
+## ⚠️ Offen: Netlify Function → Cloudflare Function migrieren
+
+Die `/api/tarife` Endpoint (E-Control API Proxy) lief bisher als Netlify Function:
+
+```
+netlify/functions/tarife.mjs
+```
+
+**Muss migriert werden zu Cloudflare Pages Function:**
+```
+functions/api/tarife.js   (oder functions/tarife.js)
+```
+
+Cloudflare Pages Functions liegen im `functions/` Ordner im Repo-Root.
+Syntax ist ähnlich zu Netlify Functions, aber leicht anders:
+
+```js
+// Cloudflare Pages Function (functions/api/tarife.js)
+export async function onRequest(context) {
+  // context.request statt event.body
+  const response = await fetch('https://api.e-control.at/...');
+  return new Response(await response.text(), {
+    headers: { 'Content-Type': 'application/json' }
+  });
+}
+```
+
+→ Nach Migration: `build.sh` und `netlify.toml` entsprechend anpassen (kein `netlify/` Ordner mehr nötig)
+
+---
+
+## ⚠️ Offen: GitHub Auto-Deploy einrichten
+
+Aktuell deployed Wrangler CLI manuell. Für automatisches Deployment bei git push:
+- Im Cloudflare Pages Dashboard: `prismatisk` Projekt → Settings → Builds & Deployments → Git-Verbindung herstellen
+- GitHub App ist bereits auf prismatisk Org installiert ✅
+- Problem war bisher: Cloudflare Pages UI erkennt GitHub-Verbindung nicht im Browser → CLI-Workaround verwendet
+
+**Alternative:** Deploy bleibt manuell via:
+```bash
+cd "C:/Users/Martin/.pi/projects/prismatisk"
+CLOUDFLARE_API_TOKEN="7mjFCYQI0YO5HFrbDK0Iv34wW9ec0OH0FxnTVjeW" \
+CLOUDFLARE_ACCOUNT_ID="674aebc7901337b9b587f2f02f81cbaa" \
+npx wrangler pages deploy deploy --project-name prismatisk --branch main
+```
+
+---
+
+## Credentials & Zugänge
+
+| Service | Detail |
+|---|---|
+| **Cloudflare Account** | `Martin.oisterschek@gmail.com` |
+| **Cloudflare Account ID** | `674aebc7901337b9b587f2f02f81cbaa` |
+| **Cloudflare API Token** | `7mjFCYQI0YO5HFrbDK0Iv34wW9ec0OH0FxnTVjeW` (Workers/Pages Edit) |
+| **Cloudflare Pages URL** | `https://prismatisk.pages.dev` |
+| **Cloudflare Pages Dashboard** | `https://dash.cloudflare.com/674aebc7901337b9b587f2f02f81cbaa/pages/view/prismatisk` |
+| **Cloudflare DNS Dashboard** | `https://dash.cloudflare.com/674aebc7901337b9b587f2f02f81cbaa/prismatisk.com/dns/records` |
+| **GitHub Repo** | `github.com/prismatisk/projects` |
+| **Netlify (alt, abzulösen)** | Site: `reliable-lolly-cb1111.netlify.app` · ID: `ee019919-6ca6-4a01-8a59-bb332385fef4` · Token: `nfp_ieG3iqNnHU3yd4jj1j37CEUeQCxg7Cr1d540` |
+| **Zoho Mail** | MX-Records in Cloudflare DNS aktiv, nicht anfassen |
+
+---
+
+## Aktueller DNS-Stand in Cloudflare
+
+| Host | Type | Content | Zweck |
+|---|---|---|---|
+| `@` | CNAME | `prismatisk.pages.dev` | Cloudflare Pages ✅ |
+| `www` | CNAME | `prismatisk.pages.dev` | Cloudflare Pages ✅ |
+| `_domainconnect` | CNAME | `_domainconnect...` | intern |
+| `@` | MX (10/20/50) | `mx/mx2/mx3.zoho.com` | Zoho Mail — nicht anfassen |
+| `@` | TXT | `v=spf1 include:zoho.com ~all` | Zoho SPF — nicht anfassen |
+| NS | — | `martin.ns.cloudflare.com` | Cloudflare NS |
+| NS | — | `mina.ns.cloudflare.com` | Cloudflare NS |
 
 ---
 
@@ -66,98 +139,58 @@ github.com/prismatisk/projects
 │   └── index.html         # Ökostrom Tarife statische App
 ├── netlify/
 │   └── functions/
-│       └── tarife.mjs     # Netlify Function für /api/tarife (E-Control API)
-├── build.sh               # Build-Script für Netlify
-├── netlify.toml           # Build + Redirect-Regeln
+│       └── tarife.mjs     # ⚠️ Netlify Function → muss zu Cloudflare Function migriert werden
+├── functions/             # ← Hier Cloudflare Pages Functions anlegen (noch nicht vorhanden)
+│   └── api/
+│       └── tarife.js      # ← Ziel nach Migration
+├── build.sh               # Build-Script (funktioniert unverändert für Cloudflare)
+├── netlify.toml           # ⚠️ Nach Migration durch wrangler.toml ersetzen oder entfernen
 └── STATUS.md              # Dieses Dokument
 ```
 
-## netlify.toml Kurzreferenz
+## Deploy-Befehl (manuell)
 
-```toml
-[build]
-  command = "bash build.sh"
-  publish = "deploy"
-
-[[redirects]]
-  from = "/maxpilot/*"
-  to = "/maxpilot/index.html"
-  status = 200          # SPA routing
+```bash
+cd "C:/Users/Martin/.pi/projects/prismatisk"
+bash build.sh   # baut deploy/ Ordner
+CLOUDFLARE_API_TOKEN="7mjFCYQI0YO5HFrbDK0Iv34wW9ec0OH0FxnTVjeW" \
+CLOUDFLARE_ACCOUNT_ID="674aebc7901337b9b587f2f02f81cbaa" \
+npx wrangler pages deploy deploy --project-name prismatisk --branch main
 ```
-
----
-
-## Credentials & Zugänge
-
-| Service | Detail |
-|---|---|
-| Netlify Auth Token | `nfp_ieG3iqNnHU3yd4jj1j37CEUeQCxg7Cr1d540` |
-| Netlify Site ID | `ee019919-6ca6-4a01-8a59-bb332385fef4` |
-| GitHub Repo | `github.com/prismatisk/projects` |
-| Domain Registrar | Squarespace (login: martin.oisterschek@gmail.com) |
-| DNS | Squarespace Nameservers (ns01–03.squarespacedns.com als custom NS gesetzt) |
-| Zoho Mail | MX-Records in Squarespace DNS aktiv |
-
----
-
-## DNS-Einträge (Squarespace Custom Records)
-
-| Host | Type | Data | Zweck |
-|---|---|---|---|
-| `@` | A | `75.2.60.5` | Netlify apex |
-| `www` | CNAME | `reliable-lolly-cb1111.netlify.app` | Netlify www |
-| `@` | MX (10) | `mx.zoho.com` | Zoho Mail |
-| `@` | MX (20) | `mx2.zoho.com` | Zoho Mail |
-| `@` | MX (50) | `mx3.zoho.com` | Zoho Mail |
-| `@` | TXT | `v=spf1 include:zoho.com ~all` | Zoho SPF |
-
-**Hinweis Nameserver-Setup:**  
-Squarespace zeigt "You're using custom nameservers" weil ns01–03.squarespacedns.com als custom NS eingetragen sind (war nötig um alte NS1/Netlify-DNS-Einträge vom badlogic-Account zu entfernen). Funktioniert identisch zu Squarespace-Standard-NS.
-
----
-
-## Browser-Automation Setup
-
-Für zukünftige Browser-Tasks (Squarespace, Netlify etc.):
-
-```powershell
-# Chrome mit Remote Debugging starten (frisches Profil, kein Datenverlust)
-powershell -ExecutionPolicy Bypass -File "C:\Users\Martin\start-chrome.ps1"
-```
-
-Die `start-chrome.ps1` liegt unter:
-`C:\Users\Martin\.pi\agent\sessions\2026-02-27-prismatisk-deploy\start-chrome.ps1`
-
-**Hinweis:** Browser-Automation über Puppeteer hängt auf Squarespace/Netlify. CDP direkt (WebSocket) funktioniert. Skill-Script: `C:\Users\Martin\.pi\agent\skills\browser-tools\cdp-eval.mjs`
 
 ---
 
 ## Nächste Schritte (Priorität)
 
-1. **[ ] Mario kontaktieren** – `prismatisk.com` aus badlogic Netlify-Account entfernen lassen  
-   → Danach: SSL automatisch, beide URLs mit grünem Schloss  
-
-2. **[ ] Nach SSL-Fix testen:**
-   ```bash
-   curl -skL -o /dev/null -w "%{http_code}" https://prismatisk.com/maxpilot/
-   # Erwartet: 200
-   ```
-
-3. **[ ] Lokale Entwicklung** (MAX Pilot weiterentwickeln):
-   ```bash
-   cd "C:/Users/Martin/.pi/Projects/MAX Pilot/maxpilot"
-   node dev.cjs start    # http://localhost:3000/maxpilot/
-   ```
-   Nach Änderungen: in `C:/Users/Martin/.pi/Projects/prismatisk/maxpilot/` spiegeln + push
-
-5. **[ ] Überlegung**: Lokalen Entwicklungsordner aufräumen – aktuell gibt es zwei maxpilot-Instanzen:
-   - `C:/Users/Martin/.pi/Projects/MAX Pilot/maxpilot/` (dev, mit dev.cjs)
-   - `C:/Users/Martin/.pi/Projects/prismatisk/maxpilot/` (deploy-Quelle)
-   → Idealerweise zusammenlegen oder symlinken
+| Priorität | Aufgabe | Details |
+|---|---|---|
+| ✅ ~~1~~ | ~~DNS-Records umstellen~~ | Erledigt 9. März 2026 |
+| ✅ ~~2~~ | ~~„Check DNS records" klicken~~ | Erledigt, beide Domains Active + SSL |
+| 🔴 3 | **Netlify Function migrieren** | `netlify/functions/tarife.mjs` → `functions/api/tarife.js` (Cloudflare Pages Function) |
+| 🟡 4 | **Auto-Deploy via GitHub** | GitHub-Verbindung in Cloudflare Pages Dashboard herstellen |
+| 🟢 5 | **Netlify Site kündigen/löschen** | Go-Live auf Cloudflare erfolgreich ✅ |
+| 🟢 6 | **Squarespace kündigen** | DNS ist weg, kein Bedarf mehr |
 
 ---
 
-## Session-Archiv
+## Session-Log
 
-Screenshots und Scripts dieser Session:  
-`C:/Users/Martin/.pi/agent/sessions/2026-02-27-prismatisk-deploy/`
+### Session: 27. Februar 2026
+- Erstes Deployment auf Netlify eingerichtet
+- Build-Pipeline mit `build.sh` aufgebaut
+- DNS via Squarespace auf Netlify gezeigt
+- SSL-Problem: prismatisk.com im badlogic Netlify-Account blockiert
+
+### Session: 9. März 2026 (Teil 1)
+- **Squarespace Nameserver → Cloudflare** umgestellt ✅
+- **Cloudflare Account** neu angelegt (GitHub OAuth) ✅
+- **prismatisk.com** in Cloudflare (Free Plan) eingerichtet ✅
+- **Cloudflare Pages** Projekt `prismatisk` erstellt ✅
+- **Erstes Deployment** via Wrangler CLI erfolgreich ✅
+- **Custom Domains** prismatisk.com + www verknüpft ✅
+
+### Session: 9. März 2026 (Teil 2)
+- **DNS-Records umgestellt:** A `75.2.60.5` → CNAME `prismatisk.pages.dev`, www-CNAME auf `prismatisk.pages.dev` ✅
+- **Custom Domains verifiziert:** beide Active + SSL enabled ✅
+- **prismatisk.com ist live auf Cloudflare Pages** 🟢
+- Nächster Schritt: Netlify Function `/api/tarife` → Cloudflare Pages Function migrieren
