@@ -170,8 +170,8 @@ npx wrangler pages deploy deploy --project-name prismatisk --branch main
 | ✅ ~~3b~~ | ~~CV Pitchdeck deployen~~ | `prismatisk.com/cv/` live ✅ |
 | 🟡 4 | **Auto-Deploy via GitHub** | GitHub-Verbindung in Cloudflare Pages Dashboard herstellen |
 | ✅ ~~5~~ | ~~Netlify Site löschen~~ | Erledigt 9. März 2026 |
-| 🟡 6 | **Domain-Transfer abschließen** | Transfer läuft ✅ — Squarespace muss freigeben (max. 7 Tage). Beschleunigen: „Approve Transfer" Mail von Squarespace suchen und bestätigen. |
-| 🟢 7 | **Squarespace kündigen** | Erst nach abgeschlossenem Domain-Transfer |
+| ✅ ~~6~~ | ~~Domain-Transfer abschließen~~ | `prismatisk.com` bei Cloudflare Registrar, Active, läuft bis 25. Juni 2027 |
+| 🟢 7 | **Squarespace kündigen** | Domain ist weg — jetzt kündigen |
 
 ---
 
@@ -200,4 +200,4 @@ npx wrangler pages deploy deploy --project-name prismatisk --branch main
 - **netlify.toml gelöscht**, `_redirects` ersetzt alle Weiterleitungen ✅
 - Alle Routen live und getestet: `/cv/`, `/tarife/`, `/maxpilot/`, `/maxpilot/pitch/`, `/api/tarife` ✅
 - **Netlify Site gelöscht** ✅
-- **Domain-Transfer zu Cloudflare Registrar gestartet** ✅ — Squarespace wartet auf Freigabe (max. 7 Tage)
+- **Domain-Transfer zu Cloudflare Registrar abgeschlossen** ✅ — `prismatisk.com` Active, läuft bis 25. Juni 2027
