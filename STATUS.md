@@ -171,7 +171,7 @@ npx wrangler pages deploy deploy --project-name prismatisk --branch main
 | 🟡 4 | **Auto-Deploy via GitHub** | GitHub-Verbindung in Cloudflare Pages Dashboard herstellen |
 | ✅ ~~5~~ | ~~Netlify Site löschen~~ | Erledigt 9. März 2026 |
 | ✅ ~~6~~ | ~~Domain-Transfer abschließen~~ | `prismatisk.com` bei Cloudflare Registrar, Active, läuft bis 25. Juni 2027 |
-| 🟢 7 | **Squarespace kündigen** | Domain ist weg — jetzt kündigen |
+| ✅ ~~7~~ | ~~Squarespace kündigen~~ | Keine aktive Subscription mehr — automatisch erledigt mit Domain-Transfer |
 
 ---
 
