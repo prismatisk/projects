@@ -22,8 +22,9 @@ export default function CheckScreen() {
     return (
       <div className="screen-enter" style={{ padding: '0 16px 16px' }}>
         <div style={{ padding: '56px 0 24px' }}>
-          <p style={{ fontSize: '13px', color: '#888', marginBottom: '2px', fontWeight: 500 }}>Dein Ergebnis</p>
-          <h1 style={{ fontSize: '28px', fontWeight: 800, color: '#1d1d1b' }}>Alles gut! ✓</h1>
+          <p style={{ fontSize: '10px', color: '#ec6726', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: '4px' }}>Dein Ergebnis</p>
+          <h1 style={{ fontSize: '30px', fontWeight: 900, color: '#1d1d1b', lineHeight: 1, letterSpacing: '-0.03em', marginBottom: '8px' }}>Alles gut! ✓</h1>
+          <div style={{ width: '32px', height: '3px', background: '#ec6726', borderRadius: '2px' }} />
         </div>
 
         <Card style={{ background: '#a8d3af', marginBottom: '12px' }}>
@@ -32,15 +33,15 @@ export default function CheckScreen() {
             Du bist optimal aufgestellt
           </p>
           <p style={{ fontSize: '13px', color: '#1d1d1b99', lineHeight: 1.5 }}>
-            Dein aktueller Tarif passt perfekt zu deinem Verbrauch von 4.400 kWh/Jahr.
+            Dein MAX Heimat Tarif ist optimal — günstiger Arbeitspreis, keine Bindung, 100% Ökostrom.
           </p>
         </Card>
 
         {[
-          { Icon: Zap, label: 'Tarif', value: 'MAXstrom Flex', ok: true },
-          { Icon: TrendingDown, label: 'Verbrauch', value: '4.280 kWh (−3%)', ok: true },
-          { Icon: Shield, label: 'Vertragslaufzeit', value: 'Ohne Bindung', ok: true },
-          { Icon: Star, label: 'MAX+ Status', value: 'Gold ab 160 Pkt', ok: true },
+          { Icon: Zap, label: 'Tarif', value: 'MAX Heimat', ok: true },
+          { Icon: TrendingDown, label: 'Arbeitspreis', value: '16,56 ct / kWh', ok: true },
+          { Icon: Shield, label: 'Vertragsbindung', value: 'Keine · Kündigung 2 Wo.', ok: true },
+          { Icon: Star, label: 'Preisgarantie', value: '12 Monate', ok: true },
         ].map(({ Icon, label, value, ok }) => (
           <Card key={label} style={{ marginBottom: '10px', padding: '14px 20px' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -79,8 +80,9 @@ export default function CheckScreen() {
   return (
     <div className="screen-enter" style={{ padding: '0 16px 16px' }}>
       <div style={{ padding: '56px 0 24px' }}>
-        <p style={{ fontSize: '13px', color: '#888', marginBottom: '2px', fontWeight: 500 }}>Dein persönlicher</p>
-        <h1 style={{ fontSize: '28px', fontWeight: 800, color: '#1d1d1b' }}>Tarif-Check</h1>
+        <p style={{ fontSize: '10px', color: '#ec6726', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: '4px' }}>Dein persönlicher</p>
+        <h1 style={{ fontSize: '30px', fontWeight: 900, color: '#1d1d1b', lineHeight: 1, letterSpacing: '-0.03em', marginBottom: '8px' }}>Tarif-Check</h1>
+        <div style={{ width: '32px', height: '3px', background: '#ec6726', borderRadius: '2px' }} />
       </div>
 
       {/* Progress */}
@@ -111,11 +113,13 @@ export default function CheckScreen() {
             Wir haben deine Daten automatisch ausgelesen.
           </p>
           {[
-            { label: 'Tarif', value: 'MAXstrom Komfort' },
-            { label: 'Grundpreis', value: '€ 7,50 / Monat' },
-            { label: 'Arbeitspreis', value: '29,8 ct / kWh' },
-            { label: 'Laufzeit', value: 'Ohne Bindung' },
-            { label: 'Seit', value: 'März 2024' },
+            { label: 'Tarif', value: 'MAX Heimat' },
+            { label: 'Grundpreis', value: '€ 6,00 / Monat' },
+            { label: 'Arbeitspreis', value: '16,56 ct / kWh' },
+            { label: 'Vertragsbindung', value: 'Keine' },
+            { label: 'Kündigungsfrist', value: '2 Wochen' },
+            { label: 'Preisgarantie', value: '12 Monate' },
+            { label: 'Ökostrom', value: '100%' },
           ].map(({ label, value }) => (
             <div key={label} style={{
               display: 'flex', justifyContent: 'space-between',

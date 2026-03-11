@@ -38,6 +38,7 @@ Stufe 2 (mittelfristig): Country Manager Österreich (Anstellung)
 |---|---|---|---|
 | 2. März 2026 | WhatsApp | Clickdummy-Link (`prismatisk.com/maxpilot/`) gesendet + 30-Min-Termin angefragt. Opener: Hoffnung für Carlo & Familie (André). Framing: ElWG als Retention-Hebel statt Compliance. | ✅ Positiv |
 | 2. März 2026 (18:16) | WhatsApp | Antwort Bernd: stimmt sich Mi mit André ab, schlägt Termin **diese Woche** vor | ⏳ Termin ausstehend |
+| 10. März 2026 | – | Terminbestätigung: **Donnerstag, 12. März 2026, 16:00 Uhr via Microsoft Teams** | ✅ Fix |
 
 ---
 
@@ -53,10 +54,10 @@ Stufe 2 (mittelfristig): Country Manager Österreich (Anstellung)
 
 ## Offene Next Steps
 
-- [ ] Terminvorschläge von Bernd abwarten (nach Mi-Abstimmung mit André) — **nicht nachhaken**
+- [x] Terminvorschläge von Bernd abwarten — **Termin: Do 12. März, 16:00, Teams** ✅
 - [ ] Bei Termin: CM-Status zuerst, dann Prototyp, dann Freelance als Brücke
 - [ ] Nach Meeting: hier dokumentieren
-- [ ] **Pitch-Page deployen** auf Netlify (git push) — Änderungen vom 2. März sind lokal fertig, noch nicht gepusht
+- [x] **Seite live** — `prismatisk.com/maxpilot/` + `prismatisk.com/maxpilot/pitch/` auf Cloudflare Pages deployed ✅
 - [ ] **Ordnerstruktur bereinigen** — redundante Projektordner konsolidieren (siehe Abschnitt unten)
 
 ---
@@ -65,7 +66,7 @@ Stufe 2 (mittelfristig): Country Manager Österreich (Anstellung)
 
 > Quelldatei: `C:/Users/Martin/.pi/Projects/prismatisk/pitch/index.html`  
 > Deploy-Ziel: `deploy/maxpilot/pitch/index.html` → `prismatisk.com/maxpilot/pitch/`  
-> Stand nach Session vom 2. März 2026 (Abend): **lokal fertig, noch nicht auf Netlify deployed**
+> Stand: **live auf Cloudflare Pages** (`prismatisk.com`) — deployed 9. März 2026 ✅
 
 ### Session 2. März 2026
 
@@ -198,3 +199,105 @@ prismatisk/
 - `oekostrom-tarife/docs/` → `prismatisk/tarife/docs/` ✅
 - `MAX Pilot/` gelöscht ✅
 - `oekostrom-tarife/` gelöscht ✅
+
+---
+
+## Gesprächsplan — Do 12. März 2026, 16:00, Teams
+
+### Teilnehmer
+- **Bernd Neider** (GF) — langjährige Beziehung, freundschaftliches Verhältnis
+- **André Schäffner** (COO) — kein Fremder, 4 Jahre gemeinsam bei backbone.one gearbeitet, war auch beim Gespräch zur Sales-Rolle dabei
+- **Johannes Griesbeck** (Vertriebsleiter) — engster Kontakt von den dreien, häufigste Zusammenarbeit bei backbone.one, war auch beim Gespräch zur Vertriebsrolle dabei
+
+### Vorgeschichte
+| Zeitpunkt | Was |
+|---|---|
+| 4 Jahre | Zusammenarbeit bei backbone.one mit Bernd, André, Johannes und dem Team |
+| Sommer 2025 | Erstes Anstellungsgespräch — maxenergy bietet Sales-Rolle an → passt nicht |
+| Dezember 2025 | Bewerbungsgespräch Venture Architect (Innovationsabteilung, Wien) → scheitert an Gehalt + Dienstort |
+| 2. Februar 2026 | Gespräch mit Bernd — CM-Rolle Österreich erstmals ins Spiel gebracht |
+| 4. Februar 2026 | Detailliertes Rollenkonzept Country Manager Austria an Bernd geschickt — inkl. Verantwortlichkeiten, Partnerschaften, 12-Monats-Plan, Gehaltsvorstellung (7.000 brutto + variabel + Dienstfahrzeug) |
+| 2. März 2026 | Prototyp + Pitch-Page live geschickt |
+| 12. März 2026 | Dieser Call |
+
+### Aktuelle Lage
+ÖGK meldet sich diese oder nächste Woche — dann wird der Dienstvertrag ausgearbeitet, wahrscheinlich mit Eintritt 1. April. **Es gibt keinen Puffer mehr.**
+
+### Vorbereitung
+- Prototyp im Browser geöffnet: `prismatisk.com/maxpilot/`
+- Pitch-Page in eigenem Tab: `prismatisk.com/maxpilot/pitch/` — nicht vorab zeigen
+- Kamera an, ruhige Umgebung
+
+---
+
+### Phase 1 — Ankommen (2 Min)
+Alle drei kennen dich — kein großes Warm-up nötig. Kurz kollegiales Wiedersehen, Carlo falls passend, dann direkt:
+
+> *„Schön dass wir das endlich konkret machen. Ich hab euch was gebaut — ich zeig's euch kurz, und dann reden wir über das was ich mir vorstelle."*
+
+---
+
+### Phase 2 — Kontext setzen (2 Min)
+Sie kennen das Rollenkonzept bereits, kein Re-Pitch nötig:
+
+> *„Ihr habt das Konzept. Ich hab seitdem nicht stillgesessen — das ElWG ist einer der Punkte aus dem Konzept, den ich konkret durchgedacht und gebaut hab. Ich zeig euch was dabei rausgekommen ist."*
+
+---
+
+### Phase 3 — Prototyp zeigen (5–8 Min)
+Screen teilen, `prismatisk.com/maxpilot/` öffnen.
+
+Explizit mit dem Rollenkonzept verknüpfen — nicht nur zeigen, sondern einordnen:
+
+1. **Home Screen** — Erster Eindruck, Branding, Ton
+2. **ElWG Screen** — *„Das ist der Innovationsteil aus dem Konzept — ElWG nicht als Compliance, sondern als Produkt."*
+3. **Energy Screen** — Transparenz als Vertrauensaufbau → direkt verknüpft mit Customer Retention
+4. **Loyalty Screen** — *„Das ist der Loyalitätsprogramm-Gedanke aus dem Konzept, konkret gemacht."*
+
+Ziel: Sie sehen dass das Konzept kein Dokument ist — es ist eine Arbeitsweise.
+
+**Johannes besonders im Blick:** Er kennt dich am besten — wenn er nickt, zieht er die anderen mit. Falls er Fragen zum Vertriebsaspekt stellt, ist das ein gutes Zeichen.
+
+---
+
+### Phase 4 — Pitch-Page (2–3 Min)
+
+> *„Ich hab das auch auf einer Seite zusammengefasst — falls ihr das intern weiterreichen wollt."*
+
+`prismatisk.com/maxpilot/pitch/` kurz durchscrollen. Seite ist live, sie können sie jederzeit selbst aufrufen.
+
+---
+
+### Phase 5 — Klartext (4–5 Min)
+Das ist der Kern. Direkt, ohne Entschuldigung:
+
+> *„Ich sag euch jetzt auch offen wo ich stehe. Ihr habt das Rollenkonzept seit Februar — ihr wisst was ich mir vorstelle, was ich mitbringe und was es kosten würde. Ich hab den Prototyp gebaut um zu zeigen dass ich nicht nur Konzepte schreibe, sondern liefere.*
+>
+> *Wir arbeiten seit vier Jahren zusammen — ihr wisst wie ich arbeite. Ich würde diese Rolle gerne machen, und ich glaube dass ich der Richtige dafür bin.*
+>
+> *Ich muss euch aber auch sagen: ich hab gerade eine konkrete andere Option auf dem Tisch. Die ÖGK meldet sich diese oder nächste Woche, dann geht's in die Vertragsverhandlung — wahrscheinlich mit Eintritt 1. April. Ich würde maxenergy vorziehen, aber dafür brauche ich jetzt ein klares Signal von euch."*
+
+Dann Stille lassen. Nicht nachschieben.
+
+**Das ist kein Ultimatum — das ist Respekt.** Du gibst ihnen die Chance, sich zu entscheiden, bevor du es tust.
+
+---
+
+### Phase 6 — Freelance als Brücke (nur wenn nötig)
+Nur ansprechen wenn die CM-Rolle im Call nicht greifbar ist — und nur wenn sie glaubhaft signalisieren dass sie ernsthaft dran sind, aber intern noch etwas Zeit brauchen:
+
+> *„Wenn ihr noch ein paar Wochen braucht um das intern zu klären — ich könnte parallel ein konkretes Projekt angehen. ElWG UX-Konzept, fertig zum Bauen. So habt ihr einen echten Output und wir starten die Zusammenarbeit schon mal. Aber das ersetzt keine Antwort zur CM-Rolle."*
+
+Freelance ist die Überbrückung, nicht der Ausweg für sie.
+
+---
+
+### Phase 7 — Schluss (2 Min)
+> *„Was sind eure nächsten Schritte — und bis wann kann ich mit einer Antwort rechnen?"*
+
+Konkretes Datum oder konkreten nächsten Schritt festhalten. Offen lassen ist keine Option mehr.
+
+---
+
+### Wichtigste Regel
+**Du bist nicht der der wartet. Du bist der der eine Entscheidung ermöglicht — und selbst auch eine treffen wird.**

@@ -33,12 +33,13 @@ export default function HomeScreen({ onNavigate }) {
         padding: '56px 0 24px',
       }}>
         <div>
-          <p style={{ fontSize: '13px', color: '#888', marginBottom: '2px', fontWeight: 500 }}>
+          <p style={{ fontSize: '10px', color: '#ec6726', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: '4px' }}>
             Guten Morgen,
           </p>
-          <h1 style={{ fontSize: '24px', fontWeight: 800, color: '#1d1d1b', lineHeight: 1.2 }}>
-            Bernd 👋
+          <h1 style={{ fontSize: '30px', fontWeight: 900, color: '#1d1d1b', lineHeight: 1, letterSpacing: '-0.03em', marginBottom: '8px' }}>
+            Bernd
           </h1>
+          <div style={{ width: '32px', height: '3px', background: '#ec6726', borderRadius: '2px' }} />
         </div>
         <div style={{ display: 'flex', gap: '10px', alignItems: 'center' }}>
           <button style={{
@@ -80,7 +81,7 @@ export default function HomeScreen({ onNavigate }) {
               Verbrauch diese Woche
             </p>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
-              <span style={{ fontSize: '36px', fontWeight: 800, color: '#fff' }}>84,9</span>
+              <span style={{ fontSize: '36px', fontWeight: 800, color: '#ec6726' }}>84,9</span>
               <span style={{ fontSize: '16px', color: '#888', fontWeight: 500 }}>kWh</span>
             </div>
           </div>
@@ -106,8 +107,14 @@ export default function HomeScreen({ onNavigate }) {
             </defs>
             <XAxis dataKey="day" tick={{ fill: '#666', fontSize: 10, fontFamily: 'Montserrat' }} axisLine={false} tickLine={false} />
             <Tooltip
-              contentStyle={{ background: '#2a2a28', border: 'none', borderRadius: '12px', fontSize: '12px', color: '#fff' }}
-              formatter={(v) => [`${v} kWh`, '']}
+              content={({ active, payload, label }) => {
+                if (!active || !payload?.length) return null
+                return (
+                  <div style={{ background: '#2a2a28', borderRadius: '12px', padding: '8px 12px', fontSize: '12px', color: '#fff' }}>
+                    <span>{label}: </span><strong style={{ color: '#ec6726' }}>{payload[0].value} kWh</strong>
+                  </div>
+                )
+              }}
             />
             <Area type="monotone" dataKey="kwh" stroke="#ec6726" strokeWidth={2.5} fill="url(#grad)" dot={false} />
           </AreaChart>

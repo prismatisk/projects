@@ -1,7 +1,7 @@
 # Prismatisk Deployment – Status & Offene Punkte
 
-> Zuletzt aktualisiert: 9. März 2026 (Session 2)  
-> Session: DNS-Umstellung + Go-Live auf Cloudflare Pages
+> Zuletzt aktualisiert: 11. März 2026 (Session 3)  
+> Session: MAX Pilot Prototyp-Verbesserungen + Pitch-Page Updates
 
 ---
 
@@ -201,3 +201,28 @@ npx wrangler pages deploy deploy --project-name prismatisk --branch main
 - Alle Routen live und getestet: `/cv/`, `/tarife/`, `/maxpilot/`, `/maxpilot/pitch/`, `/api/tarife` ✅
 - **Netlify Site gelöscht** ✅
 - **Domain-Transfer zu Cloudflare Registrar abgeschlossen** ✅ — `prismatisk.com` Active, läuft bis 25. Juni 2027
+
+### Session: 11. März 2026 (Session 3) — MAX Pilot + Pitch-Page
+
+#### Pitch-Page (`pitch/index.html`)
+- Headline geändert: „Wie MAXENERGY gewonnene Kunden **hält**" (mit Accent auf „hält")
+- KPI „Geschätzter Churn ~15%" → **„Netto-Wachstum ± 0"** (basierend auf Bernd-Info: Gewinne = Verluste)
+- Churn-Zahlen konsistiert: 18.000 → **12.000 Kunden/Jahr** (konsistent mit 14,4 Mio EUR)
+- Churn-Rate überall auf **10% (aktuell) → 15–20% (nach ElWG)** angepasst
+- Churn-Reduktionsziel: **−33% (mittelfristig)**
+- 14,4 Mio EUR / 4,8 Mio EUR als **mittelfristiges Potenzial** geframt (nicht Jahr-1-Versprechen)
+- „gesicherter Umsatz" → **„gesteigerter Umsatz"** / „Umsatz-Potenzial (mittelfristig)"
+- Social Media als Retention-Instrument ergänzt (war: „Keines")
+- „GEA-Finder" → **„EG-Finder"**
+- „Billa" → **„REWE"** (überall)
+- Absatz in strategischer Schlussfolgerung nach „2 Rechnungen pro Jahr" eingefügt
+- Datum in Hero + Footer: März 2026 ✅
+
+#### MAX Pilot App (`maxpilot/src/`)
+- **Alle 5 Screen-Header** vereinheitlicht auf Variante A: orange uppercase Label + fetter Name + orange Linie (32px)
+- **HomeScreen:** „Guten Morgen," als Tag, „Bernd" als Titel, Emoji entfernt, Gesamtverbrauch in Orange
+- **Tooltip HomeScreen + EnergyScreen:** Custom Tooltip, kein Doppelpunkt mehr, Wert in Orange
+- **EnergyScreen:** Hover-Cursor entfernt, Balken bei Hover in hellem Orange (#f5a572)
+- **LoyaltyScreen:** „Starbucks" → **„Payback"** (inkl. angepasster Kategorie + Punkte-Text)
+- **CheckScreen:** Echte **MAX Heimat Tarifdaten** eingebaut (16,56 ct/kWh, €6/Monat, 0 Monate Bindung, 2 Wo. Kündigung, 12 Mo. Preisgarantie, 100% Ökostrom)
+- **ElwgScreen:** Toggle-Knob vertikal zentriert (`top: 50%`, `translateY(-50%)`)

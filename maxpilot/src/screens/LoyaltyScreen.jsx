@@ -10,7 +10,7 @@ const partners = [
   { name: 'Billa', category: 'Supermarkt', points: '200 Pkt = €2', Icon: ShoppingBag, color: '#f39b8c' },
   { name: 'A1', category: 'Mobilfunk', points: '500 Pkt = €5', Icon: Smartphone, color: '#d6eceb' },
   { name: 'Uniqa', category: 'Versicherung', points: '1000 Pkt = €10', Icon: Shield, color: '#a8d3af' },
-  { name: 'Starbucks', category: 'Kaffee & Mehr', points: '150 Pkt = 1 Kaffee', Icon: Coffee, color: '#f1ea75' },
+  { name: 'Payback', category: 'Punkte & Rewards', points: '150 Pkt = 100 Payback', Icon: Coffee, color: '#f1ea75' },
 ]
 
 const milestones = [
@@ -29,9 +29,9 @@ export default function LoyaltyScreen() {
     <div className="screen-enter" style={{ padding: '0 16px 16px' }}>
       {/* Header */}
       <div style={{ padding: '56px 0 24px' }}>
-        <p style={{ fontSize: '13px', color: '#888', marginBottom: '4px', fontWeight: 500 }}>Dein Vorteilsprogramm</p>
+        <p style={{ fontSize: '10px', color: '#ec6726', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: '4px' }}>Dein Vorteilsprogramm</p>
         <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-          <h1 style={{ fontSize: '32px', fontWeight: 800, color: '#1d1d1b', letterSpacing: '-0.5px' }}>
+          <h1 style={{ fontSize: '30px', fontWeight: 900, color: '#1d1d1b', lineHeight: 1, letterSpacing: '-0.03em' }}>
             MAX<span style={{ color: '#ec6726' }}>+</span>
           </h1>
           <span style={{
@@ -41,6 +41,7 @@ export default function LoyaltyScreen() {
             letterSpacing: '0.04em',
           }}>SILBER</span>
         </div>
+        <div style={{ width: '32px', height: '3px', background: '#ec6726', borderRadius: '2px', marginTop: '8px' }} />
       </div>
 
       {/* Punkte-Karte */}

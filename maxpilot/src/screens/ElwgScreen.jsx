@@ -39,10 +39,9 @@ export default function ElwgScreen({ onNavigate }) {
   return (
     <div className="screen-enter" style={{ padding: '0 16px 16px' }}>
       <div style={{ padding: '56px 0 20px' }}>
-        <p style={{ fontSize: '13px', color: '#888', marginBottom: '2px', fontWeight: 500 }}>Elektrizitätswirtschaftsgesetz</p>
-        <h1 style={{ fontSize: '28px', fontWeight: 800, color: '#1d1d1b', lineHeight: 1.2 }}>
-          Deine neuen<br />Möglichkeiten
-        </h1>
+        <p style={{ fontSize: '10px', color: '#ec6726', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: '4px' }}>Elektrizitätswirtschaftsgesetz</p>
+        <h1 style={{ fontSize: '30px', fontWeight: 900, color: '#1d1d1b', lineHeight: 1, letterSpacing: '-0.03em', marginBottom: '8px' }}>Deine Möglichkeiten</h1>
+        <div style={{ width: '32px', height: '3px', background: '#ec6726', borderRadius: '2px' }} />
       </div>
 
       {/* Timeline Badge */}
@@ -181,8 +180,8 @@ export default function ElwgScreen({ onNavigate }) {
               border: flexActive ? 'none' : '2px solid #ec672633',
             }}>
               <div style={{
-                position: 'absolute', top: '3px',
-                left: flexActive ? '23px' : '3px',
+                position: 'absolute', top: '50%', transform: 'translateY(-50%)',
+                left: flexActive ? '24px' : '3px',
                 width: '24px', height: '24px', borderRadius: '50%',
                 background: flexActive ? '#fff' : '#ec6726',
                 transition: 'left 0.3s cubic-bezier(0.22,1,0.36,1), background 0.3s',

@@ -1,5 +1,6 @@
+import { useState } from 'react'
 import { Zap, TrendingDown, Droplets, Sun, Mountain, ChevronRight } from 'lucide-react'
-import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip, ReferenceLine } from 'recharts'
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip, ReferenceLine, Cell } from 'recharts'
 
 const monthData = [
   { month: 'Aug', kwh: 310 },
@@ -24,11 +25,14 @@ const Card = ({ children, style = {} }) => (
 )
 
 export default function EnergyScreen({ onNavigate }) {
+  const [activeIndex, setActiveIndex] = useState(null)
+
   return (
     <div className="screen-enter" style={{ padding: '0 16px 16px' }}>
       <div style={{ padding: '56px 0 24px' }}>
-        <p style={{ fontSize: '13px', color: '#888', marginBottom: '2px', fontWeight: 500 }}>Dein Energieüberblick</p>
-        <h1 style={{ fontSize: '28px', fontWeight: 800, color: '#1d1d1b' }}>Energie</h1>
+        <p style={{ fontSize: '10px', color: '#ec6726', fontWeight: 700, letterSpacing: '0.16em', textTransform: 'uppercase', marginBottom: '4px' }}>Dein Energieüberblick</p>
+        <h1 style={{ fontSize: '30px', fontWeight: 900, color: '#1d1d1b', lineHeight: 1, letterSpacing: '-0.03em', marginBottom: '8px' }}>Energie</h1>
+        <div style={{ width: '32px', height: '3px', background: '#ec6726', borderRadius: '2px' }} />
       </div>
 
       {/* Jahresverbrauch */}
@@ -45,20 +49,39 @@ export default function EnergyScreen({ onNavigate }) {
           </span>
         </div>
         <ResponsiveContainer width="100%" height={120}>
-          <BarChart data={monthData} margin={{ top: 0, right: 0, left: -20, bottom: 0 }}>
+          <BarChart
+            data={monthData}
+            margin={{ top: 0, right: 0, left: -20, bottom: 0 }}
+            onMouseLeave={() => setActiveIndex(null)}
+          >
             <XAxis dataKey="month" tick={{ fill: '#666', fontSize: 10, fontFamily: 'Montserrat' }} axisLine={false} tickLine={false} />
             <YAxis tick={{ fill: '#555', fontSize: 9 }} axisLine={false} tickLine={false} />
             <Tooltip
-              contentStyle={{ background: '#2a2a28', border: 'none', borderRadius: '12px', fontSize: '12px', color: '#fff' }}
-              formatter={(v) => [`${v} kWh`, '']}
-            />
-            <Bar dataKey="kwh" radius={[6, 6, 0, 0]}
-              fill="#444"
-              shape={(props) => {
-                const { x, y, width, height, current } = props
-                return <rect x={x} y={y} width={width} height={height} rx={6} ry={6} fill={props.current ? '#ec6726' : '#333'} />
+              cursor={false}
+              content={({ active, payload, label }) => {
+                if (!active || !payload?.length) return null
+                return (
+                  <div style={{ background: '#1d1d1b', borderRadius: '12px', padding: '8px 14px', fontSize: '12px', color: '#fff', boxShadow: '0 4px 16px rgba(0,0,0,0.3)' }}>
+                    <span style={{ color: '#888' }}>{label}: </span><strong style={{ color: '#ec6726' }}>{payload[0].value} kWh</strong>
+                  </div>
+                )
               }}
             />
+            <Bar
+              dataKey="kwh"
+              radius={[6, 6, 0, 0]}
+              onMouseEnter={(_, index) => setActiveIndex(index)}
+            >
+              {monthData.map((entry, index) => {
+                const isActive = index === activeIndex
+                const isCurrent = entry.current
+                let fill = '#333'
+                if (isCurrent) fill = '#ec6726'
+                if (isActive && !isCurrent) fill = '#f5a572'
+                if (isActive && isCurrent) fill = '#f5a572'
+                return <Cell key={index} fill={fill} />
+              })}
+            </Bar>
           </BarChart>
         </ResponsiveContainer>
       </Card>
