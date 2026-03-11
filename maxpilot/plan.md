@@ -1,6 +1,6 @@
 # MAX Pilot – Strategie & Kontakt-Log
 
-> Zuletzt aktualisiert: 2. März 2026 (Nacht — Pitch-Page + Ordnerstruktur)  
+> Zuletzt aktualisiert: 11. März 2026  
 > Produkt: `prismatisk.com/maxpilot/` — ElWG Companion App Prototyp für maxenergy  
 > Pitch-Seite: `prismatisk.com/maxpilot/pitch/`
 
@@ -301,3 +301,56 @@ Konkretes Datum oder konkreten nächsten Schritt festhalten. Offen lassen ist ke
 
 ### Wichtigste Regel
 **Du bist nicht der der wartet. Du bist der der eine Entscheidung ermöglicht — und selbst auch eine treffen wird.**
+
+---
+
+## App-Adoption — Argumentation
+
+> Warum installieren Kunden MAX Pilot? Und was hält sie drin?
+
+### Das eigentliche Problem
+Eine App aus dem Nichts zu pushen funktioniert nicht — Energie ist für die meisten Menschen kein tägliches Interesse. Der Trick ist nicht, Kunden zur App zu bringen, sondern **natürliche Momente zu nutzen, in denen sie von selbst kommen.**
+
+---
+
+### Hebel 1 — Erster Install
+
+| Hebel | Mechanik | Anmerkung |
+|---|---|---|
+| **ElWG-Rechtsanspruch** | Ab Oktober 2026 haben Kunden Recht auf ihre 15-Min-Verbrauchsdaten. Die App ist das Delivery-Medium. | Kein Marketing — ein Rechtsanspruch. |
+| **Payback-Erstbonus** | Neukundenbonus beim Wechsel (bis 10.000 Punkte). Trigger für ersten App-Install beim Onboarding. | ⚠️ Einmalig — kein laufendes Sammelsystem. Schafft keinen Grund zur Wiederkehr. |
+| **Onboarding-Flow** | Neukunden bekommen App als Standard-Schritt nach Vertragsabschluss: *„Schritt 2: App installieren & 500 MAX+ Punkte sichern."* | Kostet nichts extra, schafft sofortigen ersten Touchpoint. |
+| **Meta Custom Audiences** | Bestehende Kundenliste als Custom Audience für App-Install-Kampagne. Keine neue Reichweite nötig — andere Botschaft auf bestehenden Kanälen. | maxenergy ist bereits aktiv auf Meta. |
+
+---
+
+### Hebel 2 — Laufende Nutzung (das Entscheidende)
+
+Payback ist ein Akquise-Tool, kein Retention-Tool. Wer die Punkte einmal abgeholt hat, kommt nicht wegen Payback zurück. Der echte laufende Grund zur App-Nutzung kommt aus dem Mehrwert der App selbst:
+
+| Feature | Warum Kunden wiederkommen |
+|---|---|
+| **MAX+** | Eigenes Punkte-System das sich monatlich aufbaut. Schafft Gewohnheit und messbaren Mehrwert. |
+| **Energiedaten** | 15-Min-Verbrauch, monatliche Abrechnung, Spartipps. Wer einmal seinen Verbrauch gesehen hat, kommt wieder. |
+| **Flextarif / ElWG-Features** | Ab Oktober dauerhaft relevant — nicht einmalig. |
+| **Tarif-Check** | Jährliches Ritual das Kunden aktiv vor Abwanderung schützt — und die App als nützlich positioniert, statt als Spam. |
+
+---
+
+### Realistische Adoption-Erwartung
+Nicht alle 120.000 werden die App installieren — das ist auch nicht das Ziel.
+
+**10–15% aktive Nutzer im ersten Jahr = 12.000–18.000 Apps.**
+
+Das sind genau die Kunden mit der stärksten Bindung — und die, die am wenigsten abwandern.
+
+---
+
+### Wichtig für den Call
+Die Infrastruktur ist bereits vorhanden — es geht nur um Koordination:
+- Payback: bereits Partner ✅
+- Meta: bereits aktiv ✅
+- Neukunden-Flow: bereits vorhanden ✅
+- ElWG-Deadline: erzeugt von selbst Druck ab Oktober 2026 ✅
+
+> MAX Pilot verbindet diese Punkte. Der Aufwand ist nicht „App bauen und hoffen" — es ist bestehende Assets koordinieren.
