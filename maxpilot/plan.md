@@ -258,6 +258,29 @@ Ziel: Sie sehen dass das Konzept kein Dokument ist — es ist eine Arbeitsweise.
 
 **Johannes besonders im Blick:** Er kennt dich am besten — wenn er nickt, zieht er die anderen mit. Falls er Fragen zum Vertriebsaspekt stellt, ist das ein gutes Zeichen.
 
+**Erwartete Frage — vor allem von Johannes oder André:**
+> *„Schön, aber wie bringt man Kunden dazu, die App überhaupt zu installieren?"*
+
+Vorbereitete Antwort — zweistufig:
+
+**Stufe 1 — Erster Install:**
+- **ElWG als Pull:** Ab Oktober 2026 haben Kunden gesetzliches Recht auf ihre Verbrauchsdaten. Die App ist das Delivery-Medium — das ist kein Marketing, das ist ein Rechtsanspruch.
+- **Payback-Onboarding:** Payback ist bereits Partner und hat ~6 Mio. Nutzer in Österreich. Neukundenwechsel-Bonus = natürlicher Anlass, die App beim Onboarding einzuführen. ⚠️ Aber: Payback ist ein **einmaliger Bonus beim Wechsel**, kein laufendes Sammelsystem — taugt also als Install-Trigger, nicht als Retention-Tool.
+- **Meta Custom Audiences:** maxenergy ist bereits auf Social Media aktiv. Bestehende Kundenliste als Custom Audience ausspielen — kein neues Budget, andere Botschaft.
+- **Neukunden-Flow:** App als Standard-Schritt nach Vertragsabschluss, mit Erstbonus (z.B. 500 MAX+ Punkte).
+
+**Stufe 2 — Laufende Nutzung:**
+Der echte Grund zum Wiederkommen kommt aus dem Mehrwert der App selbst — nicht aus Payback:
+- **MAX+** — eigenes Punkte-System das sich monatlich aufbaut
+- **Energiedaten** — wer einmal seinen Verbrauch gesehen hat, kommt wieder
+- **ElWG-Features** — Flextarif, Energiegemeinschaft — ab Oktober dauerhaft relevant
+- **Tarif-Check** — jährliches Ritual, das Kunden aktiv vor Abwanderung schützt
+
+**Die entscheidende Pointe:**
+> *„Die nötige Infrastruktur ist schon da — Payback, Meta, der Onboarding-Flow. MAX Pilot koordiniert das nur. Das ist nicht 'App bauen und hoffen', das ist bestehende Assets sinnvoll einsetzen."*
+
+Realistisches Ziel: **10–15% aktive Nutzer im ersten Jahr = 12.000–18.000 installierte Apps.** Das sind die Kunden mit der stärksten Bindung — und die, die am wenigsten abwandern.
+
 ---
 
 ### Phase 4 — Pitch-Page (2–3 Min)
