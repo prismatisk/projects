@@ -56,7 +56,7 @@ export default function ElwgScreen({ onNavigate }) {
         </div>
         <div style={{ textAlign: 'right' }}>
           <p style={{ fontSize: '12px', color: '#ffffff99', marginBottom: '2px', fontWeight: 500 }}>Noch</p>
-          <p style={{ fontSize: '20px', fontWeight: 800, color: '#fff' }}>~8 Monate</p>
+          <p style={{ fontSize: '20px', fontWeight: 800, color: '#fff' }}>~7 Monate</p>
         </div>
       </div>
 
