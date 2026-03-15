@@ -55,10 +55,33 @@ Stufe 2 (mittelfristig): Country Manager Österreich (Anstellung)
 ## Offene Next Steps
 
 - [x] Terminvorschläge von Bernd abwarten — **Termin: Do 12. März, 16:00, Teams** ✅
-- [ ] Bei Termin: CM-Status zuerst, dann Prototyp, dann Freelance als Brücke
-- [ ] Nach Meeting: hier dokumentieren
+- [x] Bei Termin: Prototyp + Pitch gezeigt — sehr positives Feedback ✅
+- [x] Nach Meeting: dokumentiert ✅
 - [x] **Seite live** — `prismatisk.com/maxpilot/` + `prismatisk.com/maxpilot/pitch/` auf Cloudflare Pages deployed ✅
+- [ ] Vertragsdetails klären: variables Gehalt + Dienstwagen noch offen
+- [ ] Reiseregelung nach Augsburg klären
 - [ ] **Ordnerstruktur bereinigen** — redundante Projektordner konsolidieren (siehe Abschnitt unten)
+
+---
+
+## Call-Ergebnis — Do 12. März 2026
+
+### Was passiert ist
+- Prototyp (`prismatisk.com/maxpilot/`) und Pitch-Page wurden gezeigt → **sehr positives Feedback**
+- maxenergy will intern die bestehende Stelle „Sales & Growth Manager (Privatkunden)" anpassen — Titel, Gehalt, Scope
+- **Keine Country Manager Stelle** — brauchen sie strukturell nicht
+- Rolle deckt **AT und DE** ab (nicht nur Österreich)
+- Remote bestätigt — Augsburg-Präsenz gelegentlich, Details folgen
+
+### Vereinbarte Eckdaten
+| Punkt | Status |
+|---|---|
+| Titel | **Leiter Business Development** (Gegenvorschlag von Martin, akzeptiert) |
+| Gehalt | ~6.500–7.000 € brutto/Monat |
+| Dienstwagen | noch offen |
+| Variables Gehalt | noch offen |
+| Remote | bestätigt — gelegentliche Augsburg-Termine |
+| Startdatum | noch offen |
 
 ---
 
